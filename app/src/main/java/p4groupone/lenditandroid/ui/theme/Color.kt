@@ -1,4 +1,4 @@
-package p4.group.one.lenditandroid.ui.theme
+package p4groupone.lenditandroid.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

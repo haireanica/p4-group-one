@@ -1,4 +1,4 @@
-package p4.group.one.lenditandroid.ui.theme
+package p4groupone.lenditandroid.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

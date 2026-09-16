@@ -4,15 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "p4.group.one.lenditandroid"
+    namespace = "p4groupone.lenditandroid"
     compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
+        version = release(37)
     }
 
     defaultConfig {
-        applicationId = "p4.group.one.lenditandroid"
+        applicationId = "p4groupone.lenditandroid"
         minSdk = 27
         targetSdk = 36
         versionCode = 1

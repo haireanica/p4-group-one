@@ -1,4 +1,4 @@
-package p4.group.one.lenditandroid
+package p4groupone.lenditandroid
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,20 +11,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import p4.group.one.lenditandroid.ui.theme.LendITAndroidTheme
+import p4groupone.lenditandroid.ui.login.LoginViewScreen
+import p4groupone.lenditandroid.ui.theme.LendITAndroidTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            LendITAndroidTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+            LendITAndroidTheme{
+                LoginViewScreen()
             }
         }
     }
