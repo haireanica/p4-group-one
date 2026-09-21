@@ -1,1 +1,12 @@
+App\Domain\assetStatus.class
+App\Domain\Inventory.class
+App\Domain\loanStats.class
+App\Domain\Loan.class
+App\Domain\Asset.class
+App\Domain\maintStat.class
+App\Domain\Center.class
+App\Domain\Loanee.class
+App\Domain\Maintenance.class
 App\Application.class
+App\Service\AssetManager.class
+App\Repository\AssetRepository.class
