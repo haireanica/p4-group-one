@@ -1,21 +1,24 @@
 package app.domain;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "loanee")
 public class Loanee {
 
-    private int participantId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer participantId;
 
-    public Loanee(int participantId) {
-        this.participantId = participantId;
-    }
+    protected Loanee() {}
 
-    public int getParticipantId() {
+
+
+    public Integer getParticipantId() {
         return participantId;
     }
 
-    public void setParticipantId(String participantId) {
-        this.participantId = Integer.parseInt(participantId);
 
-    }
 
     @Override
     public String toString() {

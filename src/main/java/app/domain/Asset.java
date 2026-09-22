@@ -20,7 +20,6 @@ public class Asset {
     private String name;
     @Enumerated(EnumType.STRING)
     private assetStatus status;
-    private Boolean deployable;
     @OneToMany(mappedBy = "asset")
     private List<Maintenance> maintenanceRecords
             = new ArrayList<>();
@@ -30,11 +29,11 @@ public class Asset {
     protected Asset() {
 
     }
-    public Asset(String assetId, String name, assetStatus status, Boolean deployable, List<Maintenance> maintenanceRecords) {
+    public Asset(String assetId, String name, assetStatus status, List<Maintenance> maintenanceRecords) {
         this.assetId = assetId;
         this.name = name;
         this.status = status;
-        this.deployable = deployable;
+
         this.maintenanceRecords = maintenanceRecords;
     }
 
@@ -60,13 +59,11 @@ public class Asset {
         return status;
     }
 
-    public Boolean getDeployable() {
-        return deployable;
+    public boolean isDeployable() {
+        return status == assetStatus.AVAILABLE;
     }
 
-    public void setDeployable(Boolean deployable) {
-        this.deployable = deployable;
-    }
+
 
     @Override
     public String toString() {
@@ -74,7 +71,7 @@ public class Asset {
                 "assetId='" + assetId + '\'' +
                 ", name='" + name + '\'' +
                 ", status=" + status +
-                ", deployable=" + deployable +
+                ", deployable=" + isDeployable() +
                 '}';
     }
 

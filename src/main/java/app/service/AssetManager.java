@@ -62,7 +62,12 @@ public class AssetManager {
     }
 
     public void retiredById(String id) {
-        Asset asset = findById(id);
+        Asset asset = repo.findById(id).orElseThrow(
+                () -> new IllegalArgumentException(
+                        "Asset not found: " + id
+                )
+        );
+
         asset.setStatus(assetStatus.RETIRED);
         repo.save(asset);
     }

@@ -2,9 +2,9 @@ package app.domain;
 
 public enum loanStats {
 
-    CheckedOut,
+    CHECKED_OUT,
 
-    CheckedIn,
+    CHECKED_IN,
 
-    Ready,
+    READY,
 }

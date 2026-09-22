@@ -2,18 +2,42 @@ package app.domain;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.*;
+
+
+@Entity
+@Table(name = "loan")
 public class Loan {
 
-    private String loanId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer loanId;
+
+    @ManyToOne
+    @JoinColumn(name = "participantId")
     private Loanee participantId;
+
+
     private LocalDate checkoutDate;
+
+
     private LocalDate dueDate;
+
+
     private LocalDate returnDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "loanStatus")
     private loanStats loanStatus;
+
+    @ManyToOne
+    @JoinColumn(name = "assetId")
     private Asset assetId;
 
-    public Loan(String loanId, LocalDate checkoutDate, LocalDate dueDate, LocalDate returnDate,Asset assetId,  loanStats loanStatus, Loanee participantId) {
-        this.loanId = loanId;
+    protected Loan() {}
+
+    public Loan( LocalDate checkoutDate, LocalDate dueDate, LocalDate returnDate,
+                 Asset assetId,  loanStats loanStatus, Loanee participantId) {
         this.checkoutDate = checkoutDate;
         this.dueDate = dueDate;
         this.returnDate = returnDate;
@@ -30,7 +54,7 @@ public class Loan {
         this.loanStatus = loanStatus;
     }
 
-    public String getLoanId() {
+    public Integer getLoanId() {
         return loanId;
     }
 
@@ -58,9 +82,6 @@ public class Loan {
         this.returnDate = returnDate;
     }
 
-    public void setLoanId(String loanId) {
-        this.loanId = loanId;
-    }
 
     @Override
     public String toString() {
