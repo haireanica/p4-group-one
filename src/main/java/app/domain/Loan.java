@@ -50,6 +50,10 @@ public class Loan {
         return loanStatus;
     }
 
+    public Asset getAssetId() {
+        return assetId;
+    }
+
     public void setLoanStatus(loanStats loanStatus) {
         this.loanStatus = loanStatus;
     }

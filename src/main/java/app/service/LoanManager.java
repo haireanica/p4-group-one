@@ -79,7 +79,7 @@ public class LoanManager {
         //validate due date
         if (dueDate == null ||
                 !dueDate.isAfter(LocalDate.now())) {
-            throw new IllegalStateException(
+            throw new IllegalArgumentException(
                     "Due date must be in the future"
             );
         }
@@ -101,6 +101,41 @@ public class LoanManager {
         assetRepository.save(asset);
 
         return repository.save(loan);
+    }
+
+    @Transactional
+    public Loan returnAsset(Integer loanId) {
+
+        // Find the loan
+        Loan loan = repository.findById(loanId)
+            .orElseThrow(()
+            -> new IllegalArgumentException(
+                    "Loan not found: " + loanId
+            )
+        );
+
+        //Prevent returning a loan that is not checked out
+        if (loan.getLoanStatus() != loanStats.CHECKED_OUT) {
+            throw new IllegalStateException(
+                    "Loan is not currently checked out"
+            );
+        }
+
+        // Get the asset associated with the loan
+        Asset asset = loan.getAssetId();
+
+        // Record the return
+        loan.setReturnDate(LocalDate.now());
+        loan.setLoanStatus(loanStats.CHECKED_IN);
+
+        // Restore asset availability
+        asset.setStatus(assetStatus.AVAILABLE);
+
+        //Perist changes
+        assetRepository.save(asset);
+
+        return repository.save(loan);
+
     }
 
 

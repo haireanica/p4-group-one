@@ -7,6 +7,8 @@ app\domain\Loanee.class
 app\domain\Maintenance.class
 app\domain\assetStatus.class
 app\repository\AssetRepository.class
+app\repository\MaintenanceRepository.class
+app\service\MaintenanceManager.class
 app\domain\loanStats.class
 app\domain\maintStat.class
 app\domain\Loan.class

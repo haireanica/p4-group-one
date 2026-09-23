@@ -22,11 +22,11 @@ public class Center {
     public Center(int centerId, String name, String address1, String address2, String city, String state, int postalCode ) {
         this.centerId = centerId;
         this.name = name;
-        this.state = address1;
-        this.address1 = address2;
+        this.state = state;
+        this.address1 = address1;
         this.city = city;
         this.postalCode = postalCode;
-        this.address2 = state;
+        this.address2 = address2;
 
     }
 

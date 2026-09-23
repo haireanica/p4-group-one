@@ -28,8 +28,8 @@ public class AssetManagerTest {
     }
 
 
-    private Asset createAsset(String assetId) {
-        return new Asset(assetId, "Fred's Thinkpad 3",assetStatus.AVAILABLE, true,List.of() );
+    public Asset createAsset(String assetId) {
+        return new Asset(assetId, "Fred's Thinkpad 3",assetStatus.AVAILABLE,List.of());
     }
 
 

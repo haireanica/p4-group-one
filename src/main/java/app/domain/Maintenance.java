@@ -8,36 +8,60 @@ import java.time.LocalDate;
 public class Maintenance {
 
     @Id
-    private String maintenanceId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer maintenanceId;
+    @Column(length = 40)
     private String issue;
     @Enumerated(EnumType.STRING)
+    @Column(name = "maintenanceStatus", length = 15)
     private maintStat MaintenanceStatus;
+    @Column(length = 100)
     private String repairNotes;
     private LocalDate openDate;
     private LocalDate completedDate;
     @ManyToOne
-    @JoinColumn(name = "asset_id")
+    @JoinColumn(name = "assetId")
     private Asset asset;
 
     protected Maintenance() {
 
     }
 
-    public Maintenance(String maintenanceId, String issue, maintStat MaintenanceStatus, String repairNotes, LocalDate openDate, LocalDate completedDate, Asset asset) {
-        this.maintenanceId = maintenanceId;
+    public Maintenance(
+            String issue,
+            maintStat maintenanceStatus,
+            String repairNotes,
+            LocalDate openDate,
+            LocalDate completedDate,
+            Asset asset
+    ) {
         this.issue = issue;
-        this.MaintenanceStatus = MaintenanceStatus;
+        this.MaintenanceStatus = maintenanceStatus;
         this.repairNotes = repairNotes;
         this.openDate = openDate;
         this.completedDate = completedDate;
         this.asset = asset;
     }
 
-    public String getMaintenanceId() {
+    public Integer getMaintenanceId() {
         return maintenanceId;
     }
 
+     public void setMaintenanceStatus (maintStat status) {
+            this.MaintenanceStatus = status;
+     }
 
+     public Asset getAssetId() {
+        return asset;
+     }
+
+     public void setAssetId(Asset asset) {
+        this.asset = asset;
+     }
+
+     public Asset getAsset() {
+        return asset;
+     }
 
     public String getIssue() {
         return issue;

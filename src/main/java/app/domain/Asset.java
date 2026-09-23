@@ -33,7 +33,6 @@ public class Asset {
         this.assetId = assetId;
         this.name = name;
         this.status = status;
-
         this.maintenanceRecords = maintenanceRecords;
     }
 

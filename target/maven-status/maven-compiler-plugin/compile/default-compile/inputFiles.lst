@@ -11,5 +11,7 @@ C:\Users\Latro\source\repos\Capstone\p4-group-one\src\main\java\app\domain\maint
 C:\Users\Latro\source\repos\Capstone\p4-group-one\src\main\java\app\repository\AssetRepository.java
 C:\Users\Latro\source\repos\Capstone\p4-group-one\src\main\java\app\repository\LoaneeRepository.java
 C:\Users\Latro\source\repos\Capstone\p4-group-one\src\main\java\app\repository\LoanRepository.java
+C:\Users\Latro\source\repos\Capstone\p4-group-one\src\main\java\app\repository\MaintenanceRepository.java
 C:\Users\Latro\source\repos\Capstone\p4-group-one\src\main\java\app\service\AssetManager.java
 C:\Users\Latro\source\repos\Capstone\p4-group-one\src\main\java\app\service\LoanManager.java
+C:\Users\Latro\source\repos\Capstone\p4-group-one\src\main\java\app\service\MaintenanceManager.java
