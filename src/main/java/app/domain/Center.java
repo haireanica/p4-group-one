@@ -3,17 +3,20 @@ package app.domain;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Center")
+@Table(name = "center")
 public class Center {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int centerId;
     private String name;
+    @Column(name = "address_line1")
     private String address1;
+    @Column(name = "address_line2")
     private String address2;
     private String city;
     private String state;
+    @Column(name = "postal_code")
     private int postalCode;
 
     protected Center() {}

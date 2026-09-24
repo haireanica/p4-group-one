@@ -1,38 +1,62 @@
 package app.domain;
 
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "inventory")
 public class Inventory {
 
     //attributes
-    private String inventoryId;
-    private final int assets;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer inventoryId;
+
+    @OneToOne
+    @JoinColumn(name = "centerId")
+    private Center center;
+
+    @OneToMany(mappedBy = "inventory")
+    private List<Asset> assets = new ArrayList<>();
+
+
+    protected Inventory() {}
 
     //Constructor
-    public Inventory(String inventoryId, int assets) {
-        this.inventoryId = inventoryId;
-        this.assets = assets;
+    public Inventory(Center center) {
+        this.center = center;
     }
 
-    public String getInventoryId() {
+    public Center getCenter() {
+        return center;
+    }
+
+    public void setCenter(Center center) {
+        this.center = center;
+    }
+
+    public int getTotalAssets() {
+        return assets.size();
+    }
+
+
+
+    public Integer getInventoryId() {
         return inventoryId;
     }
-    public int getAssets() {
+    public List<Asset> getAssets() {
         return assets;
     }
 
-    public void setInventoryId(String inventoryId) {
-        this.inventoryId = inventoryId;
-    }
-
-    //public availableAsets();
-
-   //public totalAssets(){}
-
-
-    @Override
+   @Override
     public String toString() {
         return "Inventory{" +
-                "inventoryId='" + inventoryId + '\'' +
-                ", assets=" + assets +
+                "inventoryId='" + inventoryId +
+                ", centerId=" +
+                (center != null ? center.getCenterId() : null) +
+                ", assets=" + assets.size() +
                 '}';
     }
 }

@@ -17,13 +17,20 @@ public class Asset {
     //assetId is the primaryKey
     @Id
     private String assetId;
+
+
     private String name;
+
     @Enumerated(EnumType.STRING)
     private assetStatus status;
+
     @OneToMany(mappedBy = "asset")
     private List<Maintenance> maintenanceRecords
             = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "inventory")
+    private Inventory inventory;
     //Constructors
 
     protected Asset() {

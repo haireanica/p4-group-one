@@ -10,15 +10,26 @@ public class Maintenance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer maintenanceId;
+
+
     @Column(length = 40)
     private String issue;
+
+
     @Enumerated(EnumType.STRING)
     @Column(name = "maintenanceStatus", length = 15)
     private maintStat MaintenanceStatus;
+
     @Column(length = 100)
     private String repairNotes;
+
+    @Column(name = "openedDate")
     private LocalDate openDate;
+
+
     private LocalDate completedDate;
+
+
     @ManyToOne
     @JoinColumn(name = "assetId")
     private Asset asset;
@@ -38,7 +49,7 @@ public class Maintenance {
         this.issue = issue;
         this.MaintenanceStatus = maintenanceStatus;
         this.repairNotes = repairNotes;
-        this.openDate = openDate;
+        this.openDate = openDate;   
         this.completedDate = completedDate;
         this.asset = asset;
     }
