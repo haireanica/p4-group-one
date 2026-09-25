@@ -16,14 +16,15 @@ public class Center {
     private String address2;
     private String city;
     private String state;
-    @Column(name = "postal_code")
-    private int postalCode;
+    @Column(name = "postal_code", length = 5)
+    private String postalCode;
 
     protected Center() {}
 
     //constructor
-    public Center(int centerId, String name, String address1, String address2, String city, String state, int postalCode ) {
-        this.centerId = centerId;
+    public Center( String name, String address1,
+                  String address2, String city, String state, String postalCode ) {
+
         this.name = name;
         this.state = state;
         this.address1 = address1;
@@ -37,7 +38,7 @@ public class Center {
         return centerId;
     }
 
-    public void setCenterId(int centerId) {}
+
     public String getName() {
         return name;
     }
@@ -70,10 +71,10 @@ public class Center {
     public void setCity(String city) {
         this.city = city;
     }
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 

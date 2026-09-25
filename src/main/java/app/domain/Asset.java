@@ -10,18 +10,20 @@ import java.util.List;
  * The class Object of Asset which is the devices that will be rented out.
  */
 @Entity
-@Table(name = "assets")
+@Table(name = "asset")
 public class Asset {
 
     // These are the attributes that will be utilized to keep track and manage Assets
     //assetId is the primaryKey
     @Id
+    @Column(name ="assetId")
     private String assetId;
 
 
     private String name;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "assetStatus", length = 12)
     private assetStatus status;
 
     @OneToMany(mappedBy = "asset")
@@ -29,14 +31,15 @@ public class Asset {
             = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "inventory")
+    @JoinColumn(name = "inventoryId")
     private Inventory inventory;
     //Constructors
 
     protected Asset() {
 
     }
-    public Asset(String assetId, String name, assetStatus status, List<Maintenance> maintenanceRecords) {
+    public Asset(String assetId, String name, assetStatus status,
+                 List<Maintenance> maintenanceRecords) {
         this.assetId = assetId;
         this.name = name;
         this.status = status;
@@ -67,6 +70,14 @@ public class Asset {
 
     public boolean isDeployable() {
         return status == assetStatus.AVAILABLE;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 
 

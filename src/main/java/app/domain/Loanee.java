@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 public class Loanee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer participantId;
 
     protected Loanee() {}
