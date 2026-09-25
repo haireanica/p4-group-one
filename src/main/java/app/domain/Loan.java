@@ -54,6 +54,8 @@ public class Loan {
         return assetId;
     }
 
+    public Loanee getParticipantId() { return participantId; }
+
     public void setLoanStatus(loanStats loanStatus) {
         this.loanStatus = loanStatus;
     }

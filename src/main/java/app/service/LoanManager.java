@@ -3,7 +3,6 @@ package app.service;
 import app.domain.Loan;
 import app.domain.Loanee;
 import app.domain.loanStats;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -49,6 +48,7 @@ public class LoanManager {
         return repository.findAll();
     }
 
+    @Transactional
     public Loan checkout(
             String assetId,
             Integer participantId,
@@ -131,12 +131,14 @@ public class LoanManager {
         // Restore asset availability
         asset.setStatus(assetStatus.AVAILABLE);
 
-        //Perist changes
+        //Persist changes
         assetRepository.save(asset);
 
         return repository.save(loan);
 
     }
+
+
 
 
 

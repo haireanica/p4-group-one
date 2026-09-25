@@ -11,6 +11,9 @@ public class Loanee {
 
     protected Loanee() {}
 
+    public Loanee(Integer participantId) {
+        this.participantId = participantId;
+    }
 
 
     public Integer getParticipantId() {
