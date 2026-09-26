@@ -2,9 +2,12 @@ package p4groupone.lenditandroid.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import p4groupone.lenditandroid.R
 
 // Set of Material typography styles to start with
 val Typography = Typography(
@@ -15,6 +18,23 @@ val Typography = Typography(
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     )
+)
+
+  val openSans = FontFamily(
+      Font(
+          R.font.open_sans_bold,
+          FontWeight.Bold
+      ),
+      Font(
+          R.font.open_sans_regular,
+          FontWeight.Normal
+      ),
+      Font(
+          R.font.open_sans_italic,
+          FontWeight.Normal,
+          FontStyle.Italic
+      )
+  )
     /* Other default text styles to override
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
@@ -31,4 +51,3 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     )
     */
-)
