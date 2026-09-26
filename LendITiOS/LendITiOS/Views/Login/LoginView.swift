@@ -39,6 +39,8 @@ struct LoginView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 200, height: 200)
+                        Spacer()
+                            .frame(height: 20)
 
                         Text("Orlando")
                             .foregroundStyle(.white)
@@ -81,6 +83,14 @@ struct LoginView: View {
                         .padding()
                         .background(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 50))
+                        .overlay {
+                                if username.isEmpty {
+                                    Text("Enter Username")
+                                        .font(.custom("Open Sans", size: 25))
+                                        .foregroundStyle(.black.opacity(0.3))
+                                        .allowsHitTesting(false)
+                                }
+                            }
                     
                     Text("Password")
                         .font(.custom("Open Sans Bold", size: 20))
@@ -94,6 +104,14 @@ struct LoginView: View {
                         .padding()
                         .background(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 50))
+                        .overlay {
+                                if username.isEmpty {
+                                    Text("Enter Password")
+                                        .font(.custom("Open Sans", size: 25))
+                                        .foregroundStyle(.black.opacity(0.3))
+                                        .allowsHitTesting(false)
+                                }
+                            }
                     
                     HStack {
                         Button {
