@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 :root {
   --text: #6b6375;
   --text-h: #08060d;
@@ -52,23 +53,23 @@
 
 #root {
   width: 1126px;
-  max-width: 100%;
+  width: 100%;
   margin: 0 auto;
   text-align: center;
   border-inline: 1px solid var(--border);
-  min-height: 100svh;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
 }
-
+*{ font-family: "Open Sans";}
 body {
   margin: 0;
 }
 
 h1,
 h2 {
-  font-family: var(--heading);
+  font-family: var(--body);
   font-weight: 500;
   color: var(--text-h);
 }

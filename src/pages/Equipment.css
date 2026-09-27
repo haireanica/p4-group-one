@@ -1,0 +1,83 @@
+.equipment-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 30px;
+    background-color:#00529B;
+  }
+  
+  /* Page title and Add Equipment button */
+  .equipment-header {
+    display: flex;
+    text-align: left;
+    align-items: center;
+    gap: 150px;
+  }
+  
+  .equipment-header h1 {
+    margin-bottom: 10px;
+    color:white;
+    font-weight: 600;
+  }
+  
+  .equipment-header p {
+    margin-top: 20px;
+    color:white;
+  }
+  
+  /* Add equipment button */
+  .add-equipment-button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  /* Search and filter area */
+  .equipment-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .equipment-controls input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .equipment-controls button {
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  /* Table container */
+  .equipment-table-container {
+    width: 100%;
+    overflow-x: auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Equipment table */
+  .equipment-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  /* Table cells */
+  .equipment-table-container th,
+  .equipment-table-container td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  
+  /* Table headings */
+  .equipment-table-container th {
+    font-weight: bold;
+  }
