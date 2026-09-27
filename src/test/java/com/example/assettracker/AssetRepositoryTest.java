@@ -14,16 +14,16 @@ class AssetRepositoryTest {
 
     @Test
     void assetCreation() {
-        Asset testAsset = new Asset("TAG-1", "laptop", "AVAILABLE");
+        Asset testAsset = new Asset(1L, null, "TAG-1", "AVAILABLE");
         Asset saved = repo.save(testAsset);
 
-        Optional<Asset> result = repo.findById(saved.getId());
+        Optional<Asset> result = repo.findById(saved.getAssetId());
 
         assertThat(result).isPresent();
-        assertThat(result.get().getAssetTag()).isEqualTo("TAG-1");
+        assertThat(result.get().getName()).isEqualTo("TAG-1");
 
-        System.out.println(saved.getId());
-        System.out.println("Asset Tag: " + result.get().getAssetTag());
+        System.out.println(saved.getAssetId());
+        System.out.println("Asset Name: " + result.get().getName());
 
     }
 

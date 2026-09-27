@@ -1,40 +1,38 @@
 package com.example.assettracker;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Asset {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String assetTag;
-    private String category;
-    private String status;
 
-    // constructors, getters, setters
+    @Id
+    @Column(name = "assetId")
+    private Long assetId;
+
+    @ManyToOne
+    @JoinColumn(name = "inventoryId")
+    private Inventory inventory;
+
+    private String name;
+
+    @Column(name = "assetStatus")
+    private String assetStatus;
+
     public Asset() {}
-    public Asset(String assetTag, String category, String status) {
-        this.assetTag = assetTag;
-        this.category = category;
-        this.status = status;
+
+    public Asset(Long assetId, Inventory inventory, String name, String assetStatus) {
+        this.assetId = assetId;
+        this.inventory = inventory;
+        this.name = name;
+        this.assetStatus = assetStatus;
     }
 
-    public String getAssetTag() {
-        return assetTag;
-    }
-
-    public String getCategory(){
-        return category;
-    }
-
-    public String getStatus(){
-        return status;
-    }
-
-    public Long getId(){
-        return id;
-    }
-
+    public Long getAssetId() { return assetId; }
+    public Inventory getInventory() { return inventory; }
+    public String getName() { return name; }
+    public String getAssetStatus() { return assetStatus; }
 }
