@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import p4groupone.lenditandroid.navigation.AppNavigation
 import p4groupone.lenditandroid.ui.login.LoginViewScreen
 import p4groupone.lenditandroid.ui.theme.LendITAndroidTheme
 
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LendITAndroidTheme{
-                LoginViewScreen()
+                AppNavigation()
             }
         }
     }

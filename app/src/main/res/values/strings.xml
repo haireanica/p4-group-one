@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">LendITAndroid</string>
+    <string name="title_activity_app_navigation">AppNavigation</string>
 </resources>

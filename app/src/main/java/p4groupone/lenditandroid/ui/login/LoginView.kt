@@ -56,12 +56,14 @@ import p4groupone.lenditandroid.R
 import p4groupone.lenditandroid.ui.theme.PrimaryColor
 import p4groupone.lenditandroid.ui.theme.SecondaryColor
 import p4groupone.lenditandroid.ui.theme.openSans
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun LoginViewScreen() {
+fun LoginViewScreen(navController: NavController) {
 
     var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("")}
+    var password by remember { mutableStateOf("") }
     var rememberMe by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
@@ -70,23 +72,41 @@ fun LoginViewScreen() {
         verticalArrangement = Arrangement.spacedBy(30.dp),
         horizontalAlignment = Alignment.CenterHorizontally
 
-    ){
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(270.dp)
-                .clip(
-                    RoundedCornerShape(
-                        topStart = 0.dp,
-                        topEnd = 0.dp,
-                        bottomStart = 0.dp,
-                        bottomEnd = 100.dp
-                    )
-                )
-                .background(SecondaryColor),
-            contentAlignment = Alignment.Center
+                .height(280.dp)
         ) {
-                Spacer(modifier = Modifier.height(50.dp))
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = 0.dp,
+                            topEnd = 0.dp,
+                            bottomStart = 0.dp,
+                            bottomEnd = 100.dp
+                        )
+                    )
+                    .background(Color.White)
+                    .height(280.dp)
+            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = 0.dp,
+                            topEnd = 0.dp,
+                            bottomStart = 0.dp,
+                            bottomEnd = 100.dp
+                        )
+                    )
+                    .background(SecondaryColor)
+                    .height(270.dp),
+                contentAlignment = Alignment.Center
+            ) {
                 Image(
                     painter = painterResource(R.drawable.orlando_logo),
                     contentDescription = "Orlando City Logo",
@@ -95,6 +115,12 @@ fun LoginViewScreen() {
                         .offset(x = 0.dp, y = 20.dp)
                 )
             }
+
+            Spacer(modifier = Modifier.height(50.dp))
+
+
+        }
+
         Text(
             text = "Orlando",
             fontSize = 60.sp,
@@ -113,7 +139,7 @@ fun LoginViewScreen() {
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
-            Box{
+            Box {
                 Text(
                     text = " IT",
                     fontSize = 60.sp,
@@ -163,7 +189,7 @@ fun LoginViewScreen() {
                 .fillMaxWidth()
                 .padding(horizontal = 35.dp, vertical = 10.dp),
             Arrangement.spacedBy(10.dp)
-        ){
+        ) {
             Text(
                 text = " Username",
                 fontSize = 20.sp,
@@ -174,7 +200,7 @@ fun LoginViewScreen() {
 
             TextField(
                 value = username,
-                onValueChange = { username = it},
+                onValueChange = { username = it },
                 placeholder = {
                     Text(
                         text = "Enter Username",
@@ -208,7 +234,7 @@ fun LoginViewScreen() {
 
             TextField(
                 value = password,
-                onValueChange = { password = it},
+                onValueChange = { password = it },
                 placeholder = {
                     Text(
                         text = "Enter Password",
@@ -257,7 +283,7 @@ fun LoginViewScreen() {
 
             Button(
                 onClick = {
-
+                    navController.navigate("dashboard")
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -265,7 +291,8 @@ fun LoginViewScreen() {
                 shape = RoundedCornerShape(50.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = SecondaryColor
-                )){
+                )
+            ) {
                 Text(
                     text = "Log In",
                     fontFamily = openSans,
@@ -284,29 +311,29 @@ fun LoginViewScreen() {
                 Spacer(modifier = Modifier.height(10.dp))
 
 
-                    Text(
-                        text = "Forgot Password",
-                        //fontFamily = openSans,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White,
-                        textDecoration = TextDecoration.Underline,
-                        modifier = Modifier.clickable{
+                Text(
+                    text = "Forgot Password",
+                    //fontFamily = openSans,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    textDecoration = TextDecoration.Underline,
+                    modifier = Modifier.clickable {
 
-                        }
+                    }
 
-                    )
+                )
 
             }
-            }
-
         }
-    }
 
+    }
+}
 
 
 @Preview(showBackground = true)
 @Composable
 fun LoginViewScreenPreview() {
-    LoginViewScreen()
+    val navController = rememberNavController()
+    LoginViewScreen(navController = navController)
 }
