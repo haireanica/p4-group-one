@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import p4groupone.lenditandroid.navigation.AppNavigation
 import p4groupone.lenditandroid.ui.login.LoginViewScreen
 import p4groupone.lenditandroid.ui.theme.LendITAndroidTheme
@@ -19,26 +21,35 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {
-            LendITAndroidTheme{
-                AppNavigation()
+        WindowInsetsControllerCompat(
+            window,
+            window.decorView
+        ).let { controller ->
+            controller.hide(
+                WindowInsetsCompat.Type.navigationBars()
+            )
+
+            setContent {
+                LendITAndroidTheme {
+                    AppNavigation()
+                }
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+    @Composable
+    fun Greeting(name: String, modifier: Modifier = Modifier) {
+        Text(
+            text = "Hello $name!",
+            modifier = modifier
+        )
+    }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    LendITAndroidTheme {
-        Greeting("Android")
+    @Preview(showBackground = true)
+    @Composable
+    fun GreetingPreview() {
+        LendITAndroidTheme {
+            Greeting("Android")
+        }
     }
 }

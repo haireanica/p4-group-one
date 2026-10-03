@@ -1,5 +1,6 @@
 package p4groupone.lenditandroid.navigation
 
+import androidx.compose.animation.*
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,7 +15,10 @@ fun AppNavigation(){
 
     NavHost(
         navController = navController,
-        startDestination = "login"
+        startDestination = "login",
+        enterTransition =
+            { EnterTransition.None },
+        exitTransition = { ExitTransition.None }
     ){
         composable("login"){
             LoginViewScreen(navController)
