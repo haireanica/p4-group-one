@@ -1,10 +1,14 @@
 
 .dashboard-page {
-    width: 100%;
-    min-height: 100vh;
-    padding: 30px;
-    background-color: #00529B;
-  }
+  min-height: 100vh;
+
+  padding: 30px;
+  box-sizing: border-box;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
   
   .dashboard-header {
     margin-bottom: 30px;
@@ -13,7 +17,6 @@
   .dashboard-header h1 {
     margin-bottom: 8px;
     color:white;
-    font-style: bold;
     font-weight: 800;
   }
   

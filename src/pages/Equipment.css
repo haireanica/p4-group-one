@@ -1,8 +1,12 @@
 .equipment-page {
-    width: 100%;
-    min-height: 100vh;
-    padding: 30px;
-    background-color:#00529B;
+  min-height: 100vh;
+
+  padding: 30px;
+  box-sizing: border-box;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   }
   
   /* Page title and Add Equipment button */

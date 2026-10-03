@@ -1,7 +1,12 @@
 import "./Dashboard.css";
+import loginImage from "../assets/login3.avif";
 function Dashboard() {
   return (
-    <div className="dashboard-page">
+    <div className="dashboard-page"
+    style={{ backgroundImage: `url(${loginImage})` }}
+    >
+   
+
 
       {/* Dashboard header */}
       <div className="dashboard-header">

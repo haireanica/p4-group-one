@@ -1,0 +1,86 @@
+.loans-page {
+  display: flex;
+  gap: 32px;
+  padding: 24px;
+  background-color: #00529B;
+  min-height: calc(100vh - 100px);
+  box-sizing: border-box;
+}
+
+.loans-image {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.25);
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.loans-image img {
+  width: 100%;
+  height: 80%;
+  object-fit: content;
+  display: block;
+}
+
+.loans-form-container {
+  flex: 1.15;
+  background-color: white;
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+.loans-form-container h1 {
+  margin-top: 0;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.form-section {
+  margin-bottom: 20px;
+}
+
+.form-section label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.form-section input,
+.form-section select,
+.form-section textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  background-color: #e5e5e5;
+  font-size: 16px;
+}
+
+.form-section input,
+.form-section select {
+  height: 45px;
+}
+
+.form-section textarea {
+  height: 120px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.loans-form-container button {
+  width: 100%;
+  height: 45px;
+  border: 2px solid #000;
+  border-radius: 25px;
+  background-color: #075a9c;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.loans-form-container button:hover {
+  background-color: #064b82;
+}

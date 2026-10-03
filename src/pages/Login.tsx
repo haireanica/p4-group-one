@@ -1,73 +1,65 @@
 import { useState } from "react";
 import "./Login.css";
-
+import loginImage from "../assets/login3.avif";
 
 function Login() {
-//stores user email entered
-const [email, setEmail] = useState("");
+  // Stores the user email
+  const [email, setEmail] = useState("");
 
-//stores user password entered
-const [password, setPassword] = useState("");
+  // Stores the user password
+  const [password, setPassword] = useState("");
 
-//runs when user clicks 'Login'
-const handleLogin = (event: React.FormEvent) => {
-  event.preventDefault();
+  // Runs when the user clicks Log In
+  const handleLogin = (event: React.FormEvent) => {
+    event.preventDefault();
 
+    // Placeholder for backend
+    console.log("Email:", email);
+    console.log("Password:", password);
+  };
 
-//placeholder for backend, displays entered info to console
-console.log("Email: " , email);
-console.log("Password: " , password);
-};
-    return (
-      <div className="login-page">
-        {/*Main login container*/}
-        <div className="login-container">
-         {/*Project name*/} 
-         <h1>Orlando Lend IT</h1>
-         {/*Description*/}
-         <p>Community Technology Loan Program</p>
-         {/*Login form*/}
-         <form onSubmit={handleLogin}>
+  return (
+    <div
+      className="login-page"
+      style={{ backgroundImage: `url(${loginImage})` }}
+    >
+      <div className="login-container">
+        <h1>Orlando LendIT</h1>
 
+        <p>Community Technology Loan Program</p>
 
-          {/*Email Field*/}
-          <div className= "form-group">
-            <label htmlFor="email">Email</label> 
+        <form onSubmit={handleLogin}>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
 
             <input
-            id="email"
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            required
+              id="email"
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              required
             />
-            </div>
+          </div>
 
-          {/*Password Field*/}
-          <div className= "form-group">
-            <label htmlFor="password">Password</label> 
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
 
             <input
-            id="password"
-            type="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            required
+              id="password"
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
             />
-            </div>
-            
-            {/*Login button*/}
-            <button type="submit">
-              Log In
-            </button>
- 
-          </form> 
+          </div>
+
+          <button type="submit">Log In</button>
+        </form>
       </div>
-
     </div>
-    );
-  }
-  
-  export default Login;
+  );
+}
+
+export default Login;

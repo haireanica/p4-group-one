@@ -1,8 +1,10 @@
 import "./Equipment.css";
-
+import loginImage from "../assets/login3.avif";
 function Equipment() {
   return (
-    <div className="equipment-page">
+    <div className="equipment-page"
+    style={{ backgroundImage: `url(${loginImage})` }}
+    >
 
       {/* Page header */}
       <div className="equipment-header">

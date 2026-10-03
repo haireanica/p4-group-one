@@ -1,0 +1,101 @@
+
+.signup-page {
+  display: flex;
+  gap: 32px;
+  padding: 24px;
+  background-color: #00529B;
+  min-height: calc(100vh - 100px);
+  box-sizing: border-box;
+}
+
+/* Left side image */
+.signup-image {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.25);
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.signup-image img {
+  width: 100%;
+  height: 100%;
+  min-height: 650px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Right side form */
+.signup-form-container {
+  flex: 1.5;
+  background-color: white;
+  padding: 32px;
+  box-sizing: border-box;
+}
+
+.signup-form-container h1 {
+  margin: 0 0 24px 0;
+  text-align: center;
+}
+
+/* Form sections */
+.form-section {
+  margin-bottom: 16px;
+}
+
+.form-section label,
+.location-fields label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+/* Text inputs */
+.form-section input,
+.location-fields input {
+  width: 100%;
+  height: 42px;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  background-color: #e5e5e5;
+  font-size: 16px;
+}
+
+/* First and last name */
+.name-fields {
+  display: flex;
+  gap: 12px;
+}
+
+.name-fields input {
+  flex: 1;
+}
+
+/* City, State, Zip */
+.location-fields {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* Submit button */
+.signup-form-container button {
+  width: 100%;
+  height: 45px;
+  border: 2px solid #000;
+  border-radius: 25px;
+  background-color: #075a9c;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.signup-form-container button:hover {
+  background-color: #064b82;
+}
+
