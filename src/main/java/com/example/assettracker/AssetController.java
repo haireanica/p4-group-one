@@ -1,6 +1,7 @@
 package com.example.assettracker;
 import java.util.List;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/assets")
@@ -22,5 +23,12 @@ public class AssetController {
         // assetId is caller-assigned, not auto-generated (matches the
         // Database team's schema), the request body must include it.
         return repo.save(asset);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Asset> getById(@PathVariable("id") Long id){
+        return repo.findById(id)
+            .map(asset -> ResponseEntity.ok(asset))
+            .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
