@@ -1,21 +1,52 @@
 package app.domain;
 
-import jakarta.persistence.*;
-
 import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+/**  The maintenance class will be used to keep track of the maintenance records that are associated with an asset in OrlandoLendIT.
+ * It will change the asset to an Asset object. This will allow for the maintenance record to be associated with a specific asset, 
+ * and will allow for the maintenance record to be tracked and managed more easily.
+ */
 @Entity
 @Table(name= "maintenance")
 public class Maintenance {
 
+    /**
+     * Class attributes
+     * The maintenanceId will be the class primary key, and will be used to identify the maintenance record in the database.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer maintenanceId;
 
 
+
+    /**
+     * The issue attribute will be used to describe the issue that is being reported for the asset.
+     * The issues is limited to 40 characters, and will be stored in the database as a string.
+     */
     @Column(length = 40)
     private String issue;
 
 
+
+
+    /**
+     * The maintenanceStatus attribute will be used to track the status of the maintenance record.
+     * The Enumerated annotation means there are only a limited number of values that maintenanceStatus can be
+     * The values are defined in the maintStat enum class.
+     * The .STRING means that values must be a String, and the length of the string is limited to 15 characters.
+     */
     @Enumerated(EnumType.STRING)
     @Column(name = "maintenanceStatus", length = 15)
     private maintStat MaintenanceStatus;
@@ -29,11 +60,17 @@ public class Maintenance {
 
     private LocalDate completedDate;
 
-
+    /**
+     * The asset attribute is a reference to the Asset object that the maintenance record is associated with.
+     * The @ManyToOne annotation means that many maintenance records can be associated with one Asset
+     */
     @ManyToOne
     @JoinColumn(name = "assetId")
     private Asset asset;
 
+    /**
+     * Constructors
+     */
     protected Maintenance() {
 
     }
@@ -54,10 +91,18 @@ public class Maintenance {
         this.asset = asset;
     }
 
+    /**
+     * Getters and Setters
+     */
+
     public Integer getMaintenanceId() {
         return maintenanceId;
     }
 
+    /**
+     * Sets the status of the maintenance record.
+     * @param status The new status of the maintenance record.
+     */
      public void setMaintenanceStatus (maintStat status) {
             this.MaintenanceStatus = status;
      }
@@ -112,6 +157,10 @@ public class Maintenance {
         return MaintenanceStatus;
     }
 
+    /**
+     * Override allows for the attributes of the maintenance record to be printed in a readable format when the object is printed.
+     * returns all attributes of the maintenance record in a string format.
+     */
     @Override
     public String toString() {
         return "Maintenance{" +

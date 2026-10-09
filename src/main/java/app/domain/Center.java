@@ -1,10 +1,28 @@
 package app.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+/**
+ * Represents an OrlandolendIT lending center where residents can check out assets.
+ *  The Center class contains information about the center's name, address, and location.
+ * It is used to manage the inventory of assets available for loan at each center.
+ * 
+ * <p> Stores teh center's identifying and address information </p>
+ */
 @Entity
 @Table(name = "center")
 public class Center {
+
+    /**
+     * Class attributes
+     * The centerId will be the class primary key, and will be used to identify the
+     * center in the database.
+     */
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +37,15 @@ public class Center {
     @Column(name = "postal_code", length = 5)
     private String postalCode;
 
+    /**
+     * The default constructor for the Center class.
+     * It is protected to prevent instantiation without parameters.
+     */
     protected Center() {}
-
-    //constructor
+    /**
+     * The constructors for the Center class.
+     * The default constructor is protected to prevent instantiation without parameters.
+     */
     public Center( String name, String address1,
                   String address2, String city, String state, String postalCode ) {
 
@@ -33,6 +57,10 @@ public class Center {
         this.address2 = address2;
 
     }
+
+    /**
+     * Getters and Setters
+     */
 
     public int getCenterId() {
         return centerId;
@@ -80,6 +108,10 @@ public class Center {
 
 
 
+    /**
+     * Overide allows for the attributes of the center to be printed in a readable format when the object is printed.
+     * returns all attributes of the center in a string format.
+     */
     @Override
     public String toString() {
         return "Center{" +
