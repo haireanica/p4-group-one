@@ -15,16 +15,15 @@ import app.repository.AssetRepository;
 import app.repository.LoanRepository;
 import app.repository.LoaneeRepository;
 
+/**
+ * Manages the business logic for loaning assets to residents.
+ * This class provides methods for checking out and returning assets,
+ * as well as managing the associated loan records.
+ */
 @Service
 public class LoanManager {
 
-        /**
-         * Class attributes
-         * The repository attribute is a reference to the LoanRepository that will be used to persist and
-         * retrieve loans from the database. It will be used to perform CRUD operations on the Loan entity.
-         */
-
-
+        
 
     private final LoanRepository repository;
 
@@ -32,7 +31,11 @@ public class LoanManager {
     private final LoaneeRepository loaneeRepository;
 
     /**
-     * Constructor
+     * Creates a loan manager using the provided repositories.
+     *
+     * @param repository the loan repository
+     * @param assetRepository the asset repository
+     * @param loaneeRepository the loanee repository
      */
     public LoanManager(LoanRepository repository, AssetRepository assetRepository, LoaneeRepository loaneeRepository) {
         this.repository = repository;
@@ -42,8 +45,9 @@ public class LoanManager {
 
         /**
          * The save method is used to save a loan to the database.
-         * It takes a Loan object as a parameter and returns the saved Loan object.
-         * It uses the save method of the LoanRepository to persist the loan to the database.
+         * 
+         * @param loan the loan to save
+         * @return the saved loan
          */
     public Loan save(Loan loan) {
         return repository.save(loan);
@@ -51,10 +55,10 @@ public class LoanManager {
 
     /**
      * The findById method is used to find a loan by its ID.
-     * It takes the loan ID as a parameter and returns the Loan object.
-     * It uses the findById method of the LoanRepository to retrieve the loan from the database.
-     * If the loan is not found, it throws an IllegalArgumentException with a message indicating
-     * that the loan was not found.
+     * 
+     * @param id the ID of the loan to find
+     * @return the found loan
+     * @throws IllegalArgumentException if no loan exists with the given ID
      */
     public Loan findById(Integer id) {
         return repository.findById(id)
@@ -67,7 +71,8 @@ public class LoanManager {
 
     /**
      * The findAll method is used to find all loans in the database.
-     * It returns a list of Loan objects.
+     * 
+     * @return a list of all loans
      */
     public List<Loan> findAll() {
         return repository.findAll();
@@ -75,8 +80,15 @@ public class LoanManager {
 
     /**
      * The checkout method is a transactional method to checkout an asset to a loanee.
-     * It validates the asset, loanee, and due date before creating a new loan record.
-     * It updates the asset status to CHECKED_OUT and saves the changes to the database.
+     * 
+     * @param assetId the ID of the asset to checkout
+     * @param participantId the ID of the loanee
+     * @param dueDate the due date for the loan
+     * @return the created loan
+     * @throws IllegalArgumentException if the asset or loanee is not found
+     * @throws IllegalStateException if the asset is not available for checkout
+     * @throws IllegalArgumentException if the due date is not in the future
+     * 
      */
     @Transactional
     public Loan checkout(
@@ -84,9 +96,7 @@ public class LoanManager {
             Integer participantId,
             LocalDate dueDate
     ) {
-        /**
-         * Validate asset
-         */
+        
         Asset asset = assetRepository.findById(assetId)
                 .orElseThrow(() ->
                         new IllegalArgumentException(
@@ -99,9 +109,7 @@ public class LoanManager {
             );
         }
 
-        /**
-         * Validate resident
-         */
+       
         Loanee loanee = loaneeRepository.findById(participantId)
                 .orElseThrow(() ->
                         new IllegalArgumentException(
@@ -111,9 +119,7 @@ public class LoanManager {
 
 
 
-        /**
-         * Validate due date
-         */
+        
         if (dueDate == null ||
                 !dueDate.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException(
@@ -121,9 +127,7 @@ public class LoanManager {
             );
         }
 
-        /**
-         * Create Loan
-         */
+        
         Loan loan = new Loan (
                 LocalDate.now(),
                 dueDate,
@@ -133,14 +137,9 @@ public class LoanManager {
                 loanee
         );
 
-        /**
-         * Update asset status
-         */
+      
         asset.setStatus((assetStatus.CHECKED_OUT));
 
-        /**
-         * Save changes
-         */
         assetRepository.save(asset);
 
         return repository.save(loan);
@@ -149,13 +148,13 @@ public class LoanManager {
     /**
      * Transactional method to return an asset from a loan
      * It validates the loan and updates the asset status to AVAILABLE
+     * @param loanId The ID of the loan to return
+     * @return The updated Loan object
      */
     @Transactional
     public Loan returnAsset(Integer loanId) {
 
-        /**
-         * Find the loan
-         */
+
         Loan loan = repository.findById(loanId)
             .orElseThrow(()
             -> new IllegalArgumentException(
@@ -163,34 +162,23 @@ public class LoanManager {
             )
         );
 
-        /**
-         * Prevent returning a loan that is not checked out
-         */
+  
         if (loan.getLoanStatus() != loanStats.CHECKED_OUT) {
             throw new IllegalStateException(
                     "Loan is not currently checked out"
             );
         }
 
-        /**
-         * Get the asset associated with the loan
-         */
         Asset asset = loan.getAssetId();
 
-        /**
-         * Record the return
-         */
+     
         loan.setReturnDate(LocalDate.now());
         loan.setLoanStatus(loanStats.CHECKED_IN);
 
-        /**
-         * Restore asset availability
-         */
+  
         asset.setStatus(assetStatus.AVAILABLE);
 
-        /**
-         * Persist changes
-         */
+    
         assetRepository.save(asset);
 
         return repository.save(loan);

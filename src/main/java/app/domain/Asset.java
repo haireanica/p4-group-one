@@ -13,105 +13,136 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-
 /**
- * The class Object of Asset which is the devices that will be rented out.
+ * Represents a device managed by the OrlandoLendIT lending system.
+ *
+ * <p>An asset belongs to an inventory and may have multiple maintenance
+ * records. Its status determines whether it can be deployed to a resident.</p>
  */
 @Entity
 @Table(name = "asset")
 public class Asset {
-    /**
-     * The attributes of the Asset class.
-     * The assetId is the primary key for the Asset entity.
-     */
-    // These are the attributes that will be utilized to keep track and manage Assets
-    //assetId is the primaryKey
+
     @Id
-    @Column(name ="assetId")
+    @Column(name = "assetId")
     private String assetId;
 
-
     private String name;
-    
 
-    /**
-     * The status of the asset will be used to determine if the asset is available for deployment or not.
-     * The Enumerated annotation means there are only a limited number of values that status can be
-     * The values are defined in the assetStatus enum class.
-     * The .STRING means that values must be a String, and the length of the string is limited to 12 characters.
-     */
     @Enumerated(EnumType.STRING)
-    @Column(name = "assetStatus", length = 12)
+    @Column(name = "assetStatus", length = 20)
     private assetStatus status;
 
-    /**
-     * The maintenanceRecords attribute is a list of Maintenance objects that are associated with the Asset.
-     * The @OneToMany annotation means that one Asset can have many Maintenance records.
-     */
     @OneToMany(mappedBy = "asset")
-    private List<Maintenance> maintenanceRecords
-            = new ArrayList<>();
+    private List<Maintenance> maintenanceRecords = new ArrayList<>();
 
-    /**
-     * The inventory attribute is a reference to the Inventory object that the Asset belongs to.
-     * The @ManyToOne annotation means that many Assets can belong to one Inventory.
-     */
     @ManyToOne
     @JoinColumn(name = "inventoryId")
     private Inventory inventory;
 
     /**
-     * The constructors for the Asset class.
-     * The default constructor is protected to prevent instantiation without parameters.
+     * Creates an empty asset for JPA.
      */
     protected Asset() {
-
     }
-    public Asset(String assetId, String name, assetStatus status,
-                 List<Maintenance> maintenanceRecords) {
+
+    /**
+     * Creates an asset with its identifying information and maintenance history.
+     *
+     * @param assetId unique identifier assigned to the asset
+     * @param name descriptive name of the asset
+     * @param status current operational status
+     * @param maintenanceRecords maintenance records associated with the asset
+     */
+    public Asset(
+            String assetId,
+            String name,
+            assetStatus status,
+            List<Maintenance> maintenanceRecords) {
+
         this.assetId = assetId;
         this.name = name;
         this.status = status;
         this.maintenanceRecords = maintenanceRecords;
     }
 
-    public void setStatus(assetStatus status) {
-        this.status = status;
-    }
-
-    //Getters and setters
-
+    /**
+     * Returns the asset's unique identifier.
+     *
+     * @return the asset identifier
+     */
     public String getAssetId() {
         return assetId;
     }
 
+    /**
+     * Returns the asset's descriptive name.
+     *
+     * @return the asset name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Updates the asset's descriptive name.
+     *
+     * @param name new asset name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Returns the asset's current operational status.
+     *
+     * @return the current asset status
+     */
     public assetStatus getStatus() {
         return status;
     }
 
+    /**
+     * Updates the asset's operational status.
+     *
+     * @param status new operational status
+     */
+    public void setStatus(assetStatus status) {
+        this.status = status;
+    }
+
+    /**
+     * Determines whether the asset is available for deployment.
+     *
+     * @return {@code true} when the status is {@code AVAILABLE};
+     *         otherwise {@code false}
+     */
     public boolean isDeployable() {
         return status == assetStatus.AVAILABLE;
     }
 
+    /**
+     * Assigns the asset to an inventory.
+     *
+     * @param inventory inventory that contains the asset
+     */
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
 
+    /**
+     * Returns the inventory containing this asset.
+     *
+     * @return the associated inventory
+     */
     public Inventory getInventory() {
         return inventory;
     }
 
     /**
-     * Overide allows for the attributes of the asset to be printed in a readable format when the object is printed.
-     * returns all attributes of the asset in a string format. 
+     * Returns a readable representation of the asset.
+     *
+     * @return asset information formatted as a string
      */
     @Override
     public String toString() {
@@ -122,6 +153,4 @@ public class Asset {
                 ", deployable=" + isDeployable() +
                 '}';
     }
-
-
 }

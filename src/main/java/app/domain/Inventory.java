@@ -55,35 +55,57 @@ public class Inventory {
     /**
      * Creates a new Inventory object with the specified center.
      *
-     * @param center The center that the inventory is associated with.
+     * 
      */
     protected Inventory() {}
 
-    
+    /**
+     * Creates a new Inventory object with the specified center.
+     *
+     * @param center the center to associate with the inventory
+     */
     public Inventory(Center center) {
         this.center = center;
     }
 
     /**
-     * Getters and Setters
+     * Returns the center associated with the inventory.
+     * @return the center associated with the inventory
      */
     public Center getCenter() {
         return center;
     }
 
+    /**
+     * Sets the center associated with the inventory.
+     * @param center the center to associate with the inventory
+     * 
+     */
     public void setCenter(Center center) {
         this.center = center;
     }
 
+    /**
+     * Returns the total number of assets associated with the inventory.
+     * @return the total number of assets associated with the inventory
+     */
     public int getTotalAssets() {
         return assets.size();
     }
 
 
 
+    /**
+     * Returns the unique identifier of the inventory.
+     * @return the unique identifier of the inventory
+     */
     public Integer getInventoryId() {
         return inventoryId;
     }
+    /**
+     * Returns the list of assets associated with the inventory.
+     * @return the list of assets associated with the inventory
+     */
     public List<Asset> getAssets() {
         return assets;
     }

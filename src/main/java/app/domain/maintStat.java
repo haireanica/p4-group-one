@@ -1,9 +1,8 @@
-/**
- * The maintStat enum class will be used to track the status of a maintenance task in OrlandoLendIT.
- * The values are defined in the maintStat enum class.
- */
 package app.domain;
 
+/**
+ * Represents the status of a maintenance task in the system.
+ */
 public enum maintStat {
 
 

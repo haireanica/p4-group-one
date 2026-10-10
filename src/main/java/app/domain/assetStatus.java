@@ -1,12 +1,8 @@
-/**
- * The assetStatus enum class will be used to track the status of an asset in OrlandoLendIT.
- * The values are defined in the assetStatus enum class.
- */
 package app.domain;
 
 /**
  * Represents the operational status of an asset in the OrlandoLendIT system.
- * assetStatus
+ * 
  */
 
 public enum assetStatus {

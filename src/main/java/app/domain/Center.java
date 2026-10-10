@@ -39,12 +39,21 @@ public class Center {
 
     /**
      * The default constructor for the Center class.
-     * It is protected to prevent instantiation without parameters.
+     * The default constructor is protected to prevent instantiation without parameters.
+     * It is used by the JPA provider to create instances of the class.
+     * 
      */
     protected Center() {}
     /**
      * The constructors for the Center class.
-     * The default constructor is protected to prevent instantiation without parameters.
+     * The parameterized constructor allows for the creation of a Center object with specific attributes.
+     * @param name the name of the center
+     * @param address1 the first line of the center's address
+     * @param address2 the second line of the center's address
+     * @param city the city where the center is located
+     * @param state the state where the center is located
+     * @param postalCode the postal code of the center's location
+     * 
      */
     public Center( String name, String address1,
                   String address2, String city, String state, String postalCode ) {
@@ -62,46 +71,113 @@ public class Center {
      * Getters and Setters
      */
 
+    /**
+     * Returns the centerId of the center.
+     * @return the centerId of the center
+     */
     public int getCenterId() {
         return centerId;
     }
 
 
+    /**
+     * Returns the name of the center.
+     * @return the name of the center
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns the state of the center.
+     * @return the state of the center
+     */
     public String getState() {
         return state;
     }
 
+    /**
+     * Returns the first line of the center's address.
+     * @param name the name to set for the center
+     * 
+     */
     public void setName(String name) {
         this.name = name;
     }
+
+    /**
+     * Sets the state of the center.
+     * @param state the state to set for the center
+     *
+     */
     public void setState(String state) {
         this.state = state;
     }
+
+    /**
+     * Returns the first line of the center's address.
+     * @return the first line of the center's address
+     */
     public String getAddress1() {
         return address1;
     }
+
+    /**
+     * Sets the first line of the center's address.
+     * @param address1 the first line of the center's address to set
+     * 
+     */
     public void setAddress1(String address1) {
         this.address1 = address1;
     }
+
+    /**
+     * Returns the second line of the center's address.
+     * @return the second line of the center's address
+     */
     public String getAddress2() {
         return address2;
     }
+
+    /**
+     * Sets the second line of the center's address.
+     * @param address2 the second line of the center's address to set
+     * 
+     */
     public void setAddress2(String address2) {
         this.address2 = address2;
     }
+
+    /**
+     * Returns the city where the center is located.
+     * @return the city where the center is located
+     */
     public String getCity() {
         return city;
     }
+
+    /**
+     * Sets the city where the center is located.
+     * @param city the city to set for the center
+     *
+     */
     public void setCity(String city) {
         this.city = city;
     }
+
+    /**
+     * Returns the postal code of the center.
+     * @return the postal code of the center
+     */
     public String getPostalCode() {
         return postalCode;
     }
+
+    /**
+     * Sets the postal code of the center.
+     * @param postalCode the postal code to set for the center
+     * 
+     */
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
@@ -109,7 +185,7 @@ public class Center {
 
 
     /**
-     * Overide allows for the attributes of the center to be printed in a readable format when the object is printed.
+     * Override allows for the attributes of the center to be printed in a readable format when the object is printed.
      * returns all attributes of the center in a string format.
      */
     @Override

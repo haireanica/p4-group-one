@@ -6,17 +6,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import app.domain.Maintenance;
 
-
+/**
+ * Provides database operations for {@link Maintenance} records.
+ */
 public interface MaintenanceRepository
         extends JpaRepository<Maintenance, Integer> {
 
-            /**
-             * The MaintenanceRepo is to help the data be stored not just in memory but also in the database.
-             * It also allows for the data to be retrieved from the database.
-             *
-             * The findByAsset_AssetId method is used to find all maintenance records for a specific asset.
-             * It takes the asset ID as a parameter and returns a list of maintenance records.
-             * This method is used to retrieve all maintenance records associated with a specific asset.
-             */
+    /**
+     * Finds all maintenance records associated with an asset.
+     *
+     * @param assetId unique identifier of the asset
+     * @return maintenance records associated with the specified asset
+     */
     List<Maintenance> findByAsset_AssetId(String assetId);
 }

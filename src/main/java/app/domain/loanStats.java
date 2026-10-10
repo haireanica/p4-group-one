@@ -1,9 +1,8 @@
-/**
- * The loanStats enum class will be used to track the status of a loan in OrlandoLendIT.
- * The values are defined in the loanStats enum class.
- */
 package app.domain;
 
+/**
+ * Represents the lifecycle of a loan in the system.
+ */
 public enum loanStats {
 
     /**

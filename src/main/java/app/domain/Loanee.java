@@ -24,10 +24,17 @@ public class Loanee {
     /**
      * Constructors
      * The default constructor is protected to prevent instantiation without parameters.
-     * The parameterized constructor allows for the creation of a Loanee object with a specific participantId.
+     * The parameterized constructor allows for the creation of a Loanee object with specific attributes.
+     * 
      */
     protected Loanee() {}
 
+    /**
+     * Creates a new Loanee object with the specified participantId.
+     *
+     * @param participantId the participantId of the loanee
+     *
+     */
     public Loanee(Integer participantId) {
         this.participantId = participantId;
     }
@@ -35,9 +42,9 @@ public class Loanee {
 
 
     /**
-     * Getters and Setters
+     * Returns the participantId of the loanee.
+     * @return the participantId of the loanee
      */
-
     public Integer getParticipantId() {
         return participantId;
     }
@@ -47,7 +54,7 @@ public class Loanee {
 
     /**
      * Overide allows for the attributes of the loanee to be printed in a readable format when the object is printed.
-     * returns all attributes of the loanee in a string format.
+     * @return returns all attributes of the loanee in a string format.
      */
     @Override
     public String toString() {

@@ -24,16 +24,20 @@ import app.repository.MaintenanceRepository;
 public class MaintenanceManager {
 
      /**
-      * Class attributes
-      * The maintenanceRepository attribute is a reference to the MaintenanceRepository that will be used to persist
-      * and retrieve maintenance records from the database. It will be used to perform CRUD operations on the Maintenance entity.
+      * Creates a maintenance manager using the provided repositories.
+      * 
+      * @param maintenanceRepository the maintenance repository
+      * @param assetRepository the asset repository
       */
 
     private final MaintenanceRepository maintenanceRepository;
     private final AssetRepository assetRepository;
 
     /**
-     * Constructor
+     * Creates a maintenance manager using the provided repositories.
+     * 
+     * @param maintenanceRepository the maintenance repository
+     * @param assetRepository the asset repository
      */
     public MaintenanceManager(
             MaintenanceRepository maintenanceRepository,
@@ -46,6 +50,9 @@ public class MaintenanceManager {
     /**
      * The save method is used to save a maintenance record to the database.
      * It takes a Maintenance object as a parameter and returns the saved Maintenance object.
+     * 
+     * @param maintenance the maintenance record to save
+     * @return the saved maintenance record
      */
     public Maintenance save(Maintenance maintenance) {
         return maintenanceRepository.save(maintenance);
@@ -54,6 +61,10 @@ public class MaintenanceManager {
     /**
      * The findById method is used to find a maintenance record by its ID.
      * It takes the maintenance ID as a parameter and returns the Maintenance object.
+     * 
+     * @param id the ID of the maintenance record to find
+     * @return the found maintenance record
+     * @throws IllegalArgumentException if no maintenance record exists with the given ID
      */
     public Maintenance findById(Integer id) {
         return maintenanceRepository.findById(id)
@@ -67,6 +78,11 @@ public class MaintenanceManager {
     /**
      * The findAll method is used to find all maintenance records.
      * It returns a list of all Maintenance objects.
+     * 
+     * @return a list of all maintenance records 
+     * @throws IllegalArgumentException if no maintenance records exist
+     * @throws IllegalStateException if there is an error retrieving the maintenance records
+     * @throws RuntimeException if there is an unexpected error
      */
     public List<Maintenance> findAll() {
         return maintenanceRepository.findAll();
@@ -75,6 +91,10 @@ public class MaintenanceManager {
     /**
      * The findByAssetId method is used to find all maintenance records for a specific asset.
      * It takes the asset ID as a parameter and returns a list of Maintenance objects.
+     * 
+     * @param assetId the ID of the asset for which to find maintenance records
+     * @return a list of maintenance records for the specified asset
+     * @throws IllegalArgumentException if no maintenance records exist for the specified asset
      */
     public List<Maintenance> findByAssetId(String assetId) {
         return maintenanceRepository.findByAsset_AssetId(assetId);
@@ -83,6 +103,14 @@ public class MaintenanceManager {
      /**
       * The openMaintenance method is used to create a new maintenance record for an asset.
       * It takes the asset ID and issue description as parameters and returns the created Maintenance object.
+      * 
+      * @param assetId the ID of the asset for which to create a maintenance record
+      * @param issue the issue description
+      * @return the created maintenance record
+      * @throws IllegalArgumentException if the asset is not found or if the issue description is invalid
+      * @throws IllegalStateException if the asset is not available for maintenance
+      * @throws RuntimeException if there is an unexpected error
+      * 
       */
     @Transactional
     public Maintenance openMaintenance(
@@ -143,6 +171,13 @@ public class MaintenanceManager {
 
     /**
      * Completes a maintenance record
+     * 
+     * @param maintenanceId the ID of the maintenance record to complete
+     * @param repairNotes the notes about the repair
+     * @return the completed maintenance record
+     * @throws IllegalArgumentException if the maintenance record is not found or if the repair notes are invalid
+     * @throws IllegalStateException if the maintenance record is not in progress
+     * @throws RuntimeException if there is an unexpected error
      */
     @Transactional
     public Maintenance completemaintenance(

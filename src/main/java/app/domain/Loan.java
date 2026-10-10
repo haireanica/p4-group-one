@@ -84,54 +84,102 @@ public class Loan {
     }
 
     /**
-     * Getters and Setters
+     * Get the loan status of the loan.
+     * @return the loan status of the loan
      */
 
     public loanStats getLoanStatus() {
         return loanStatus;
     }
 
+    /**
+     * get tje assetId of the loan.
+     * @return the assetId of the loan
+     */
     public Asset getAssetId() {
         return assetId;
     }
 
+    /**
+     * get the participantId of the loan.
+     * 
+     * @return the participantId of the loan
+     */
     public Loanee getParticipantId() { return participantId; }
 
+    /**
+     * Sets the loan status of the loan.
+     * @param loanStatus the loan status to set
+     * 
+     */
     public void setLoanStatus(loanStats loanStatus) {
         this.loanStatus = loanStatus;
     }
 
+    /**
+     * Sets the assetId of the loan.
+     * @return the updated assetId of the loan
+     *
+     */
     public Integer getLoanId() {
         return loanId;
     }
 
+    /**
+     * Sets the participantId of the loan.
+     * 
+     * @return the updated participantId of the loan
+     */
     public LocalDate getCheckoutDate() {
         return checkoutDate;
     }
 
+    /**
+     * Sets the checkout date of the loan.
+     * @param checkoutDate the checkout date to set
+     * 
+     */
     public void setCheckoutDate(LocalDate checkoutDate) {
         this.checkoutDate = checkoutDate;
     }
 
+    /**
+     * Returns the due date of the loan.
+     * @return the due date of the loan
+     */
     public LocalDate getDueDate() {
         return dueDate;
     }
 
+    /**
+     * Sets the due date of the loan.
+     * @param dueDate the due date to set
+     * 
+     */
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 
+    /**
+     * Returns the return date of the loan.
+     * @return the return date of the loan
+     */
     public LocalDate getReturnDate() {
         return returnDate;
     }
 
+    /**
+     * Sets the return date of the loan.
+     * @param returnDate the return date to set
+     * 
+     */
     public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
     }
 
     /**
      * Override allows for the attributes of the loan to be printed in a readable format when the object is printed.
-     * returns all attributes of the loan in a string format.
+     * @return returns all attributes of the loan in a string format.
      */
     @Override
     public String toString() {
