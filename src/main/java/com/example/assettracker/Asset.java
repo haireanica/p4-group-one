@@ -35,4 +35,6 @@ public class Asset {
     public Inventory getInventory() { return inventory; }
     public String getName() { return name; }
     public String getAssetStatus() { return assetStatus; }
+
+    public void setAssetStatus(String assetStatus) { this.assetStatus = assetStatus; }
 }

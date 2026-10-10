@@ -3,6 +3,8 @@ package com.example.assettracker;
 import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,16 +39,21 @@ public class Loan {
     @Column(name = "loanStatus")
     private String loanStatus;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "loanReason")
+    private LoanReason loanReason;
+
     public Loan() {}
 
     public Loan(Asset asset, Loanee loanee, LocalDate checkoutDate, LocalDate dueDate,
-                LocalDate returnDate, String loanStatus) {
+                LocalDate returnDate, String loanStatus, LoanReason loanReason) {
         this.asset = asset;
         this.loanee = loanee;
         this.checkoutDate = checkoutDate;
         this.dueDate = dueDate;
         this.returnDate = returnDate;
         this.loanStatus = loanStatus;
+        this.loanReason = loanReason;
     }
 
     public Long getLoanId() { return loanId; }
@@ -56,4 +63,15 @@ public class Loan {
     public LocalDate getDueDate() { return dueDate; }
     public LocalDate getReturnDate() { return returnDate; }
     public String getLoanStatus() { return loanStatus; }
+    public LoanReason getLoanReason() { return loanReason; }
+
+    public void markReturned(LocalDate returnDate) {
+        this.returnDate = returnDate;
+        this.loanStatus = "RETURNED";
+    }
+
+    // Overdue is derived, not stored: a stored flag would go stale overnight.
+    public boolean isOverdue(LocalDate today) {
+        return "ACTIVE".equals(loanStatus) && dueDate != null && dueDate.isBefore(today);
+    }
 }
