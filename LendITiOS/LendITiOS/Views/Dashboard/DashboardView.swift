@@ -12,7 +12,6 @@ struct DashboardView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        NavigationStack{
             VStack{
                 ZStack(){
                     UnevenRoundedRectangle(
@@ -75,143 +74,159 @@ struct DashboardView: View {
                     
                     HStack(spacing: 30){
                         
-                        //NavigationLink(destination: <#T##() -> View#>, label: <#T##() -> View#>)
-                        ZStack{
-                            UnevenRoundedRectangle(
-                                topLeadingRadius: 20,
-                                bottomLeadingRadius: 20,
-                                bottomTrailingRadius: 20,
-                                topTrailingRadius: 20
-                            )
-                            .fill(Color(Color.white))
-                            .frame(width: 150, height: 150)
-                            .ignoresSafeArea()
-                            .shadow(
-                                color: .black.opacity(0.5),
-                                radius: 4,
-                                x: 5,
-                                y: 4
-                            )
-                            Image("sign_up_icon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 80, height: 80)
-                                .offset(y: -20)
-                            Text("Sign Up")
-                                .font(.custom("Open Sans Bold", size: 20))
-                                .offset(y: 40)
-                        }
+                        NavigationLink{
+                            SignUpView()
+                        } label:{
+                            ZStack{
+                                UnevenRoundedRectangle(
+                                    topLeadingRadius: 20,
+                                    bottomLeadingRadius: 20,
+                                    bottomTrailingRadius: 20,
+                                    topTrailingRadius: 20
+                                )
+                                .fill(Color(Color.white))
+                                .frame(width: 150, height: 150)
+                                .ignoresSafeArea()
+                                .shadow(
+                                    color: .black.opacity(0.5),
+                                    radius: 4,
+                                    x: 5,
+                                    y: 4
+                                )
+                                Image("sign_up_icon")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 80, height: 80)
+                                    .offset(y: -20)
+                                Text("Sign Up")
+                                    .font(.custom("Open Sans Bold", size: 20))
+                                    .offset(y: 40)
+                            }
+                        }.buttonStyle(.plain)
                         
-                        //NavigationLink(destination: <#T##() -> View#>, label: <#T##() -> View#>)
-                        ZStack{
-                            UnevenRoundedRectangle(
-                                topLeadingRadius: 20,
-                                bottomLeadingRadius: 20,
-                                bottomTrailingRadius: 20,
-                                topTrailingRadius: 20
-                            )
-                            .fill(Color(Color.white))
-                            .frame(width: 150, height: 150)
-                            .ignoresSafeArea()
-                            .shadow(
-                                color: .black.opacity(0.5),
-                                radius: 4,
-                                x: 5,
-                                y: 4
-                            )
-                            Image("participants_icon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 80, height: 80)
-                                .offset(y: -20)
-                            Text("Participants")
-                                .font(.custom("Open Sans Bold", size: 20))
-                                .offset(y: 40)
-                        }
+                        NavigationLink{
+                            ParticipantSearchFormView()
+                        } label: {
+                            ZStack{
+                                UnevenRoundedRectangle(
+                                    topLeadingRadius: 20,
+                                    bottomLeadingRadius: 20,
+                                    bottomTrailingRadius: 20,
+                                    topTrailingRadius: 20
+                                )
+                                .fill(Color(Color.white))
+                                .frame(width: 150, height: 150)
+                                .ignoresSafeArea()
+                                .shadow(
+                                    color: .black.opacity(0.5),
+                                    radius: 4,
+                                    x: 5,
+                                    y: 4
+                                )
+                                Image("participants_icon")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 80, height: 80)
+                                    .offset(y: -20)
+                                Text("Participants")
+                                    .font(.custom("Open Sans Bold", size: 20))
+                                    .offset(y: 40)
+                            }
+                        }.buttonStyle(.plain)
                     }
                     HStack(spacing: 30){
-                        //NavigationLink(destination: <#T##() -> View#>, label: <#T##() -> View#>)
-                        ZStack{
-                            UnevenRoundedRectangle(
-                                topLeadingRadius: 20,
-                                bottomLeadingRadius: 20,
-                                bottomTrailingRadius: 20,
-                                topTrailingRadius: 20
-                            )
-                            .fill(Color(Color.white))
-                            .frame(width: 150, height: 150)
-                            .ignoresSafeArea()
-                            .shadow(
-                                color: .black.opacity(0.5),
-                                radius: 4,
-                                x: 5,
-                                y: 4
-                            )
-                            Image("loan_icon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 80, height: 80)
-                                .offset(y: -20)
-                            Text("Loan")
-                                .font(.custom("Open Sans Bold", size: 20))
-                                .offset(y: 40)
-                        }
+                        NavigationLink{
+                            NewLoanSearchParticipant()
+                        } label: {
+                            ZStack{
+                                UnevenRoundedRectangle(
+                                    topLeadingRadius: 20,
+                                    bottomLeadingRadius: 20,
+                                    bottomTrailingRadius: 20,
+                                    topTrailingRadius: 20
+                                )
+                                .fill(Color(Color.white))
+                                .frame(width: 150, height: 150)
+                                .ignoresSafeArea()
+                                .shadow(
+                                    color: .black.opacity(0.5),
+                                    radius: 4,
+                                    x: 5,
+                                    y: 4
+                                )
+                                Image("loan_icon")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 80, height: 80)
+                                    .offset(y: -20)
+                                Text("Loan")
+                                    .font(.custom("Open Sans Bold", size: 20))
+                                    .offset(y: 40)
+                            }
+                        }.buttonStyle(.plain)
                         
-                        //NavigationLink(destination: <#T##() -> View#>, label: <#T##() -> View#>)
-                        ZStack{
-                            UnevenRoundedRectangle(
-                                topLeadingRadius: 20,
-                                bottomLeadingRadius: 20,
-                                bottomTrailingRadius: 20,
-                                topTrailingRadius: 20
-                            )
-                            .fill(Color(Color.white))
-                            .frame(width: 150, height: 150)
-                            .ignoresSafeArea()
-                            .shadow(
-                                color: .black.opacity(0.5),
-                                radius: 4,
-                                x: 5,
-                                y: 4
-                            )
-                            Image("return_icon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 80, height: 80)
-                                .offset(y: -20)
-                            Text("Return")
-                                .font(.custom("Open Sans Bold", size: 20))
-                                .offset(y: 40)
-                        }
+                        NavigationLink {
+                            ReturnSearchParticipant()
+                        } label: {
+                            ZStack{
+                                UnevenRoundedRectangle(
+                                    topLeadingRadius: 20,
+                                    bottomLeadingRadius: 20,
+                                    bottomTrailingRadius: 20,
+                                    topTrailingRadius: 20
+                                )
+                                .fill(Color(Color.white))
+                                .frame(width: 150, height: 150)
+                                .ignoresSafeArea()
+                                .shadow(
+                                    color: .black.opacity(0.5),
+                                    radius: 4,
+                                    x: 5,
+                                    y: 4
+                                )
+                                Image("return_icon")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 80, height: 80)
+                                    .offset(y: -20)
+                                Text("Return")
+                                    .font(.custom("Open Sans Bold", size: 20))
+                                    .offset(y: 40)
+                            }
+                        }.buttonStyle(.plain)
                     }
+                    
                     HStack(spacing: 30){
                         
-                        //NavigationLink(destination: T##() -> View, label: <#T##() -> View#>)
-                        ZStack{
-                            UnevenRoundedRectangle(
-                                topLeadingRadius: 20,
-                                bottomLeadingRadius: 20,
-                                bottomTrailingRadius: 20,
-                                topTrailingRadius: 20
-                            )
-                            .fill(Color(Color.white))
-                            .frame(width: 150, height: 150)
-                            .ignoresSafeArea()
-                            .shadow(
-                                color: .black.opacity(0.5),
-                                radius: 4,
-                                x: 5,
-                                y: 4
-                            )
-                            Image("search_icon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 80, height: 80)
-                                .offset(y: -20)
-                            Text("Inventory")
-                                .font(.custom("Open Sans Bold", size: 20))
-                                .offset(y: 40)
-                        }
+                        NavigationLink {
+                            InventorySearch()
+                        } label: {
+                            ZStack{
+                                UnevenRoundedRectangle(
+                                    topLeadingRadius: 20,
+                                    bottomLeadingRadius: 20,
+                                    bottomTrailingRadius: 20,
+                                    topTrailingRadius: 20
+                                )
+                                .fill(Color(Color.white))
+                                .frame(width: 150, height: 150)
+                                .ignoresSafeArea()
+                                .shadow(
+                                    color: .black.opacity(0.5),
+                                    radius: 4,
+                                    x: 5,
+                                    y: 4
+                                )
+                                Image("search_icon")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 80, height: 80)
+                                    .offset(y: -20)
+                                Text("Inventory")
+                                    .font(.custom("Open Sans Bold", size: 20))
+                                    .offset(y: 40)
+                            }
+                        }.buttonStyle(.plain)
                         
                         Button{
                             dismiss()
@@ -249,7 +264,6 @@ struct DashboardView: View {
                 .background(Color("Secondary Color"))
         }
     }
-}
 
 #Preview {
     DashboardView()
