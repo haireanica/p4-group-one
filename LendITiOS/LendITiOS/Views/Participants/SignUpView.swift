@@ -27,7 +27,7 @@ struct SignUpView: View {
                     .fill(Color(Color.white))
                     .frame(maxWidth: .infinity)
                     .frame(height: 180)
-                    .position(x: 200, y: 30)
+                    .position(x: 200, y: 20)
                     
                     UnevenRoundedRectangle(
                         topLeadingRadius: 0,
@@ -43,12 +43,13 @@ struct SignUpView: View {
                     Text("Sign Up")
                         .foregroundStyle(.white)
                         .position(x: 200, y: 25)
+                        .font(.custom("Open Sans Bold", size: 70))
                         }
                 
                 //put remainder here
                 
                     }
-                    .font(.custom("Open Sans Bold", size: 70))
+                    
                 }
             }
 }
