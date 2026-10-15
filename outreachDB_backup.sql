@@ -39,6 +39,7 @@ CREATE TABLE `asset` (
 
 LOCK TABLES `asset` WRITE;
 /*!40000 ALTER TABLE `asset` DISABLE KEYS */;
+INSERT INTO `asset` VALUES ('cellphone001',2100,'Samsung Galaxy','Operable'),('cellphone002',2100,'iPhone 14 Pro Max','Operable'),('cellphone003',2100,'Google Pixel 11','Operable'),('cellphone010',1201,'Google Pixel 11','Operable'),('cellphone011',1201,'iPhone 16 Pr Max','Operable'),('cellphone012',1201,'Samsung Galaxy Flip Z','Maintenance'),('cellphone013',1201,'Samsung Galaxy A16 ','Operable'),('LAP100',2100,'Macbook Air','Operable'),('lap101',2100,'Lenovo Googlebook','Maintenance'),('lap200',1201,'HP Omnibook X Flip','Operable'),('lap201',1201,'Macboook Pro','Maintenance'),('lap203',1201,'Samsung Galaxy Chromebook','Operable'),('lap204',1201,'Macbook Air','Operable'),('lap205',1201,'Lenovo IdeaPad Slim 3i','Maintenance'),('tablet100',1201,'Lenovo Idea Tab Pro','Operable'),('tablet101',1201,'iPad Pro','Operable'),('tablet102',1201,'Samsung Galaxy Tab','Operable'),('tablet103',1201,'iPad Air','Operable'),('tablet200',2100,'iPad Air','Operable'),('tablet201',2100,'Samsung Galaxy Tab A11+','Operable');
 /*!40000 ALTER TABLE `asset` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,6 +68,7 @@ CREATE TABLE `center` (
 
 LOCK TABLES `center` WRITE;
 /*!40000 ALTER TABLE `center` DISABLE KEYS */;
+INSERT INTO `center` VALUES (1000,'Orlando Cares','400 S Orange Ave','','Orlando','FL','32801'),(1001,'John H. Jackson Neighborhood Center','1002 Carter Street','','Orlando','FL','32805');
 /*!40000 ALTER TABLE `center` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,6 +94,7 @@ CREATE TABLE `credentials` (
 
 LOCK TABLES `credentials` WRITE;
 /*!40000 ALTER TABLE `credentials` DISABLE KEYS */;
+INSERT INTO `credentials` VALUES (101,'CSanchez','cSpword123'),(102,'Amber123','AM123!@');
 /*!40000 ALTER TABLE `credentials` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,6 +120,7 @@ CREATE TABLE `inventory` (
 
 LOCK TABLES `inventory` WRITE;
 /*!40000 ALTER TABLE `inventory` DISABLE KEYS */;
+INSERT INTO `inventory` VALUES (1201,1000),(2100,1001);
 /*!40000 ALTER TABLE `inventory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,7 +144,7 @@ CREATE TABLE `loan` (
   KEY `fk_loan_asset` (`assetId`),
   CONSTRAINT `fk_loan_asset` FOREIGN KEY (`assetId`) REFERENCES `asset` (`assetId`),
   CONSTRAINT `fk_participantId` FOREIGN KEY (`participantId`) REFERENCES `loanee` (`participantId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,6 +153,7 @@ CREATE TABLE `loan` (
 
 LOCK TABLES `loan` WRITE;
 /*!40000 ALTER TABLE `loan` DISABLE KEYS */;
+INSERT INTO `loan` VALUES (1,'LAP100',2457,'2026-09-09','2026-09-16','2026-09-15','Available'),(2,'cellphone001',2457,'2026-10-01','2026-10-31',NULL,'Checked out'),(3,'tablet201',2457,'2026-09-19','2026-10-19',NULL,'Checked out'),(4,'lap201',2457,'2026-10-01','2026-10-07','2026-10-07','Returned');
 /*!40000 ALTER TABLE `loan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -171,6 +176,7 @@ CREATE TABLE `loanee` (
 
 LOCK TABLES `loanee` WRITE;
 /*!40000 ALTER TABLE `loanee` DISABLE KEYS */;
+INSERT INTO `loanee` VALUES (2039),(2457),(7830);
 /*!40000 ALTER TABLE `loanee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,17 +188,17 @@ DROP TABLE IF EXISTS `maintenance`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `maintenance` (
-  `maintenanceId` int NOT NULL,
+  `maintenanceId` int NOT NULL AUTO_INCREMENT,
   `assetId` varchar(100) DEFAULT NULL,
   `issue` varchar(40) NOT NULL,
-  `maintenanceStatus` varchar(15) NOT NULL,
+  `maintenanceStatus` varchar(155) DEFAULT NULL,
   `repairNotes` varchar(100) NOT NULL,
   `openedDate` date DEFAULT NULL,
   `completedDate` date DEFAULT NULL,
   PRIMARY KEY (`maintenanceId`),
   KEY `fk_maintenance_asset` (`assetId`),
   CONSTRAINT `fk_maintenance_asset` FOREIGN KEY (`assetId`) REFERENCES `asset` (`assetId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,6 +207,7 @@ CREATE TABLE `maintenance` (
 
 LOCK TABLES `maintenance` WRITE;
 /*!40000 ALTER TABLE `maintenance` DISABLE KEYS */;
+INSERT INTO `maintenance` VALUES (1,'LAP100','No issues at this time','None','N/A','2026-09-01','2026-09-01'),(2,'cellphone012','Unresposnive screen','Scheduled maintenance','Ordered new screen','2026-10-07','2026-10-31'),(3,'lap101','Battery draines fast','Scheduled maintenance','Ordered new battery','2026-09-19','2026-10-25'),(4,'lap201','Software needs an update','Happening right now','Downloading software update','2026-10-07','2026-10-07');
 /*!40000 ALTER TABLE `maintenance` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -213,4 +220,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-09-23 10:29:46
+-- Dump completed on 2026-10-15 14:24:28
