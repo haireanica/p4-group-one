@@ -1,6 +1,7 @@
 package com.example.assettracker;
 import java.util.List;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/assets")
@@ -17,9 +18,27 @@ public class AssetController {
         return repo.findAll();          // reads from H2
     }
 
-    @PostMapping
-    public Asset create(@RequestBody Asset asset) {
+     
 
-        return repo.save(asset);
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody Asset asset) {
+         // Check for a missing asset ID
+        if (asset.getAssetId() == null) {
+            return ResponseEntity.badRequest()
+                    .body("Asset ID is required.");
+        }
+
+        // Check for a missing or blank name
+        if (asset.getName() == null || asset.getName().isBlank()) {
+            return ResponseEntity.badRequest()
+                    .body("Asset name is required.");
+        }
+
+        // Checks if the asset ID already exists
+        if(repo.existsById(asset.getAssetId())) {
+            return ResponseEntity.status(409)
+                    .body("Asset with this number already exists.");
+        }
+        return ResponseEntity.ok(repo.save(asset));
     }
 }
