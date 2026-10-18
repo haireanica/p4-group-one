@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.assertj.core.api.Assertions.atIndex;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -101,6 +102,70 @@ class UserControllerTest {
                     {"userId":2,"username":"raph","password":"Secret123"}
                     """))
         .andExpect(status().isConflict());
+    }
+
+
+    @Test
+    void loginValidCredentialsReturns200() throws Exception{
+            mvc.perform(post("/api/users/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {"userId":1,"username":"raph","password":"Secret123"}
+                    """))
+            .andExpect(status().isCreated());
+        
+            mvc.perform(post("/api/users/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {"username":"raph","password":"Secret123"}
+                        """))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.username").value("raph"))
+            .andExpect(jsonPath("$.password").doesNotExist());
+    }
+
+    @Test
+    void loginWrongPasswordReturns401() throws Exception{
+            mvc.perform(post("/api/users/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {"userId":1,"username":"raph","password":"Secret123"}
+                    """))
+            .andExpect(status().isCreated());
+        
+            mvc.perform(post("/api/users/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {"username":"raph","password":"Secret"}
+                        """))
+            .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void loginUnknownUserReturns401() throws Exception{
+            mvc.perform(post("/api/users/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {"username":"raph","password":"Secret123"}
+                        """))
+            .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void loginMissingPasswordReturns400() throws Exception{
+            mvc.perform(post("/api/users/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {"userId":1,"username":"raph","password":"Secret123"}
+                    """))
+            .andExpect(status().isCreated());
+
+            mvc.perform(post("/api/users/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {"username":"raph"}
+                        """))
+            .andExpect(status().isBadRequest());
     }
 
 }

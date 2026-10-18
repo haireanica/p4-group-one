@@ -42,11 +42,13 @@ public class UserController {
 
     @PostMapping("/login")
     public UserResponse login(@RequestBody LoginRequest req) {
-        // matches() hashes the attempt with the salt stored inside the hash and
-        // compares; the stored hash is never "decrypted".
+        if (req.username() == null || req.username().isBlank() || req.password() == null || req.password().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "username and password are required");
+        }
         User user = users.findByUserName(req.username())
                 .filter(u -> encoder.matches(req.password(), u.getPasswordHash()))
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password"));
         return new UserResponse(user.getId(), user.getUserName());
+    
     }
 }
