@@ -39,6 +39,7 @@ struct DashboardView: View {
                     .ignoresSafeArea()
                     
                     VStack{
+                        Spacer()
                         Text("Orlando")
                             .foregroundStyle(.white)
                         
@@ -62,10 +63,13 @@ struct DashboardView: View {
                                         .foregroundStyle(.white)
                                 )
                         }
-                        
+                        Spacer()
+                        Spacer()
+                        Spacer()
+                        Spacer()
                     }
                     
-                    .offset(y:-10)
+                    
                     .font(.custom("Open Sans Bold", size: 80))
                 }
                 .frame(maxWidth: .infinity, alignment: .top)
@@ -258,11 +262,17 @@ struct DashboardView: View {
                             }
                         }.buttonStyle(.plain)
                     }
-                }.offset(y: -50)
+                    Spacer()
+                    Spacer()
+                    
+                }
+            
+                
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
-                .padding(.bottom, 20)
                 .background(Color("Secondary Color"))
+        
         }
+    
     }
 
 #Preview {

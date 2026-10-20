@@ -13,21 +13,20 @@ struct InventorySearchResults: View {
         ZStack {
             Color("Primary Color")
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 0) {
-                
-                // Top colored section
-                ZStack {
+
+                // Header
+                ZStack(alignment: .top) {
                     UnevenRoundedRectangle(
                         topLeadingRadius: 0,
                         bottomLeadingRadius: 0,
                         bottomTrailingRadius: 100,
                         topTrailingRadius: 0
                     )
-                    .fill(Color(Color.white))
+                    .fill(Color.white)
                     .frame(maxWidth: .infinity)
-                    .frame(height: 260)
-                    .position(x: 200, y: 20)
+                    .frame(height: 220)
                     
                     UnevenRoundedRectangle(
                         topLeadingRadius: 0,
@@ -37,20 +36,26 @@ struct InventorySearchResults: View {
                     )
                     .fill(Color("Secondary Color"))
                     .frame(maxWidth: .infinity)
-                    .frame(height: 250)
-                    .position(x: 200, y: 20)
-                    
-                    Text("Inventory Search")
-                        .foregroundStyle(.white)
-                        .position(x: 200, y: 60)
-                        .font(.custom("Open Sans Bold", size: 55))
-                        }
-                
-                //put remainder here
-                
+                    .frame(height: 210)
+                    VStack{
+                        Spacer()
+                        Spacer()
+                        Spacer()
+                        Text("Inventory Search")
+                            .foregroundStyle(.white)
+                            .font(.custom("Open Sans Bold", size: 55))
+                        Spacer()
                     }
-                    
                 }
+                .frame(height: 180)
+
+                // Main content
+                
+                Spacer()
+                
+            }
+        }
+        .ignoresSafeArea(edges: .top)
             }
 }
 

@@ -12,21 +12,20 @@ struct ReturnSearchParticipant: View {
         ZStack {
             Color("Primary Color")
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 0) {
-                
-                // Top colored section
-                ZStack {
+
+                // Header
+                ZStack(alignment: .top) {
                     UnevenRoundedRectangle(
                         topLeadingRadius: 0,
                         bottomLeadingRadius: 0,
                         bottomTrailingRadius: 100,
                         topTrailingRadius: 0
                     )
-                    .fill(Color(Color.white))
+                    .fill(Color.white)
                     .frame(maxWidth: .infinity)
-                    .frame(height: 200)
-                    .position(x: 200, y: 20)
+                    .frame(height: 180)
                     
                     UnevenRoundedRectangle(
                         topLeadingRadius: 0,
@@ -36,20 +35,24 @@ struct ReturnSearchParticipant: View {
                     )
                     .fill(Color("Secondary Color"))
                     .frame(maxWidth: .infinity)
-                    .frame(height: 190)
-                    .position(x: 200, y: 20)
-                    
-                    Text("Return")
-                        .foregroundStyle(.white)
-                        .position(x: 200, y: 40)
-                        .font(.custom("Open Sans Bold", size: 75))
-                        }
-                
-                //put remainder here
-                
+                    .frame(height: 170)
+                    VStack{
+                        Spacer()
+                        Text("Return")
+                            .foregroundStyle(.white)
+                            .font(.custom("Open Sans Bold", size: 70))
+                        Spacer()
                     }
-                    
                 }
+                .frame(height: 180)
+
+                // Main content
+                
+                Spacer()
+                
+            }
+        }
+        .ignoresSafeArea(edges: .top)
             }
 }
 

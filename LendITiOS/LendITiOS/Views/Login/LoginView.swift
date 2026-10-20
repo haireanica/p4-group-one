@@ -159,8 +159,9 @@ struct LoginView: View {
                         .padding(.top, 15)
                         
                         
-                        Button {
+                        NavigationLink {
                             //forgot password
+                            ForgotPasswordView()
                         } label: {
                             Text("Forgot Password")
                                 .font(.custom("Open Sans Bold", size: 20))
@@ -175,7 +176,7 @@ struct LoginView: View {
                     Spacer()
                 }
             }
-        }.ignoresSafeArea()
+        }
     }
 }
 
