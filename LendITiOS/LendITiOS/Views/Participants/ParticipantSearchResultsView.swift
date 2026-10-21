@@ -12,21 +12,20 @@ struct ParticipantSearchResultsView: View {
         ZStack {
             Color("Primary Color")
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 0) {
-                
-                // Top colored section
-                ZStack {
+
+                // Header
+                ZStack(alignment: .top) {
                     UnevenRoundedRectangle(
                         topLeadingRadius: 0,
                         bottomLeadingRadius: 0,
                         bottomTrailingRadius: 100,
                         topTrailingRadius: 0
                     )
-                    .fill(Color(Color.white))
+                    .fill(Color.white)
                     .frame(maxWidth: .infinity)
-                    .frame(height: 260)
-                    .position(x: 200, y: 30)
+                    .frame(height: 230)
                     
                     UnevenRoundedRectangle(
                         topLeadingRadius: 0,
@@ -36,19 +35,47 @@ struct ParticipantSearchResultsView: View {
                     )
                     .fill(Color("Secondary Color"))
                     .frame(maxWidth: .infinity)
-                    .frame(height: 250)
-                    .position(x: 200, y: 30)
-                    
-                    Text("Participant Search Results")
-                        .foregroundStyle(.white)
-                        .position(x: 200, y: 60)
-                        .font(.custom("Open Sans Bold", size: 45))
-                        }
-                
-                //put remainder here
-                
+                    .frame(height: 220)
+                    VStack{
+                        Spacer()
+                        Spacer()
+                        Spacer()
+                        Text("Participant Search")
+                            .foregroundStyle(.white)
+                            .font(.custom("Open Sans Bold", size: 55))
+                        Spacer()
                     }
                 }
+                .frame(height: 180)
+
+                // Main content
+                VStack(spacing: 0){
+                    HStack{
+                        Text("Select Participant")
+                            .font(.custom("Open Sans Bold", size: 20))
+                            .foregroundStyle(.white)
+                        Spacer()
+                        Button {
+                            //need to get the main menu button working
+                        } label: {
+                            Text("Main Menu")
+                                .font(.custom("Open Sans Bold", size: 24))
+                                .foregroundStyle(.white)
+                                .frame(width: 160)
+                                .frame(height: 30)
+                                .background(Color("Secondary Color"))
+                                .clipShape(RoundedRectangle(cornerRadius: 50))
+                        }
+                    
+                    }.padding(.top, 35)
+                        .padding(.horizontal, 20)
+                    
+                }
+                Spacer()
+                
+            }
+        }
+        .ignoresSafeArea(edges: .top)
             }
 }
 

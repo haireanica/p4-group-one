@@ -118,7 +118,7 @@ struct LoginView: View {
                             .background(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 50))
                             .overlay {
-                                if username.isEmpty {
+                                if password.isEmpty {
                                     Text("Enter Password")
                                         .font(.custom("Open Sans", size: 25))
                                         .foregroundStyle(.black.opacity(0.3))

@@ -47,7 +47,28 @@ struct NewLoanSelectParticipant: View {
                 .frame(height: 180)
 
                 // Main content
-                
+                VStack(spacing: 0){
+                    HStack{
+                        Text("Select Participant")
+                            .font(.custom("Open Sans Bold", size: 20))
+                            .foregroundStyle(.white)
+                        Spacer()
+                        Button {
+                            //need to get the main menu button working
+                        } label: {
+                            Text("Main Menu")
+                                .font(.custom("Open Sans Bold", size: 24))
+                                .foregroundStyle(.white)
+                                .frame(width: 160)
+                                .frame(height: 30)
+                                .background(Color("Secondary Color"))
+                                .clipShape(RoundedRectangle(cornerRadius: 50))
+                        }
+                    
+                    }.padding(.top, 15)
+                        .padding(.horizontal, 20)
+                    
+                }
                 Spacer()
                 
             }

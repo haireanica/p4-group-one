@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct NewLoanSearchParticipant: View {
+    @State private var lastName = ""
+    @State private var phoneNumber = ""
     var body: some View {
         ZStack {
             Color("Primary Color")
@@ -47,7 +49,84 @@ struct NewLoanSearchParticipant: View {
                 .frame(height: 180)
 
                 // Main content
-                
+                VStack(spacing: 0){
+                    HStack{
+                        Text("Search Participant")
+                            .font(.custom("Open Sans Bold", size: 20))
+                            .foregroundStyle(.white)
+                        Spacer()
+                        Button {
+                            //need to get the main menu button working
+                        } label: {
+                            Text("Main Menu")
+                                .font(.custom("Open Sans Bold", size: 24))
+                                .foregroundStyle(.white)
+                                .frame(width: 160)
+                                .frame(height: 30)
+                                .background(Color("Secondary Color"))
+                                .clipShape(RoundedRectangle(cornerRadius: 50))
+                        }
+                    
+                    }.padding(.top, 15)
+                        .padding(.horizontal, 10)
+                        .padding(.bottom, 15)
+                    
+                    VStack{
+                        Text("Last Name")
+                            .font(.custom("Open Sans Bold", size: 20))
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        TextField("", text: $lastName)
+                            .multilineTextAlignment(.center)
+                            .font(.custom("Open Sans", size: 20))
+                            .padding()
+                            .background(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 50))
+                            .overlay {
+                                if lastName.isEmpty {
+                                    Text("Enter Last Name")
+                                        .font(.custom("Open Sans", size: 20))
+                                        .foregroundStyle(.black.opacity(0.3))
+                                        .allowsHitTesting(false)
+                                }
+                            }
+                        
+                        Text("Phone Number")
+                            .font(.custom("Open Sans Bold", size: 20))
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        TextField("", text: $phoneNumber)
+                            .keyboardType(.phonePad)
+                            .multilineTextAlignment(.center)
+                            .font(.custom("Open Sans", size: 20))
+                            .padding()
+                            .background(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 50))
+                            .overlay {
+                                if phoneNumber.isEmpty {
+                                    Text("Enter Phone Number")
+                                        .font(.custom("Open Sans", size: 20))
+                                        .foregroundStyle(.black.opacity(0.3))
+                                        .allowsHitTesting(false)
+                                }
+                            }
+                        Button {
+                            
+                        } label: {
+                            Text("Search")
+                                .font(.custom("Open Sans Bold", size: 40))
+                                .foregroundStyle(.white)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 60)
+                                .background(Color("Secondary Color"))
+                                .clipShape(RoundedRectangle(cornerRadius: 50))
+                        }.padding(.top, 20)
+                        
+                    }.padding(.horizontal, 20)
+                    
+                }
                 Spacer()
                 
             }
