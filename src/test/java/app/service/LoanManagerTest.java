@@ -296,7 +296,7 @@ public class LoanManagerTest {
 
         // Assert: loan is marked as checked in
         assertEquals(
-                loanStats.CHECKED_IN,
+                loanStats.AVAILABLE,
                 result.getLoanStatus()
         );
 
@@ -331,7 +331,7 @@ public class LoanManagerTest {
                 LocalDate.now().plusDays(9),
                 LocalDate.now(),
                 asset,
-                loanStats.CHECKED_IN,
+                loanStats.AVAILABLE,
                 loanee
         );
 
@@ -353,7 +353,7 @@ public class LoanManagerTest {
 
         //Verify original state remains unchanged
         assertEquals(
-                loanStats.CHECKED_IN,
+                loanStats.AVAILABLE,
                 loan.getLoanStatus()
         );
 

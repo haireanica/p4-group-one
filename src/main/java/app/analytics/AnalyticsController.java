@@ -1,5 +1,6 @@
 package app.analytics;
 
+import app.domain.loanStats;
 import app.repository.AssetRepository;
 import app.repository.LoanRepository;
 import app.repository.MaintenanceRepository;
@@ -51,7 +52,7 @@ public class AnalyticsController {
                 assetRepo.count(),
                 assetRepo.countByStatus(app.domain.assetStatus.AVAILABLE),
                 loanRepo.countByLoanStatus(app.domain.loanStats.CHECKED_OUT),
-                loanRepo.countByLoanStatus(app.domain.loanStats.CHECKED_IN),
+                loanRepo.countByLoanStatus(loanStats.AVAILABLE),
                 loanRepo.countOverdueLoans()
         );
     }

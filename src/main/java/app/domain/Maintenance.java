@@ -49,7 +49,7 @@ public class Maintenance {
      */
     @Enumerated(EnumType.STRING)
     @Column(name = "maintenanceStatus", length = 15)
-    private maintStat MaintenanceStatus;
+    private maintStat maintenanceStatus;
 
     @Column(length = 100)
     private String repairNotes;
@@ -96,7 +96,7 @@ public class Maintenance {
             Asset asset
     ) {
         this.issue = issue;
-        this.MaintenanceStatus = maintenanceStatus;
+        this.maintenanceStatus = maintenanceStatus;
         this.repairNotes = repairNotes;
         this.openDate = openDate;   
         this.completedDate = completedDate;
@@ -110,7 +110,7 @@ public class Maintenance {
      * 
      */
      public void setMaintenanceStatus (maintStat status) {
-            this.MaintenanceStatus = status;
+            this.maintenanceStatus = status;
      }
 
 
@@ -213,7 +213,7 @@ public class Maintenance {
      * @return the maintenance status of the maintenance record
      */
     public maintStat getMaintenaceStatus() {
-        return MaintenanceStatus;
+        return maintenanceStatus;
     }
 
     /**    (non-Javadoc)
@@ -233,7 +233,7 @@ public class Maintenance {
         return "Maintenance{" +
                 "maintenanceId='" + maintenanceId + '\'' +
                 ", issue='" + issue + '\'' +
-                ", MaintenanceStatus=" + MaintenanceStatus +
+                ", MaintenanceStatus=" + maintenanceStatus +
                 ", repairNotes='" + repairNotes + '\'' +
                 ", openDate=" + openDate +
                 ", completedDate=" + completedDate +

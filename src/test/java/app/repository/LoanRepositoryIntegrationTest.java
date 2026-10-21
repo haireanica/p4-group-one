@@ -86,7 +86,7 @@ public class LoanRepositoryIntegrationTest {
                 dueDate,
                 null,
                 asset,
-                loanStats.READY,
+                loanStats.AVAILABLE,
                 loanee
         );
 
@@ -103,7 +103,7 @@ public class LoanRepositoryIntegrationTest {
         // 8. Verify Loan data
         assertEquals(checkoutDate, savedLoan.getCheckoutDate());
         assertEquals(dueDate, savedLoan.getDueDate());
-        assertEquals(loanStats.READY, savedLoan.getLoanStatus());
+        assertEquals(loanStats.AVAILABLE, savedLoan.getLoanStatus());
 
         // 9. Verify Asset relationship
         assertNotNull(savedLoan.getAssetId());
