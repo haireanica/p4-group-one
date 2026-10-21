@@ -1,16 +1,24 @@
 package app.repository;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import app.domain.Maintenance;
+import app.analytics.MaintenanceByCenterDTO;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import java.util.List;
 
 /**
  * Provides database operations for {@link Maintenance} records.
  */
 public interface MaintenanceRepository
         extends JpaRepository<Maintenance, Integer> {
+
+    @Query("SELECT new app.analytics.MaintenanceByCenterDTO(c.name, COUNT(m)) " +
+            "FROM Maintenance m " +
+            "JOIN m.asset a " +
+            "JOIN a.inventory i " +
+            "JOIN i.center c " +
+            "GROUP BY c.name")
+    List<MaintenanceByCenterDTO> getMaintenanceByCenter();
 
     /**
      * Finds all maintenance records associated with an asset.

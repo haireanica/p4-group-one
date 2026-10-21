@@ -165,7 +165,7 @@ public class AssetManagerTest {
         Asset asset3 = createAsset("Lap300");
 
         asset.setStatus(assetStatus.AVAILABLE);
-        asset2.setStatus(assetStatus.IN_MAINTENANCE);
+        asset2.setStatus(assetStatus.MAINTENANCE);
         asset3.setStatus(assetStatus.RETIRED);
 
         when(repo.existsById("Lap100"))

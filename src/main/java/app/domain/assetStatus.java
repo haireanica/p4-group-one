@@ -1,5 +1,7 @@
 package app.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Represents the operational status of an asset in the OrlandoLendIT system.
  * 
@@ -20,7 +22,7 @@ public enum assetStatus {
     /**
      * The asset is undergoing maintenance.
      */
-    IN_MAINTENANCE,
+    MAINTENANCE,
 
     /**
      * The asset is permanently removed from service.

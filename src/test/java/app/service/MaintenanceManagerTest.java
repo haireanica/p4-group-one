@@ -72,7 +72,7 @@ public class MaintenanceManagerTest {
 
         // Verify asset is no longer available
         assertEquals(
-                assetStatus.IN_MAINTENANCE,
+                assetStatus.MAINTENANCE,
                 asset.getStatus()
         );
 

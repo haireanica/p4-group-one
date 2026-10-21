@@ -159,7 +159,7 @@ public class MaintenanceManager {
         /**
          * 5. Update asset status
          */
-        asset.setStatus(assetStatus.IN_MAINTENANCE);
+        asset.setStatus(assetStatus.MAINTENANCE);
 
         /**
          * 6. Save both changes
