@@ -216,7 +216,7 @@ struct ParticipantEditInfoView: View {
                             
                         } label: {
                             Text("Save Changes")
-                                .font(.custom("Open Sans Bold", size: 20))
+                                .font(.custom("Open Sans Bold", size: 30))
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 60)

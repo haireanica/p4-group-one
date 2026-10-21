@@ -209,7 +209,7 @@ struct SignUpView: View {
                             
                         } label: {
                             Text("Sign Up")
-                                .font(.custom("Open Sans Bold", size: 20))
+                                .font(.custom("Open Sans Bold", size: 30))
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 60)
