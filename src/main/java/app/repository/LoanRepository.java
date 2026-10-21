@@ -15,7 +15,6 @@ import java.util.List;
 public interface LoanRepository extends JpaRepository<Loan, Integer> {
     long count();
 
-    // Spring Data JPA automatically maps this using the loanStats enum
     long countByLoanStatus(loanStats loanStatus);
 
     @Query("SELECT COUNT(l) FROM Loan l WHERE l.loanStatus = app.domain.loanStats.CHECKED_OUT AND l.dueDate < CURRENT_DATE")
