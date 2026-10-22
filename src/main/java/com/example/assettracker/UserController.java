@@ -10,15 +10,17 @@ import org.springframework.web.server.ResponseStatusException;
 public class UserController {
 
     private final UserRepository users;
+    private final RoleRepository roleRepo;
     private final PasswordEncoder encoder;
 
-    public UserController(UserRepository users, PasswordEncoder encoder) {
+    public UserController(UserRepository users, PasswordEncoder encoder, RoleRepository roleRepo) {
         this.users = users;
         this.encoder = encoder;
+        this.roleRepo = roleRepo;
     }
 
     // userId is caller-assigned, like assetId (the credentials table has no auto-increment).
-    public record RegisterRequest(Long userId, String username, String password) {}
+    public record RegisterRequest(Long userId, String username, String password, String role) {}
     public record LoginRequest(String username, String password) {}
 
     // The response never includes the password or its hash.
@@ -35,8 +37,10 @@ public class UserController {
         }
 
         // Only the hash is stored; the plain-text password is never saved.
+        Role role = roleRepo.findByName(req.role())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unknown Role"));
         String hash = encoder.encode(req.password());
-        User saved = users.save(new User(req.userId(), req.username(), hash, null));
+        User saved = users.save(new User(req.userId(), req.username(), hash, role));
         return new UserResponse(saved.getId(), saved.getUserName());
     }
 

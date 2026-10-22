@@ -24,11 +24,18 @@ public class DatabaseUserDetailsService implements UserDetailsService {
         }
         User user = userBox.get();
 
-        return org.springframework.security.core.userdetails.User
-            .withUsername(username)
-            .password(user.getPasswordHash())
-            .roles()
-            .build();
+        
+        if (user.getRole() == null || user.getRole().getName().isBlank()) {
+            return org.springframework.security.core.userdetails.User
+                .withUsername(username)
+                .password(user.getPasswordHash())
+                .roles()
+                .build();
+        }
+            return org.springframework.security.core.userdetails.User
+                .withUsername(username)
+                .password(user.getPasswordHash())
+                .roles(user.getRole().getName())
+                .build();
     }
-
 }

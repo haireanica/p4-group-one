@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -16,10 +17,20 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc   // gives you a fake HTTP client that goes through Spring's full request pipeline
 @Transactional          // rolls back the DB after each test, so tests don't leak users into each other
+@WithMockUser(roles = "ADMIN") // gives all tests the admin role
 class UserControllerTest {
 
       @Autowired
       private MockMvc mvc;
+
+      @Autowired
+      private RoleRepository roleRepo;
+
+      @BeforeEach
+      void createRoles() {
+        roleRepo.save(new Role("STAFF"));
+        roleRepo.save(new Role("ADMIN"));
+      }
 
       @Test
       @WithMockUser(username = "raph", roles = "ADMIN")
@@ -27,7 +38,7 @@ class UserControllerTest {
           mvc.perform(post("/api/users/register")
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("""
-                      {"userId":1,"username":"alice","password":"Secret123"}
+                      {"userId":1,"username":"alice","password":"Secret123", "role":"STAFF"}
                       """))
              .andExpect(status().isCreated())
              .andExpect(jsonPath("$.username").value("alice"))
@@ -73,18 +84,18 @@ class UserControllerTest {
         mvc.perform(post("/api/users/register")
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
-                    {"userId":"100","username":"raph","password":" "}
+                    {"userId":"100","username":"raph","password":" ", "role":"STAFF"}
                     """))
         .andExpect(status().isBadRequest());
       }
 
     @Test
     @WithMockUser(username = "raph", roles = "ADMIN")
-    void registerDuplicateUserId201() throws Exception {
+    void registerDuplicateUserId409() throws Exception {
           mvc.perform(post("/api/users/register")
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("""
-                      {"userId":1,"username":"alice","password":"Secret123"}
+                      {"userId":1,"username":"alice","password":"Secret123","role":"ADMIN"}
                       """))
              .andExpect(status().isCreated());
         mvc.perform(post("/api/users/register")
@@ -101,7 +112,7 @@ class UserControllerTest {
           mvc.perform(post("/api/users/register")
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("""
-                      {"userId":1,"username":"raph","password":"Secret123"}
+                      {"userId":1,"username":"raph","password":"Secret123","role": "STAFF"}
                       """))
              .andExpect(status().isCreated());
         mvc.perform(post("/api/users/register")
@@ -119,7 +130,7 @@ class UserControllerTest {
             mvc.perform(post("/api/users/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                    {"userId":1,"username":"raph","password":"Secret123"}
+                    {"userId":1,"username":"raph","password":"Secret123","role":"ADMIN"}
                     """))
             .andExpect(status().isCreated());
         
@@ -139,7 +150,7 @@ class UserControllerTest {
             mvc.perform(post("/api/users/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                    {"userId":1,"username":"raph","password":"Secret123"}
+                    {"userId":1,"username":"raph","password":"Secret123", "role":"ADMIN"}
                     """))
             .andExpect(status().isCreated());
         
@@ -168,7 +179,7 @@ class UserControllerTest {
             mvc.perform(post("/api/users/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                    {"userId":1,"username":"raph","password":"Secret123"}
+                    {"userId":1,"username":"raph","password":"Secret123", "role":"STAFF"}
                     """))
             .andExpect(status().isCreated());
 
@@ -177,6 +188,37 @@ class UserControllerTest {
                 .content("""
                         {"username":"raph"}
                         """))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username = "raph", roles = "ADMIN")
+    void registerUnknownRoleReturns400() throws Exception {
+        mvc.perform(post("/api/users/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                    {"userId": 1, "username":"raph", "password":"Secret123", "role": "SUPERUSER"}
+                    """))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void registerMissingRoleReturns400() throws Exception {
+        mvc.perform(post("/api/users/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                    {"userId": 1, "username":"raph", "password":"Secret123"}
+                    """))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void registerBlankRoleReturns400() throws Exception {
+        mvc.perform(post("/api/users/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                    {"userId": 1, "username":"raph", "password":"Secret123", "role": " "}
+                    """))
             .andExpect(status().isBadRequest());
     }
 

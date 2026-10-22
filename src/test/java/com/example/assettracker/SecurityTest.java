@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,6 +26,14 @@ public class SecurityTest {
     @Autowired 
     private MockMvc mvc; 
 
+    @Autowired 
+    private RoleRepository roleRepo;
+
+    @BeforeEach
+      void createRoles() {
+        roleRepo.save(new Role("STAFF"));
+        roleRepo.save(new Role("ADMIN"));
+    }
 
     @Test
     void assetsWithoutCredentialReturns401() throws Exception {
@@ -44,7 +54,7 @@ public class SecurityTest {
                 .with(user("admin").roles("ADMIN"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                    {"userId":1,"username":"raph","password":"Secret123"}
+                    {"userId": 2,"username": "raph","password": "Secret123", "role": "STAFF"}
                     """))
                 .andExpect(status().isCreated());
             mvc.perform(get("/api/assets")
@@ -58,7 +68,7 @@ public class SecurityTest {
             .with(user("admin").roles("ADMIN"))
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
-                    {"userId":1,"username":"raph","password":"Secret123"}
+                    {"userId": 1,"username":"raph","password":"Secret123", "role": "STAFF"}
                     """))
             .andExpect(status().isCreated());
 

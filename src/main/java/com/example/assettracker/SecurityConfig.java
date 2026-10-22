@@ -22,8 +22,12 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/users/register").hasRole( "ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/assets").hasRole( "ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/loanees").hasRole( "ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/assets").hasAnyRole( "STAFF", "ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/loans").hasAnyRole( "STAFF", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/loans/checkout").hasAnyRole( "STAFF", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/loans/{id}/return").hasAnyRole( "STAFF", "ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/users/login").permitAll()
-                .anyRequest().authenticated())
+                .anyRequest().hasAnyRole("STAFF", "ADMIN"))
             .httpBasic(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
             .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
