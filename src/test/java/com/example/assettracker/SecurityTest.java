@@ -25,7 +25,7 @@ public class SecurityTest {
 
 
     @Test
-    void assetsWithoutCredentialsReturns401() throws Exception {
+    void assetsWithoutCredentialReturns401() throws Exception {
         mvc.perform(get("/api/assets"))
             .andExpect(status().isUnauthorized());
     }
@@ -48,6 +48,20 @@ public class SecurityTest {
             mvc.perform(get("/api/assets")
                     .with(httpBasic("raph", "Secret123")))
                     .andExpect(status().isOk());
+    }
+
+    @Test
+    void assetsWithWrongPasswordReturns401() throws Exception {
+        mvc.perform(post("/api/users/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                    {"userId":1,"username":"raph","password":"Secret123"}
+                    """))
+            .andExpect(status().isCreated());
+
+        mvc.perform(get("/api/assets")
+            .with(httpBasic("raph", "Secret")))
+            .andExpect(status().isUnauthorized());
     }
 
 
