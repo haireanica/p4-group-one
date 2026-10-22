@@ -1,20 +1,29 @@
 package app.service;
 
-import app.domain.*;
-
-import app.repository.AssetRepository;
-import app.repository.LoaneeRepository;
-import app.repository.LoanRepository;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import app.domain.Asset;
+import app.domain.Loan;
+import app.domain.LoanPurpose;
+import app.domain.Loanee;
+import app.domain.assetStatus;
+import app.domain.loanStats;
+import app.repository.AssetRepository;
+import app.repository.LoanRepository;
+import app.repository.LoaneeRepository;
 
 public class LoanManagerTest {
 
@@ -280,7 +289,8 @@ public class LoanManagerTest {
                 null,
                 asset,
                 loanStats.CHECKED_OUT,
-                loanee
+                loanee,
+                LoanPurpose.EDUCATION
         );
 
         //Simulate finding the existing loan
@@ -332,7 +342,8 @@ public class LoanManagerTest {
                 LocalDate.now(),
                 asset,
                 loanStats.CHECKED_IN,
-                loanee
+                loanee,
+                LoanPurpose.EDUCATION
         );
 
         when(loanRepository.findById(1))

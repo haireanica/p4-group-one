@@ -54,6 +54,10 @@ public class Loan {
     @JoinColumn(name = "assetId")
     private Asset assetId;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "LoanPurpose")
+    private LoanPurpose loanPurpose;
+
     /**
      * Constructors
      * The default constructor is protected to prevent instantiation without parameters.
@@ -72,15 +76,17 @@ public class Loan {
      * @param assetId The asset that was loaned.
      * @param loanStatus The status of the loan.
      * @param participantId The participant who borrowed the asset.
+     * @param loanPurpose The purpose of the loan.
      */
     public Loan( LocalDate checkoutDate, LocalDate dueDate, LocalDate returnDate,
-                 Asset assetId,  loanStats loanStatus, Loanee participantId) {
+                 Asset assetId,  loanStats loanStatus, Loanee participantId, LoanPurpose loanPurpose) {
         this.checkoutDate = checkoutDate;
         this.dueDate = dueDate;
         this.returnDate = returnDate;
         this.assetId = assetId;
         this.loanStatus = loanStatus;
         this.participantId = participantId;
+        this.loanPurpose = loanPurpose;
     }
 
     /**
@@ -178,6 +184,22 @@ public class Loan {
     }
 
     /**
+     * Returns the loan purpose of the loan.
+     * @return the loan purpose of the loan
+     */
+    public LoanPurpose getLoanPurpose() {
+        return loanPurpose;
+    }
+
+    /**
+     * Sets the loan purpose of the loan.
+     * @param loanPurpose the loan purpose to set
+     */
+    public void setLoanPurpose(LoanPurpose loanPurpose) {
+        this.loanPurpose = loanPurpose;
+    }
+
+    /**
      * Override allows for the attributes of the loan to be printed in a readable format when the object is printed.
      * @return returns all attributes of the loan in a string format.
      */
@@ -185,6 +207,7 @@ public class Loan {
     public String toString() {
         return "Loan{" +
                 "loanId='" + loanId + '\'' +
+                ", loanPurpose=" + loanPurpose +
                 ", participantId=" + participantId +
                 ", checkoutDate=" + checkoutDate +
                 ", dueDate=" + dueDate +

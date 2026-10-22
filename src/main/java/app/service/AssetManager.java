@@ -132,4 +132,17 @@ public class AssetManager {
         asset.setStatus(assetStatus.RETIRED);
         repo.save(asset);
     }
+
+    /**
+     * Determines whether an asset is available for checkout.
+     * 
+     * @param assetId unique identifier of the asset to check
+     * @return true if the asset is available, false otherwise
+     * @throws IllegalArgumentException if no asset exists with the given ID
+     */
+    public boolean isDeployable(String assetId) {
+    return repo.findById(assetId)
+            .map(asset -> asset.getStatus() == assetStatus.AVAILABLE)
+            .orElse(false);
+}
 }
