@@ -19,7 +19,10 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.POST, "/api/users/register", "/api/users/login").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/users/register").hasRole( "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/assets").hasRole( "ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/loanees").hasRole( "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/users/login").permitAll()
                 .anyRequest().authenticated())
             .httpBasic(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,6 +22,7 @@ class UserControllerTest {
       private MockMvc mvc;
 
       @Test
+      @WithMockUser(username = "raph", roles = "ADMIN")
       void registerValidUserReturns201() throws Exception {
           mvc.perform(post("/api/users/register")
                   .contentType(MediaType.APPLICATION_JSON)
@@ -32,6 +35,7 @@ class UserControllerTest {
       }
 
       @Test
+      @WithMockUser(username = "raph", roles = "ADMIN")
       void registerBlankUsernameReturns400() throws Exception {
         mvc.perform(post("/api/users/register")
             .contentType(MediaType.APPLICATION_JSON)
@@ -42,6 +46,7 @@ class UserControllerTest {
       }
 
       @Test
+      @WithMockUser(username = "raph", roles = "ADMIN")
       void registerMissingUsernameReturns400() throws Exception {
         mvc.perform(post("/api/users/register")
             .contentType(MediaType.APPLICATION_JSON)
@@ -52,6 +57,7 @@ class UserControllerTest {
       }
 
       @Test
+      @WithMockUser(username = "raph", roles = "ADMIN")
       void registerMissingUserId400() throws Exception {
         mvc.perform(post("/api/users/register")
             .contentType(MediaType.APPLICATION_JSON)
@@ -62,6 +68,7 @@ class UserControllerTest {
       }
 
     @Test
+    @WithMockUser(username = "raph", roles = "ADMIN")
     void registerBlankPassword400() throws Exception {
         mvc.perform(post("/api/users/register")
             .contentType(MediaType.APPLICATION_JSON)
@@ -72,7 +79,8 @@ class UserControllerTest {
       }
 
     @Test
-    void registerDuplicateUserId409() throws Exception {
+    @WithMockUser(username = "raph", roles = "ADMIN")
+    void registerDuplicateUserId201() throws Exception {
           mvc.perform(post("/api/users/register")
                   .contentType(MediaType.APPLICATION_JSON)
                   .content("""
@@ -87,7 +95,8 @@ class UserControllerTest {
         .andExpect(status().isConflict());
     }
 
-        @Test
+    @Test
+    @WithMockUser(username = "raph", roles = "ADMIN")
     void registerDuplicateUsername409() throws Exception {
           mvc.perform(post("/api/users/register")
                   .contentType(MediaType.APPLICATION_JSON)
@@ -105,6 +114,7 @@ class UserControllerTest {
 
 
     @Test
+    @WithMockUser(username = "raph", roles = "ADMIN")
     void loginValidCredentialsReturns200() throws Exception{
             mvc.perform(post("/api/users/register")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -124,6 +134,7 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "raph", roles = "ADMIN")
     void loginWrongPasswordReturns401() throws Exception{
             mvc.perform(post("/api/users/register")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -141,6 +152,7 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "raph", roles = "ADMIN")
     void loginUnknownUserReturns401() throws Exception{
             mvc.perform(post("/api/users/login")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -151,6 +163,7 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "raph", roles = "ADMIN")
     void loginMissingPasswordReturns400() throws Exception{
             mvc.perform(post("/api/users/register")
                 .contentType(MediaType.APPLICATION_JSON)

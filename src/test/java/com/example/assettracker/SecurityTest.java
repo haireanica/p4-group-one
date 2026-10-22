@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.Test;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,7 +32,7 @@ public class SecurityTest {
     }
 
     @Test
-    @WithMockUser(username = "raph", roles = "USER")
+    @WithMockUser(username = "raph", roles = "STAFF")
     void assetsWithCredentialReturns200() throws Exception {
         mvc.perform(get("/api/assets"))
             .andExpect(status().isOk());
@@ -40,6 +41,7 @@ public class SecurityTest {
     @Test
     void assetsWithRegisteredUserReturns200() throws Exception {
             mvc.perform(post("/api/users/register")
+                .with(user("admin").roles("ADMIN"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                     {"userId":1,"username":"raph","password":"Secret123"}
@@ -53,6 +55,7 @@ public class SecurityTest {
     @Test
     void assetsWithWrongPasswordReturns401() throws Exception {
         mvc.perform(post("/api/users/register")
+            .with(user("admin").roles("ADMIN"))
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
                     {"userId":1,"username":"raph","password":"Secret123"}
@@ -64,6 +67,61 @@ public class SecurityTest {
             .andExpect(status().isUnauthorized());
     }
 
+    @Test
+    void registrationByUserNotAuthorizedReturns401() throws Exception {
+        mvc.perform(post("/api/users/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                {"userId":1, "username":"raph","password":"secret123"}
+            """))
+            .andExpect(status().isUnauthorized());
+    }
 
+    @Test
+    void registerAsStaffReturns403() throws Exception {
+        mvc.perform(post("/api/users/register")
+            .with(user("staff").roles("STAFF"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                {"userId":1, "username":"raph","password":"secret123"}
+            """))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void staffAccessToLoaneeReturns403() throws Exception {
+        mvc.perform(get("/api/loanees")
+            .with(user("staff").roles("STAFF")))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void adminAccessToLoaneeReturns200() throws Exception {
+        mvc.perform(get("/api/loanees")
+            .with(user("admin").roles("ADMIN")))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    void staffCannotAddDeviceReturns403() throws Exception {
+        mvc.perform(post("/api/assets")
+            .with(user("staff").roles("STAFF"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                    {"assetId": 1, "name": "TAG-1", "assetStatus": "AVAILABLE"}
+                    """))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void adminCanAddDeviceReturns200() throws Exception {
+        mvc.perform(post("/api/assets")
+        .with(user("admin").roles("ADMIN"))
+        .contentType(MediaType.APPLICATION_JSON)
+        .content("""
+                {"assetId": 1, "name": "TAG-1", "assetStatus": "AVAILABLE"}
+                """))
+        .andExpect(status().isOk());
+    }
 
 }
