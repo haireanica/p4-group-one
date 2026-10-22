@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import app.domain.Asset;
 import app.domain.Loan;
+import app.domain.LoanPurpose;
 import app.domain.Loanee;
 import app.domain.assetStatus;
 import app.domain.loanStats;
@@ -134,7 +135,8 @@ public class LoanManager {
                 null,
                 asset,
                 loanStats.CHECKED_OUT,
-                loanee
+                loanee,
+                LoanPurpose.EDUCATION
         );
 
       

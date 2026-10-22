@@ -1,16 +1,20 @@
 package app.service;
 
-import app.domain.Asset;
-import app.domain.assetStatus;
-import app.repository.AssetRepository;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import app.domain.Asset;
+import app.domain.assetStatus;
+import app.repository.AssetRepository;
 
 
 //Create the class to handle all the CRUD Test for AssetManager
@@ -160,24 +164,30 @@ public class AssetManagerTest {
 
     @Test
     void isDeployable() {
-        Asset asset = createAsset("Lap100");
-        Asset asset2 = createAsset("Lap200");
-        Asset asset3 = createAsset("Lap300");
+        Asset availableAsset = createAsset("Lap100");
+        Asset maintenanceAsset = createAsset("Lap200");
+        Asset retiredAsset = createAsset("Lap300");
 
-        asset.setStatus(assetStatus.AVAILABLE);
-        asset2.setStatus(assetStatus.MAINTENANCE);
-        asset3.setStatus(assetStatus.RETIRED);
+        availableAsset.setStatus(assetStatus.AVAILABLE);
+        maintenanceAsset.setStatus(assetStatus.MAINTENANCE);
+        retiredAsset.setStatus(assetStatus.RETIRED);
 
-        when(repo.existsById("Lap100"))
-        .thenReturn(true);
-        when(repo.existsById("Lap200"))
-        .thenReturn(false);
-        when(repo.existsById("Lap300"))
-        .thenReturn(false);
+        when(repo.findById("Lap100"))
+                .thenReturn(Optional.of(availableAsset));
 
+        when(repo.findById("Lap200"))
+                .thenReturn(Optional.of(maintenanceAsset));
 
+        when(repo.findById("Lap300"))
+                .thenReturn(Optional.of(retiredAsset));
 
+        when(repo.findById("Lap999"))
+                .thenReturn(Optional.empty());
+
+        Assertions.assertTrue(manager.isDeployable("Lap100"));
+        Assertions.assertFalse(manager.isDeployable("Lap200"));
+        Assertions.assertFalse(manager.isDeployable("Lap300"));
+        Assertions.assertFalse(manager.isDeployable("Lap999"));
     }
-
 
 }
