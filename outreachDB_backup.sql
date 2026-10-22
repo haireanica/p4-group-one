@@ -139,12 +139,13 @@ CREATE TABLE `loan` (
   `dueDate` date DEFAULT NULL,
   `returnDate` date DEFAULT NULL,
   `loanStatus` varchar(15) NOT NULL,
+  `reason` varchar(80) DEFAULT NULL,
   PRIMARY KEY (`loanId`),
   KEY `fk_participantId` (`participantId`),
   KEY `fk_loan_asset` (`assetId`),
   CONSTRAINT `fk_loan_asset` FOREIGN KEY (`assetId`) REFERENCES `asset` (`assetId`),
   CONSTRAINT `fk_participantId` FOREIGN KEY (`participantId`) REFERENCES `loanee` (`participantId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -153,7 +154,7 @@ CREATE TABLE `loan` (
 
 LOCK TABLES `loan` WRITE;
 /*!40000 ALTER TABLE `loan` DISABLE KEYS */;
-INSERT INTO `loan` VALUES (1,'LAP100',2457,'2026-09-09','2026-09-16','2026-09-15','Available'),(2,'cellphone001',2457,'2026-10-01','2026-10-31',NULL,'Checked out'),(3,'tablet201',2457,'2026-09-19','2026-10-19',NULL,'Checked out'),(4,'lap201',2457,'2026-10-01','2026-10-07','2026-10-07','Returned');
+INSERT INTO `loan` VALUES (1,'LAP100',2457,'2026-09-09','2026-09-16','2026-09-15','Available',NULL),(2,'cellphone001',2457,'2026-10-01','2026-10-31',NULL,'Checked out','Personal use'),(3,'tablet201',2457,'2026-09-19','2026-10-19',NULL,'Checked out','Education'),(4,'lap201',2457,'2026-10-01','2026-10-07','2026-10-07','Returned',NULL),(5,'cellphone002',NULL,NULL,NULL,NULL,'available',NULL),(6,'cellphone003',NULL,NULL,NULL,NULL,'available',NULL),(7,'cellphone010',NULL,NULL,NULL,NULL,'available',NULL),(8,'cellphone011',NULL,NULL,NULL,NULL,'available',NULL),(9,'cellphone012',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(10,'cellphone013',NULL,NULL,NULL,NULL,'available',NULL),(11,'lap101',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(12,'lap200',NULL,NULL,NULL,NULL,'available',NULL),(13,'lap203',NULL,NULL,NULL,NULL,'available',NULL),(14,'lap204',NULL,NULL,NULL,NULL,'available',NULL),(15,'lap205',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(16,'tablet100',NULL,NULL,NULL,NULL,'available',NULL),(17,'tablet101',NULL,NULL,NULL,NULL,'available',NULL),(18,'tablet102',NULL,NULL,NULL,NULL,'available',NULL),(19,'tablet103',NULL,NULL,NULL,NULL,'available',NULL),(20,'tablet200',NULL,NULL,NULL,NULL,'available',NULL);
 /*!40000 ALTER TABLE `loan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -166,6 +167,14 @@ DROP TABLE IF EXISTS `loanee`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `loanee` (
   `participantId` int NOT NULL,
+  `firstName` varchar(100) DEFAULT NULL,
+  `lastName` varchar(100) DEFAULT NULL,
+  `phoneNumber` varchar(30) DEFAULT NULL,
+  `address_line1` varchar(150) NOT NULL,
+  `address_line2` varchar(150) DEFAULT NULL,
+  `city` varchar(100) NOT NULL,
+  `state` varchar(2) NOT NULL,
+  `postal_code` varchar(100) NOT NULL,
   PRIMARY KEY (`participantId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -176,7 +185,7 @@ CREATE TABLE `loanee` (
 
 LOCK TABLES `loanee` WRITE;
 /*!40000 ALTER TABLE `loanee` DISABLE KEYS */;
-INSERT INTO `loanee` VALUES (2039),(2457),(7830);
+INSERT INTO `loanee` VALUES (2039,NULL,NULL,NULL,'',NULL,'','',''),(2457,NULL,NULL,NULL,'',NULL,'','',''),(7830,NULL,NULL,NULL,'',NULL,'','','');
 /*!40000 ALTER TABLE `loanee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,4 +229,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-10-15 14:24:28
+-- Dump completed on 2026-10-22 17:42:34
