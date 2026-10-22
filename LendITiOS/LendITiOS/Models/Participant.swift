@@ -13,7 +13,7 @@ struct Participant: Identifiable, Codable {
     var lastName: String
     var phoneNumber: String
     var addressLine1: String
-    var addressLine2: String?
+    var addressLine2: String
     var city: String
     var zipcode: String
 
