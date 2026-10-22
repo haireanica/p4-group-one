@@ -21,6 +21,11 @@ public class Loanee {
     @Id
     private Integer participantId;
 
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String phoneNumber;
+
     /**
      * Constructors
      * The default constructor is protected to prevent instantiation without parameters.
@@ -33,10 +38,17 @@ public class Loanee {
      * Creates a new Loanee object with the specified participantId.
      *
      * @param participantId the participantId of the loanee
-     *
+     * @param firstName the first name of the loanee
+     * @param lastName the last name of the loanee
+     * @param address the address of the loanee
+     * @param phoneNumber the phone number of the loanee
      */
-    public Loanee(Integer participantId) {
+    public Loanee(Integer participantId, String firstName, String lastName, String address, String phoneNumber) {
         this.participantId = participantId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
     }
 
 
