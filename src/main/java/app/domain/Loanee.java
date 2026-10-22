@@ -23,7 +23,8 @@ public class Loanee {
 
     private String firstName;
     private String lastName;
-    private String address;
+    private String address1;
+    private String address2;
     private String phoneNumber;
 
     /**
@@ -40,14 +41,16 @@ public class Loanee {
      * @param participantId the participantId of the loanee
      * @param firstName the first name of the loanee
      * @param lastName the last name of the loanee
-     * @param address the address of the loanee
+     * @param address1 the first line of the address of the loanee
+     * @param address2 the second line of the address of the loanee
      * @param phoneNumber the phone number of the loanee
      */
-    public Loanee(Integer participantId, String firstName, String lastName, String address, String phoneNumber) {
+    public Loanee(Integer participantId, String firstName, String lastName, String address1, String address2, String phoneNumber) {
         this.participantId = participantId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.address = address;
+        this.address1 = address1;
+        this.address2 = address2;
         this.phoneNumber = phoneNumber;
     }
 

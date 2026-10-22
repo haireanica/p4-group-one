@@ -75,7 +75,7 @@ public class LoanRepositoryIntegrationTest {
         asset = assetRepository.saveAndFlush(asset);
 
         // 4. Create and save Loanee
-        Loanee loanee = new Loanee(900001, "John", "Doe", "123 Test Street", "555-1234");
+        Loanee loanee = new Loanee(900001, "John", "Doe", "123 Test Street", "Apt 1", "555-1234");
         loanee = loaneeRepository.saveAndFlush(loanee);
 
         // 5. Create Loan
