@@ -27,7 +27,7 @@ public class UserController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse register(@RequestBody RegisterRequest req) {
-        if (req.userId() == null || req.username() == null || req.password() == null) {
+        if (req.userId() == null || req.username() == null ||req.username().isBlank() || req.password() == null || req.password().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "userId, username and password are required");
         }
         if (users.existsById(req.userId()) || users.findByUserName(req.username()).isPresent()) {
