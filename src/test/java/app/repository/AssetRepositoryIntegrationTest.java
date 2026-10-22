@@ -1,21 +1,19 @@
 package app.repository;
 
-import app.domain.Asset;
-import app.domain.Center;
-import app.domain.Inventory;
-import app.domain.assetStatus;
+import java.util.ArrayList;
 
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-//           import java.util.List;
-
-
-import static org.junit.jupiter.api.Assertions.*;
+import app.domain.Asset;
+import app.domain.Center;
+import app.domain.Inventory;
+import app.domain.assetStatus;
+import app.domain.assetType;
 
 @SpringBootTest
 @Transactional
@@ -60,6 +58,7 @@ public class AssetRepositoryIntegrationTest {
                 "Test-LAPTOP-001",
                 "Test Laptop",
                 assetStatus.AVAILABLE,
+                assetType.LAPTOP,
                 new ArrayList<>()
         );
 

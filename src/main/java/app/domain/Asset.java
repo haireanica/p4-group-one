@@ -33,12 +33,17 @@ public class Asset {
     @Column(name = "assetStatus", length = 20)
     private assetStatus status;
 
+    @Enumerated (EnumType.STRING)
+    @Column(name = "assetType", length = 20)
+    private assetType type;
+
     @OneToMany(mappedBy = "asset")
     private List<Maintenance> maintenanceRecords = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "inventoryId")
     private Inventory inventory;
+
 
     /**
      * Creates an empty asset for JPA.
@@ -58,11 +63,13 @@ public class Asset {
             String assetId,
             String name,
             assetStatus status,
+            assetType type,
             List<Maintenance> maintenanceRecords) {
 
         this.assetId = assetId;
         this.name = name;
         this.status = status;
+        this.type = type;
         this.maintenanceRecords = maintenanceRecords;
     }
 
@@ -150,6 +157,7 @@ public class Asset {
                 "assetId='" + assetId + '\'' +
                 ", name='" + name + '\'' +
                 ", status=" + status +
+                ", type=" + type +
                 ", deployable=" + isDeployable() +
                 '}';
     }

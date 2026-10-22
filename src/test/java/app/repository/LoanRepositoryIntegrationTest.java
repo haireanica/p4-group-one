@@ -13,6 +13,7 @@ import app.domain.Asset;
 import app.domain.Center;
 import app.domain.Inventory;
 import app.domain.Loan;
+import app.domain.assetType;
 import app.domain.Loanee;
 import app.domain.Maintenance;
 import app.domain.assetStatus;
@@ -64,6 +65,7 @@ public class LoanRepositoryIntegrationTest {
                 "TEST-LOAN-Asset-001",
                 "Test Laptop",
                 assetStatus.AVAILABLE,
+                assetType.LAPTOP,
                 new ArrayList<Maintenance>()
         );
 
@@ -75,7 +77,8 @@ public class LoanRepositoryIntegrationTest {
         asset = assetRepository.saveAndFlush(asset);
 
         // 4. Create and save Loanee
-        Loanee loanee = new Loanee(900001, "John", "Doe", "123 Test Street", "Apt 1", "555-1234");
+        Loanee loanee = new Loanee(900001, "John", "Doe", 
+        "123 Test Street", "Apt 1", "555-1234");
         loanee = loaneeRepository.saveAndFlush(loanee);
 
         // 5. Create Loan

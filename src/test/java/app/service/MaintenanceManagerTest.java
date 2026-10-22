@@ -1,17 +1,26 @@
 package app.service;
 
-import app.domain.*;
-import app.repository.AssetRepository;
-import app.repository.MaintenanceRepository;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import app.domain.Asset;
+import app.domain.Maintenance;
+import app.domain.assetStatus;
+import app.domain.assetType;
+import app.domain.maintStat;
+import app.repository.AssetRepository;
+import app.repository.MaintenanceRepository;
 
 
 public class MaintenanceManagerTest {
@@ -39,6 +48,7 @@ public class MaintenanceManagerTest {
                 "Lap100",
                 "ThinkPad 3",
                 assetStatus.AVAILABLE,
+                assetType.LAPTOP,
                 List.of()
 
         );
@@ -115,6 +125,7 @@ public class MaintenanceManagerTest {
                 "Lap100",
                 "ThinkPad 3",
                 assetStatus.CHECKED_OUT,
+                assetType.LAPTOP,
                 List.of()
         );
 
@@ -152,6 +163,7 @@ public class MaintenanceManagerTest {
                 "Lap100",
                 "ThinkPad 3",
                 assetStatus.AVAILABLE,
+                assetType.LAPTOP,
                 List.of()
         );
 

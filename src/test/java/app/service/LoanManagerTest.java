@@ -20,6 +20,7 @@ import app.domain.Loan;
 import app.domain.LoanPurpose;
 import app.domain.Loanee;
 import app.domain.assetStatus;
+import app.domain.assetType;
 import app.domain.loanStats;
 import app.repository.AssetRepository;
 import app.repository.LoanRepository;
@@ -53,6 +54,7 @@ public class LoanManagerTest {
                 "Lap100",
                 "ThinkPad 3",
                 assetStatus.AVAILABLE,
+                assetType.LAPTOP,
                 List.of()
         );
 
@@ -112,6 +114,7 @@ public class LoanManagerTest {
                 "Lap100",
                 "ThinkPad 3",
                 assetStatus.CHECKED_OUT,
+                assetType.LAPTOP,
                 List.of()
         );
 
@@ -168,6 +171,7 @@ public class LoanManagerTest {
                 "Lap100",
                 "ThinkPad 3",
                 assetStatus.AVAILABLE,
+                assetType.LAPTOP,
                 List.of()
         );
 
@@ -207,7 +211,8 @@ public class LoanManagerTest {
                 "Lap100",
                 "ThinkPad 3",
                 assetStatus.AVAILABLE,
-                null
+                assetType.LAPTOP,
+                List.of()
         );
 
         Loanee loanee = mock(Loanee.class);
@@ -246,7 +251,7 @@ public class LoanManagerTest {
     void checkoutRejectsNullDueDate() {
 
         //Arrange: Create an available asset
-        Asset asset =  new Asset("Lap100", "ThinkPad 3", assetStatus.AVAILABLE, null);
+        Asset asset =  new Asset("Lap100", "ThinkPad 3", assetStatus.AVAILABLE, assetType.LAPTOP, List.of());
 
         // Acr and Assert: Reject a missing due date
         assertThrows(
@@ -276,6 +281,7 @@ public class LoanManagerTest {
                 "Lap100",
                 "ThinkPad 3",
                 assetStatus.CHECKED_OUT,
+                assetType.LAPTOP,
                 List.of()
         );
 
@@ -331,6 +337,7 @@ public class LoanManagerTest {
                 "Lap100",
                 "ThinkPad 3",
                 assetStatus.AVAILABLE,
+                assetType.LAPTOP,
                 List.of()
         );
 

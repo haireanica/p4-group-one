@@ -1,16 +1,22 @@
 package app.repository;
 
-import app.domain.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
+import app.domain.Asset;
+import app.domain.Center;
+import app.domain.Inventory;
+import app.domain.Maintenance;
+import app.domain.assetStatus;
+import app.domain.assetType;
+import app.domain.maintStat;
 
 @SpringBootTest
 public class MaintenanceRepositoryIntegrationTest {
@@ -53,6 +59,7 @@ public class MaintenanceRepositoryIntegrationTest {
                 "TEST-MAINT-ASSET-001",
                 "Maintenance Test Laptop",
                 assetStatus.AVAILABLE,
+                assetType.LAPTOP,
                 new ArrayList<Maintenance>()
         );
 

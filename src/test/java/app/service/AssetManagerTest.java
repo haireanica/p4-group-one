@@ -14,6 +14,7 @@ import static org.mockito.Mockito.when;
 
 import app.domain.Asset;
 import app.domain.assetStatus;
+import app.domain.assetType;
 import app.repository.AssetRepository;
 
 
@@ -33,7 +34,7 @@ public class AssetManagerTest {
 
 
     public Asset createAsset(String assetId) {
-        return new Asset(assetId, "Fred's Thinkpad 3",assetStatus.AVAILABLE,List.of());
+        return new Asset(assetId, "Fred's Thinkpad 3",assetStatus.AVAILABLE, assetType.LAPTOP,List.of());
     }
 
 
