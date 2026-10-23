@@ -83,6 +83,15 @@ public class Asset {
     }
 
     /**
+     * Returns the asset's type.
+     *
+     * @return the asset type
+     */
+    public assetType getType() {
+        return type;
+    }
+
+    /**
      * Returns the asset's descriptive name.
      *
      * @return the asset name

@@ -163,6 +163,8 @@ public class AssetManagerTest {
         verify(repo, never()).save(any(Asset.class));
     }
 
+    
+
     @Test
     void isDeployable() {
         Asset availableAsset = createAsset("Lap100");

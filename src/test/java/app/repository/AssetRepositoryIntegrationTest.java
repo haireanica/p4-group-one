@@ -1,6 +1,7 @@
 package app.repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -84,4 +85,32 @@ public class AssetRepositoryIntegrationTest {
         assertEquals("Orlando Test Center",
                 found.getInventory().getCenter().getName());
     }
+
+    @Test
+void confirmAssetTypeIsPersisted() {
+    // Arrange
+    Asset asset = new Asset(
+            "TEST-TYPE-001",
+            "Test Laptop",
+            assetStatus.AVAILABLE,
+            assetType.LAPTOP,
+            List.of()
+    );
+
+    // Act
+    assetRepository.saveAndFlush(asset);
+
+    Asset savedAsset = assetRepository
+            .findById("TEST-TYPE-001")
+            .orElseThrow();
+
+    // Assert
+    assertEquals(
+            assetType.LAPTOP,
+            savedAsset.getType()
+    );
+
+    // Cleanup
+    assetRepository.deleteById("TEST-TYPE-001");
+}
 }
