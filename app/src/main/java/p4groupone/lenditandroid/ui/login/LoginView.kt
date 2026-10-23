@@ -72,10 +72,10 @@ fun LoginViewScreen(navController: NavController) {
 
         val titleSize = 70.sp * scale
         val fieldLabelSize = 20.sp * scale
-        val placeholderSize = 15.sp * scale
+        val placeholderSize = 20.sp * scale
         val rememberSize = 20.sp * scale
         val buttonTextSize = 32.sp * scale
-        val forgotSize = 20.sp * scale
+        val forgotSize = 25.sp * scale
 
         val fieldHeight = 60.dp * scale
         val buttonHeight = 60.dp * scale
