@@ -54,8 +54,8 @@ fun DashboardViewScreen(navController: NavController) {
             .coerceIn(0.75f, 1f)
 
         val headerHeight = 280.dp * scale
-        val buttonSize = 150.dp * scale
-        val rowSpacing = 30.dp * scale
+        val buttonSize = 170.dp * scale
+        val rowSpacing = 40.dp * scale
         val headerSpacing = 40.dp * scale
 
         Column(
@@ -101,7 +101,7 @@ fun DashboardViewScreen(navController: NavController) {
 
                         Text(
                             text = "Orlando",
-                            fontSize = 70.sp * scale,
+                            fontSize = 80.sp * scale,
                             fontFamily = openSans,
                             fontWeight = FontWeight.Bold,
                             color = Color.White,
@@ -114,7 +114,7 @@ fun DashboardViewScreen(navController: NavController) {
 
                             Text(
                                 text = "Lend",
-                                fontSize = 70.sp * scale,
+                                fontSize = 80.sp * scale,
                                 fontFamily = openSans,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
@@ -124,7 +124,7 @@ fun DashboardViewScreen(navController: NavController) {
 
                                 Text(
                                     text = " IT",
-                                    fontSize = 70.sp * scale,
+                                    fontSize = 80.sp * scale,
                                     fontFamily = openSans,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.White,
@@ -136,7 +136,7 @@ fun DashboardViewScreen(navController: NavController) {
 
                                 Text(
                                     text = " IT",
-                                    fontSize = 70.sp * scale,
+                                    fontSize = 80.sp * scale,
                                     fontFamily = openSans,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.White,
@@ -148,7 +148,7 @@ fun DashboardViewScreen(navController: NavController) {
 
                                 Text(
                                     text = " IT",
-                                    fontSize = 70.sp * scale,
+                                    fontSize = 80.sp * scale,
                                     fontFamily = openSans,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.White,
@@ -160,7 +160,7 @@ fun DashboardViewScreen(navController: NavController) {
 
                                 Text(
                                     text = " IT",
-                                    fontSize = 70.sp * scale,
+                                    fontSize = 80.sp * scale,
                                     fontFamily = openSans,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.White,
@@ -172,7 +172,7 @@ fun DashboardViewScreen(navController: NavController) {
 
                                 Text(
                                     text = " IT",
-                                    fontSize = 70.sp * scale,
+                                    fontSize = 80.sp * scale,
                                     fontFamily = openSans,
                                     fontWeight = FontWeight.Bold,
                                     color = PrimaryColor

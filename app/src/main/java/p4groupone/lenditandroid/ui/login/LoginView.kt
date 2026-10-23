@@ -60,17 +60,14 @@ fun LoginViewScreen(navController: NavController) {
             .background(PrimaryColor)
     ) {
 
-        // Reference screen height
         val referenceHeight = 900.dp
 
-        // Scale everything based on available height
         val scale = (maxHeight / referenceHeight)
             .coerceIn(0.75f, 1f)
 
-        // Scaled dimensions
-        val headerHeight = 230.dp * scale
-        val innerHeaderHeight = 220.dp * scale
-        val logoSize = 190.dp * scale
+        val headerHeight = 250.dp * scale
+        val innerHeaderHeight = 240.dp * scale
+        val logoSize = 230.dp * scale
         val headerRadius = 100.dp * scale
 
         val titleSize = 70.sp * scale
@@ -84,22 +81,20 @@ fun LoginViewScreen(navController: NavController) {
         val buttonHeight = 60.dp * scale
 
         val horizontalPadding = 35.dp * scale
-        val contentSpacing = 10.dp * scale
-        val headerToTitleSpacing = 10.dp * scale
+        val contentSpacing = 15.dp * scale
+        val headerToTitleSpacing = 15.dp * scale
 
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            // Header
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(headerHeight)
             ) {
 
-                // White border/layer
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -112,7 +107,6 @@ fun LoginViewScreen(navController: NavController) {
                         .background(Color.White)
                 )
 
-                // Purple inner layer
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -143,7 +137,6 @@ fun LoginViewScreen(navController: NavController) {
                 modifier = Modifier.height(headerToTitleSpacing)
             )
 
-            // Orlando
             Text(
                 text = "Orlando",
                 fontSize = titleSize,
@@ -152,7 +145,6 @@ fun LoginViewScreen(navController: NavController) {
                 color = Color.White
             )
 
-            // Lend IT
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
@@ -226,7 +218,6 @@ fun LoginViewScreen(navController: NavController) {
                 }
             }
 
-            // Login content
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -237,7 +228,6 @@ fun LoginViewScreen(navController: NavController) {
                 verticalArrangement = Arrangement.spacedBy(contentSpacing)
             ) {
 
-                // Username label
                 Text(
                     text = " Username",
                     fontSize = fieldLabelSize,
@@ -246,7 +236,6 @@ fun LoginViewScreen(navController: NavController) {
                     color = Color.White
                 )
 
-                // Username field
                 TextField(
                     value = username,
                     onValueChange = { username = it },
@@ -274,7 +263,6 @@ fun LoginViewScreen(navController: NavController) {
                     )
                 )
 
-                // Password label
                 Text(
                     text = " Password",
                     fontSize = fieldLabelSize,
@@ -283,7 +271,6 @@ fun LoginViewScreen(navController: NavController) {
                     color = Color.White
                 )
 
-                // Password field
                 TextField(
                     value = password,
                     onValueChange = { password = it },
@@ -312,7 +299,6 @@ fun LoginViewScreen(navController: NavController) {
                     )
                 )
 
-                // Remember Me
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -337,7 +323,6 @@ fun LoginViewScreen(navController: NavController) {
                     )
                 }
 
-                // Log In button
                 Button(
                     onClick = {
                         navController.navigate("dashboard")
@@ -360,7 +345,6 @@ fun LoginViewScreen(navController: NavController) {
                     )
                 }
 
-                // Forgot Password
                 Column(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.CenterHorizontally
