@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import p4groupone.lenditandroid.navigation.AppNavigation
@@ -20,21 +21,19 @@ import p4groupone.lenditandroid.ui.theme.LendITAndroidTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        WindowInsetsControllerCompat(
-            window,
-            window.decorView
-        ).let { controller ->
-            controller.hide(
-                WindowInsetsCompat.Type.navigationBars()
-            )
 
-            setContent {
-                LendITAndroidTheme {
-                    AppNavigation()
-                }
-            }
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            hide(WindowInsetsCompat.Type.navigationBars())
+            systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
+
+        setContent {
+            AppNavigation()
+        }
+    }
     }
 
     @Composable
@@ -52,4 +51,3 @@ class MainActivity : ComponentActivity() {
             Greeting("Android")
         }
     }
-}

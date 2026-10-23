@@ -53,9 +53,9 @@ fun DashboardViewScreen(navController: NavController) {
         val scale = (maxHeight / referenceHeight)
             .coerceIn(0.75f, 1f)
 
-        val headerHeight = 280.dp * scale
+        val headerHeight = 240.dp * scale
         val buttonSize = 170.dp * scale
-        val rowSpacing = 40.dp * scale
+        val rowSpacing = 30.dp * scale
         val headerSpacing = 40.dp * scale
 
         Column(
@@ -85,7 +85,7 @@ fun DashboardViewScreen(navController: NavController) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(270.dp * scale)
+                        .height(230.dp * scale)
                         .clip(
                             RoundedCornerShape(
                                 bottomEnd = 100.dp * scale
@@ -199,7 +199,7 @@ fun DashboardViewScreen(navController: NavController) {
                     size = buttonSize,
                     scale = scale
                 ) {
-                    // do something
+                    navController.navigate("signUpView")
                 }
 
                 Spacer(
@@ -213,7 +213,7 @@ fun DashboardViewScreen(navController: NavController) {
                     size = buttonSize,
                     scale = scale
                 ) {
-                    // do something
+                    navController.navigate("participantSearchForm")
                 }
             }
 
@@ -233,7 +233,7 @@ fun DashboardViewScreen(navController: NavController) {
                     size = buttonSize,
                     scale = scale
                 ) {
-                    // do something
+                    navController.navigate("newLoanSearchParticipant")
                 }
 
                 Spacer(
@@ -247,7 +247,7 @@ fun DashboardViewScreen(navController: NavController) {
                     size = buttonSize,
                     scale = scale
                 ) {
-                    // do something
+                    navController.navigate("returnSearchParticipant")
                 }
             }
 
@@ -267,7 +267,7 @@ fun DashboardViewScreen(navController: NavController) {
                     size = buttonSize,
                     scale = scale
                 ) {
-                    // do something
+                    navController.navigate("inventorySearch")
                 }
 
                 Spacer(

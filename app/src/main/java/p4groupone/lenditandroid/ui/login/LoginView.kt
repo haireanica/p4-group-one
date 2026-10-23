@@ -81,7 +81,7 @@ fun LoginViewScreen(navController: NavController) {
         val buttonHeight = 60.dp * scale
 
         val horizontalPadding = 35.dp * scale
-        val contentSpacing = 15.dp * scale
+        val contentSpacing = 10.dp * scale
         val headerToTitleSpacing = 15.dp * scale
 
         Column(
@@ -362,7 +362,7 @@ fun LoginViewScreen(navController: NavController) {
                         color = Color.White,
                         textDecoration = TextDecoration.Underline,
                         modifier = Modifier.clickable {
-                            // Forgot password navigation
+                            navController.navigate("forgotPasswordView")
                         }
                     )
                 }
