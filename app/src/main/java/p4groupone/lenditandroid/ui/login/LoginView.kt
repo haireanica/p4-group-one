@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -239,6 +240,13 @@ fun LoginViewScreen(navController: NavController) {
                 TextField(
                     value = username,
                     onValueChange = { username = it },
+                    textStyle = TextStyle(
+                        fontFamily = openSans,
+                        fontSize = placeholderSize,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        color = Color.Black
+                    ),
                     placeholder = {
                         Text(
                             text = "Enter Username",
@@ -274,6 +282,13 @@ fun LoginViewScreen(navController: NavController) {
                 TextField(
                     value = password,
                     onValueChange = { password = it },
+                    textStyle = TextStyle(
+                        fontFamily = openSans,
+                        fontSize = placeholderSize,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        color = Color.Black
+                    ),
                     placeholder = {
                         Text(
                             text = "Enter Password",
