@@ -149,4 +149,29 @@ public class SecurityTest {
                     .with(httpBasic("raph", "Secret123")))
                     .andExpect(status().isForbidden());
     }
+
+    @Test
+    @WithMockUser(username = "raph", roles = "STAFF")
+    void staffCanAccessLoansReturns200() throws Exception {
+        mvc.perform(get("/api/loans")
+            .with(httpBasic("raph", "Secret123")))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "raph", roles = "STAFF")
+    void staffCanCheckoutAssetsReturns201() throws Exception {
+        mvc.perform(post("/api/loans/checkout")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                {"assetId": 1003, "participantId": 5001, "reason": "EDUCATION", "days": 14} """))
+        .andExpect(status().isCreated());
+    }
+
+    @Test
+    @WithMockUser(username = "raph", roles = "STAFF")
+    void staffCanReturnLoansReturns200() throws Exception {
+        mvc.perform(post("/api/loans/1/return"))
+            .andExpect(status().isOk());
+    }
 }
