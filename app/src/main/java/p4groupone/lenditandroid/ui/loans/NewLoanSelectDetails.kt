@@ -16,6 +16,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import p4groupone.lenditandroid.ui.components.LendITDropdown
 import p4groupone.lenditandroid.ui.dashboard.DashboardViewScreen
 import p4groupone.lenditandroid.ui.theme.PrimaryColor
 import p4groupone.lenditandroid.ui.theme.SecondaryColor
@@ -34,6 +39,54 @@ import p4groupone.lenditandroid.ui.theme.openSans
 
 @Composable
 fun NewLoanSelectDetailsScreen(navController: NavController) {
+    var selectedDeviceType by remember {
+        mutableStateOf("Laptop")
+    }
+
+    val deviceTypes = listOf(
+        "Laptop",
+        "Tablet",
+        "Hotspot"
+    )
+    var selectedCenter by remember {
+        mutableStateOf("Office for Local Aassistance (OLA)")
+    }
+    val centers = listOf(
+        "Dr. James R. Smith Neighborhood Center",
+        "Engelwood Neighborhood Center",
+        "John H. Jackson Neighborhood Center",
+        "Rosemont Neighborhood Center",
+        "L. Claudia Allen Senior Center",
+        "Office for Local Aassistance (OLA)",
+        "Dr. I Sylvester Hankins Park Neighborhood Center",
+        "Callahan Neighborhood Center",
+        "Northwest Neighborhood Center",
+        "Dover Shores Neighborhood Center",
+        "Grand Avenue Neighborhood Center",
+        "Ivey Lane Neighborhood Center",
+        "Langford Neighborhood Center",
+        "Rock Lake Neighborhood Center",
+        "Citrus Square Neighborhood Center",
+        "RISE Employment and Training Office"
+    )
+
+    var selectedDuration by remember {
+        mutableStateOf("1 Week")
+    }
+    val durations = listOf(
+        "1 Week",
+        "2 Weeks"
+    )
+
+    var selectedReason by remember {
+        mutableStateOf("Education")
+    }
+    val reasons = listOf(
+        "Education",
+        "Employment",
+        "Personal Use"
+    )
+
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
@@ -144,16 +197,35 @@ fun NewLoanSelectDetailsScreen(navController: NavController) {
             }
             Column(modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = 20.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                //put stuff here
-                Text(
-                    text = "Filler",
-                    fontSize = 20.sp,
-                    fontFamily = openSans,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    textAlign = TextAlign.Left
+                LendITDropdown(
+                    label = "Device Type",
+                    options = deviceTypes,
+                    selectedValue = selectedDeviceType,
+                    onValueChange = { selectedDeviceType = it }
+                )
+
+                LendITDropdown(
+                    label = "Center Location",
+                    options = centers,
+                    selectedValue = selectedCenter,
+                    onValueChange = { selectedCenter = it }
+                )
+
+                LendITDropdown(
+                    label = "Loan Duration",
+                    options = durations,
+                    selectedValue = selectedDuration,
+                    onValueChange = { selectedDuration = it }
+                )
+
+                LendITDropdown(
+                    label = "Reason",
+                    options = reasons,
+                    selectedValue = selectedReason,
+                    onValueChange = { selectedReason = it }
                 )
 
                 Button(
@@ -162,6 +234,7 @@ fun NewLoanSelectDetailsScreen(navController: NavController) {
                     },
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(top = 20.dp)
                         .height(buttonHeight),
                     shape = RoundedCornerShape(50.dp),
                     colors = ButtonDefaults.buttonColors(
