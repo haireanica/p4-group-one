@@ -101,7 +101,7 @@ class UserControllerTest {
         mvc.perform(post("/api/users/register")
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
-                    {"userId":1,"username":"raph","password":"Secret123"}
+                    {"userId":1,"username":"raph","password":"Secret123", "role":"ADMIN"}
                     """))
         .andExpect(status().isConflict());
     }
@@ -118,7 +118,7 @@ class UserControllerTest {
         mvc.perform(post("/api/users/register")
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
-                    {"userId":2,"username":"raph","password":"Secret123"}
+                    {"userId":2,"username":"raph","password":"Secret123", "role": "ADMIN"}
                     """))
         .andExpect(status().isConflict());
     }
