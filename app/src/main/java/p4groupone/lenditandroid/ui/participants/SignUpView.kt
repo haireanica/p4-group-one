@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -74,7 +75,7 @@ fun SignUpViewScreen(navController: NavController) {
         val scale = (maxHeight / referenceHeight)
             .coerceIn(0.75f, 1f)
 
-        val headerHeight = 230.dp * scale
+        val headerHeight = 190.dp * scale
         val buttonTextSize = 32.sp * scale
         val buttonHeight = 60.dp * scale
 
@@ -171,8 +172,9 @@ fun SignUpViewScreen(navController: NavController) {
                 }
                 Column(
                     modifier = Modifier.fillMaxWidth()
-                        .padding(top = 0.dp)
-                        .padding(horizontal = 15.dp)
+                        .padding(vertical = 5.dp)
+                        .padding(horizontal = 15.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Text(
                         text = "First Name",
@@ -209,6 +211,290 @@ fun SignUpViewScreen(navController: NavController) {
                                 if (firstName.isEmpty()) {
                                     Text(
                                         text = "Enter First Name",
+                                        fontFamily = openSans,
+                                        fontSize = 16.sp,
+                                        textAlign = TextAlign.Center,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Black.copy(alpha = 0.2f),
+                                        maxLines = 1
+                                    )
+                                }
+
+                                innerTextField()
+                            }
+                        }
+                    )
+
+                    Text(
+                        text = "Last Name",
+                        fontFamily = openSans,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+
+                    BasicTextField(
+                        value = lastName,
+                        onValueChange = { lastName = it },
+                        singleLine = true,
+                        textStyle = TextStyle(
+                            fontFamily = openSans,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black,
+                            textAlign = TextAlign.Center
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(30.dp),
+
+                        decorationBox = { innerTextField ->
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(RoundedCornerShape(50.dp))
+                                    .background(Color.White)
+                                    .padding(horizontal = 16.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                if (lastName.isEmpty()) {
+                                    Text(
+                                        text = "Enter Last Name",
+                                        fontFamily = openSans,
+                                        fontSize = 16.sp,
+                                        textAlign = TextAlign.Center,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Black.copy(alpha = 0.2f),
+                                        maxLines = 1
+                                    )
+                                }
+
+                                innerTextField()
+                            }
+                        }
+                    )
+
+                    Text(
+                        text = "Phone Number",
+                        fontFamily = openSans,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+
+                    BasicTextField(
+                        value = phoneNumber,
+                        onValueChange = { phoneNumber = it },
+                        singleLine = true,
+                        textStyle = TextStyle(
+                            fontFamily = openSans,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black,
+                            textAlign = TextAlign.Center
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(30.dp),
+
+                        decorationBox = { innerTextField ->
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(RoundedCornerShape(50.dp))
+                                    .background(Color.White)
+                                    .padding(horizontal = 16.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                if (phoneNumber.isEmpty()) {
+                                    Text(
+                                        text = "Enter Phone Number",
+                                        fontFamily = openSans,
+                                        fontSize = 16.sp,
+                                        textAlign = TextAlign.Center,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Black.copy(alpha = 0.2f),
+                                        maxLines = 1
+                                    )
+                                }
+
+                                innerTextField()
+                            }
+                        }
+                    )
+
+                    Text(
+                        text = "Address",
+                        fontFamily = openSans,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+
+                    BasicTextField(
+                        value = addressLine1,
+                        onValueChange = { addressLine1 = it },
+                        singleLine = true,
+                        textStyle = TextStyle(
+                            fontFamily = openSans,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black,
+                            textAlign = TextAlign.Center
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(30.dp),
+
+                        decorationBox = { innerTextField ->
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(RoundedCornerShape(50.dp))
+                                    .background(Color.White)
+                                    .padding(horizontal = 16.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                if (addressLine1.isEmpty()) {
+                                    Text(
+                                        text = "Enter Address",
+                                        fontFamily = openSans,
+                                        fontSize = 16.sp,
+                                        textAlign = TextAlign.Center,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Black.copy(alpha = 0.2f),
+                                        maxLines = 1
+                                    )
+                                }
+
+                                innerTextField()
+                            }
+                        }
+                    )
+                    BasicTextField(
+                        value = addressLine2,
+                        onValueChange = { addressLine2 = it },
+                        singleLine = true,
+                        textStyle = TextStyle(
+                            fontFamily = openSans,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black,
+                            textAlign = TextAlign.Center
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(30.dp),
+
+                        decorationBox = { innerTextField ->
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(RoundedCornerShape(50.dp))
+                                    .background(Color.White)
+                                    .padding(horizontal = 16.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                if (addressLine2.isEmpty()) {
+                                    Text(
+                                        text = "Enter Unit/Apt Number",
+                                        fontFamily = openSans,
+                                        fontSize = 16.sp,
+                                        textAlign = TextAlign.Center,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Black.copy(alpha = 0.2f),
+                                        maxLines = 1
+                                    )
+                                }
+
+                                innerTextField()
+                            }
+                        }
+                    )
+                    Text(
+                        text = "City",
+                        fontFamily = openSans,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+
+                    BasicTextField(
+                        value = city
+                        ,
+                        onValueChange = { city = it },
+                        singleLine = true,
+                        textStyle = TextStyle(
+                            fontFamily = openSans,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black,
+                            textAlign = TextAlign.Center
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(30.dp),
+
+                        decorationBox = { innerTextField ->
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(RoundedCornerShape(50.dp))
+                                    .background(Color.White)
+                                    .padding(horizontal = 16.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                if (city.isEmpty()) {
+                                    Text(
+                                        text = "Enter City",
+                                        fontFamily = openSans,
+                                        fontSize = 16.sp,
+                                        textAlign = TextAlign.Center,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Black.copy(alpha = 0.2f),
+                                        maxLines = 1
+                                    )
+                                }
+
+                                innerTextField()
+                            }
+                        }
+                    )
+                    Text(
+                        text = "Zipcode",
+                        fontFamily = openSans,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+
+                    BasicTextField(
+                        value = zipcode,
+                        onValueChange = { zipcode = it },
+                        singleLine = true,
+                        textStyle = TextStyle(
+                            fontFamily = openSans,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black,
+                            textAlign = TextAlign.Center
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(30.dp),
+
+                        decorationBox = { innerTextField ->
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(RoundedCornerShape(50.dp))
+                                    .background(Color.White)
+                                    .padding(horizontal = 16.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                if (zipcode.isEmpty()) {
+                                    Text(
+                                        text = "Enter Zipcode",
                                         fontFamily = openSans,
                                         fontSize = 16.sp,
                                         textAlign = TextAlign.Center,
