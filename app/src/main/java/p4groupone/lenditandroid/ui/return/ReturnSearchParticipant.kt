@@ -15,7 +15,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,10 +49,14 @@ fun ReturnSearchParticipantScreen(navController: NavController) {
         val referenceHeight = 900.dp
         val scale = (maxHeight / referenceHeight)
             .coerceIn(0.75f, 1f)
-
-        val headerHeight = 230.dp * scale
+        val headerHeight = 190.dp * scale
+        val placeholderSize = 20.sp * scale
         val buttonTextSize = 32.sp * scale
+        val fieldHeight = 60.dp * scale
         val buttonHeight = 60.dp * scale
+
+        var lastName by remember { mutableStateOf("") }
+        var phoneNumber by remember { mutableStateOf("") }
 
         Column(
             modifier = Modifier
@@ -75,7 +85,7 @@ fun ReturnSearchParticipantScreen(navController: NavController) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(220.dp * scale)
+                        .height(180.dp * scale)
                         .clip(
                             RoundedCornerShape(
                                 bottomEnd = 100.dp * scale
@@ -143,17 +153,78 @@ fun ReturnSearchParticipantScreen(navController: NavController) {
             }
             Column(modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = 20.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                //put stuff here
                 Text(
-                    text = "Filler",
-                    fontSize = 20.sp,
+                    text = "Last Name",
                     fontFamily = openSans,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    textAlign = TextAlign.Left
+                    color = Color.White
                 )
+
+                TextField(
+                    value = lastName,
+                    onValueChange = { lastName = it },
+                    placeholder = {
+                        Text(
+                            text = "Enter Last Name",
+                            fontFamily = openSans,
+                            fontSize = placeholderSize,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth(),
+                            color = Color.Black.copy(alpha = 0.3f)
+                        )
+                    },
+                    singleLine = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(fieldHeight)
+                        .clip(RoundedCornerShape(50.dp)),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        focusedIndicatorColor = Color.White,
+                        unfocusedIndicatorColor = Color.White
+                    )
+                )
+                Text(
+                    text = "Phone Number",
+                    fontFamily = openSans,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+
+                TextField(
+                    value = phoneNumber,
+                    onValueChange = { lastName = it },
+                    placeholder = {
+                        Text(
+                            text = "Enter Phone Number",
+                            fontFamily = openSans,
+                            fontSize = placeholderSize,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth(),
+                            color = Color.Black.copy(alpha = 0.3f)
+                        )
+                    },
+                    singleLine = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(fieldHeight)
+                        .clip(RoundedCornerShape(50.dp)),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        focusedIndicatorColor = Color.White,
+                        unfocusedIndicatorColor = Color.White
+                    )
+                )
+
 
                 Button(
                     onClick = {
@@ -161,6 +232,7 @@ fun ReturnSearchParticipantScreen(navController: NavController) {
                     },
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(top = 10.dp)
                         .height(buttonHeight),
                     shape = RoundedCornerShape(50.dp),
                     colors = ButtonDefaults.buttonColors(
