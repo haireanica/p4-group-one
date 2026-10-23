@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ReturnSelectParticipant: View {
+    @Environment(AppNavigation.self) private var navigation
     let participants: [Participant]
     @State private var selectedParticipantID: Int? = nil
     var body: some View {
@@ -56,7 +57,7 @@ struct ReturnSelectParticipant: View {
                             .foregroundStyle(.white)
                         Spacer()
                         Button {
-                            //need to get the main menu button working
+                            navigation.goToDashboard()
                         } label: {
                             Text("Main Menu")
                                 .font(.custom("Open Sans Bold", size: 24))
@@ -119,7 +120,8 @@ struct ReturnSelectParticipant: View {
                     .padding(.horizontal, 20)
                     
                     Button {
-                        
+                        //need to pass participant info
+                        navigation.navigate(to: .returnSelectDevice)
                     } label: {
                         Text("Start Return")
                             .font(.custom("Open Sans Bold", size: 30))
@@ -144,4 +146,5 @@ struct ReturnSelectParticipant: View {
 
 #Preview {
     ReturnSelectParticipant(participants: Participant.sampleData)
+        .environment(AppNavigation())
 }

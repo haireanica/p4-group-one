@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ParticipantSearchResultsView: View {
+    @Environment(AppNavigation.self) private var navigation
     
     let participants: [Participant]
     @State private var selectedParticipantID: Int? = nil
@@ -60,7 +61,7 @@ struct ParticipantSearchResultsView: View {
                             .foregroundStyle(.white)
                         Spacer()
                         Button {
-                            //need to get the main menu button working
+                            navigation.goToDashboard()
                         } label: {
                             Text("Main Menu")
                                 .font(.custom("Open Sans Bold", size: 24))
@@ -124,7 +125,8 @@ struct ParticipantSearchResultsView: View {
                     .padding(.horizontal, 20)
                     
                     Button {
-                        
+                        //need to pass participant info to next screen
+                        navigation.navigate(to: .participantEditInfo)
                     } label: {
                         Text("Edit Info")
                             .font(.custom("Open Sans Bold", size: 30))
@@ -137,7 +139,8 @@ struct ParticipantSearchResultsView: View {
                         .padding(.horizontal, 20)
                     
                     Button {
-                        
+                        //need to pass participant loans to next screen
+                        navigation.navigate(to: .participantViewLoans)
                     } label: {
                         Text("View Loans")
                             .font(.custom("Open Sans Bold", size: 30))
@@ -150,7 +153,8 @@ struct ParticipantSearchResultsView: View {
                         .padding(.horizontal, 20)
                     
                     Button {
-                        
+                        //need to have delete function
+                        navigation.navigate(to: .dashboard)
                     } label: {
                         Text("Delete Participant")
                             .font(.custom("Open Sans Bold", size: 30))
@@ -176,4 +180,5 @@ struct ParticipantSearchResultsView: View {
 
 #Preview {
     ParticipantSearchResultsView(participants: Participant.sampleData)
+        .environment(AppNavigation())
 }

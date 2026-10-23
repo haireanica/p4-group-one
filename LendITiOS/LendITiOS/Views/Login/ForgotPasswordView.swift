@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct ForgotPasswordView: View {
+    @State private var username = ""
+    @State private var email = ""
+
+    @Environment(AppNavigation.self) private var navigation
     var body: some View {
         ZStack {
             Color("Primary Color")
@@ -56,7 +60,7 @@ struct ForgotPasswordView: View {
                             .foregroundStyle(.white)
                         Spacer()
                         Button {
-                            //need to get the main menu button working
+                            navigation.navigate(to: .login)
                         } label: {
                             Text("Return")
                                 .font(.custom("Open Sans Bold", size: 24))
@@ -70,7 +74,79 @@ struct ForgotPasswordView: View {
                     }.padding(.top, 35)
                         .padding(.horizontal, 20)
                     
+                    VStack{
+                        
+                        Text("Username")
+                            .font(.custom("Open Sans Bold", size: 20))
+                            .foregroundStyle(.white)
+                            .frame(
+                                maxWidth: .infinity,
+                                alignment: .leading
+                            )
+                        
+                        TextField("Enter Username", text: $username)
+                            .multilineTextAlignment(.center)
+                            .font(.custom("Open Sans", size: 25))
+                            .padding()
+                            .background(.white)
+                            .clipShape(
+                                RoundedRectangle(cornerRadius: 50)
+                            )
+                            .overlay {
+                                if username.isEmpty {
+                                    Text("Enter Username")
+                                        .font(
+                                            .custom("Open Sans", size: 25)
+                                        )
+                                        .foregroundStyle(.black.opacity(0.3))
+                                        .allowsHitTesting(false)
+                                }
+                            }
+                        Text("Email")
+                            .font(.custom("Open Sans Bold", size: 20))
+                            .foregroundStyle(.white)
+                            .frame(
+                                maxWidth: .infinity,
+                                alignment: .leading
+                            )
+                        
+                        TextField("Enter Email", text: $email)
+                            .multilineTextAlignment(.center)
+                            .font(.custom("Open Sans", size: 25))
+                            .padding()
+                            .background(.white)
+                            .clipShape(
+                                RoundedRectangle(cornerRadius: 50)
+                            )
+                            .overlay {
+                                if email.isEmpty {
+                                    Text("Enter Email")
+                                        .font(
+                                            .custom("Open Sans", size: 25)
+                                        )
+                                        .foregroundStyle(.black.opacity(0.3))
+                                        .allowsHitTesting(false)
+                                }
+                            }
+                        Button {
+                            navigation.navigate(to: .forgotPasswordReset)
+                        } label: {
+                            Text("Reset Password")
+                                .font(.custom("Open Sans Bold", size: 30))
+                                .foregroundStyle(.white)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 60)
+                                .background(Color("Secondary Color"))
+                                .clipShape(
+                                    RoundedRectangle(cornerRadius: 50)
+                                )
+                        }
+                        .padding(.top, 25)
+                    }.padding(.horizontal, 20)
+                        .padding(.top, 20)
+                    
                 }
+                
                 Spacer()
                 
             }
@@ -82,4 +158,5 @@ struct ForgotPasswordView: View {
 
 #Preview {
     ForgotPasswordView()
+        .environment(AppNavigation())
 }

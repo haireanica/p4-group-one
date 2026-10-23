@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct DashboardView: View {
+    @Environment(AppNavigation.self) private var navigation
     
-    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
             VStack{
@@ -78,8 +78,8 @@ struct DashboardView: View {
                     
                     HStack(spacing: 30){
                         
-                        NavigationLink{
-                            SignUpView()
+                        Button{
+                            navigation.navigate(to: .signUp)
                         } label:{
                             ZStack{
                                 UnevenRoundedRectangle(
@@ -108,8 +108,8 @@ struct DashboardView: View {
                             }
                         }.buttonStyle(.plain)
                         
-                        NavigationLink{
-                            ParticipantSearchFormView()
+                        Button{
+                            navigation.navigate(to: .participantSearchForm)
                         } label: {
                             ZStack{
                                 UnevenRoundedRectangle(
@@ -139,8 +139,8 @@ struct DashboardView: View {
                         }.buttonStyle(.plain)
                     }
                     HStack(spacing: 30){
-                        NavigationLink{
-                            NewLoanSearchParticipant()
+                        Button{
+                            navigation.navigate(to: .newLoanSearchParticipant)
                         } label: {
                             ZStack{
                                 UnevenRoundedRectangle(
@@ -169,8 +169,8 @@ struct DashboardView: View {
                             }
                         }.buttonStyle(.plain)
                         
-                        NavigationLink {
-                            ReturnSearchParticipant()
+                        Button {
+                            navigation.navigate(to: .returnSearchParticipant)
                         } label: {
                             ZStack{
                                 UnevenRoundedRectangle(
@@ -202,8 +202,8 @@ struct DashboardView: View {
                     
                     HStack(spacing: 30){
                         
-                        NavigationLink {
-                            InventorySearch()
+                        Button {
+                            navigation.navigate(to: .inventorySearch)
                         } label: {
                             ZStack{
                                 UnevenRoundedRectangle(
@@ -233,7 +233,8 @@ struct DashboardView: View {
                         }.buttonStyle(.plain)
                         
                         Button{
-                            dismiss()
+                            navigation.navigate(to: .login)
+                            navigation.signOut()
                         }label: {
                             ZStack{
                                 UnevenRoundedRectangle(
@@ -277,4 +278,5 @@ struct DashboardView: View {
 
 #Preview {
     DashboardView()
+        .environment(AppNavigation())
 }

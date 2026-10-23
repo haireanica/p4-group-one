@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ReturnSelectDevice: View {
+    @Environment(AppNavigation.self) private var navigation
     let devices: [Device]
     @State private var selectedDeviceID: String? = nil
     @State private var selectedDeviceCondition = "Good"
@@ -68,7 +69,7 @@ struct ReturnSelectDevice: View {
                             .foregroundStyle(.white)
                         Spacer()
                         Button {
-                            //need to get the main menu button working
+                            navigation.goToDashboard()
                         } label: {
                             Text("Main Menu")
                                 .font(.custom("Open Sans Bold", size: 24))
@@ -179,6 +180,8 @@ struct ReturnSelectDevice: View {
                     }.padding(.horizontal, 20)
                     
                     Button {
+                        //need to add return function and need to add return table to db
+                        navigation.goToDashboard()
                         
                     } label: {
                         Text("Complete Return")
@@ -204,4 +207,5 @@ struct ReturnSelectDevice: View {
 
 #Preview {
     ReturnSelectDevice(devices: Device.sampleData)
+        .environment(AppNavigation())
 }

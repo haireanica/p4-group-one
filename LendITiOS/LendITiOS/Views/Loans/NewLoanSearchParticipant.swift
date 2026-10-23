@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NewLoanSearchParticipant: View {
+    @Environment(AppNavigation.self) private var navigation
     @State private var lastName = ""
     @State private var phoneNumber = ""
     var body: some View {
@@ -56,7 +57,7 @@ struct NewLoanSearchParticipant: View {
                             .foregroundStyle(.white)
                         Spacer()
                         Button {
-                            //need to get the main menu button working
+                            navigation.goToDashboard()
                         } label: {
                             Text("Main Menu")
                                 .font(.custom("Open Sans Bold", size: 24))
@@ -113,6 +114,8 @@ struct NewLoanSearchParticipant: View {
                                 }
                             }
                         Button {
+                            //need to add search function
+                            navigation.navigate(to: .newLoanSelectParticipant)
                             
                         } label: {
                             Text("Search")
@@ -138,4 +141,5 @@ struct NewLoanSearchParticipant: View {
 
 #Preview {
     NewLoanSearchParticipant()
+        .environment(AppNavigation())
 }

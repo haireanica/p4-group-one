@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ParticipantEditInfoView: View {
+    @Environment(AppNavigation.self) private var navigation
     @State private var firstName = ""
     @State private var lastName = ""
     @State private var phoneNumber = ""
@@ -62,7 +63,7 @@ struct ParticipantEditInfoView: View {
                             .foregroundStyle(.white)
                         Spacer()
                         Button {
-                            //need to get the main menu button working
+                            navigation.goToDashboard()
                         } label: {
                             Text("Main Menu")
                                 .font(.custom("Open Sans Bold", size: 24))
@@ -213,7 +214,8 @@ struct ParticipantEditInfoView: View {
                             }
     
                         Button {
-                            
+                            //need to add update info function
+                            navigation.goToDashboard()
                         } label: {
                             Text("Save Changes")
                                 .font(.custom("Open Sans Bold", size: 30))
@@ -237,4 +239,5 @@ struct ParticipantEditInfoView: View {
 }
 #Preview {
     ParticipantEditInfoView()
+        .environment(AppNavigation())
 }

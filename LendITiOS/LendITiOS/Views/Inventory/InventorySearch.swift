@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct InventorySearch: View {
+    @Environment(AppNavigation.self) private var navigation
     @State private var selectedDeviceType = "Laptop"
     private let deviceType = [
         "Laptop",
@@ -87,7 +88,7 @@ struct InventorySearch: View {
                             .foregroundStyle(.white)
                         Spacer()
                         Button {
-                            //need to get the main menu button working
+                            navigation.goToDashboard()
                         } label: {
                             Text("Main Menu")
                                 .font(.custom("Open Sans Bold", size: 24))
@@ -159,7 +160,7 @@ struct InventorySearch: View {
                         
                         
                         Button {
-                            
+                            navigation.navigate(to: .inventorySearchResults)
                         } label: {
                             Text("Check Inventory")
                                 .font(.custom("Open Sans Bold", size: 30))
@@ -186,4 +187,5 @@ struct InventorySearch: View {
 
 #Preview {
     InventorySearch()
+        .environment(AppNavigation())
 }

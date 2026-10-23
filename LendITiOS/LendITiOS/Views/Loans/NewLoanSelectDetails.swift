@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct NewLoanSelectDetails: View {
+    @Environment(AppNavigation.self) private var navigation
     @State private var selectedDeviceType = "Laptop"
     private let deviceType = [
         "Laptop",
@@ -91,7 +92,7 @@ struct NewLoanSelectDetails: View {
                             .foregroundStyle(.white)
                         Spacer()
                         Button {
-                            //need to get the main menu button working
+                            navigation.goToDashboard()
                         } label: {
                             Text("Main Menu")
                                 .font(.custom("Open Sans Bold", size: 24))
@@ -181,6 +182,8 @@ struct NewLoanSelectDetails: View {
                         
                         
                         Button {
+                            //need to add device search function
+                            navigation.navigate(to: .newLoanSelectDevice)
                             
                         } label: {
                             Text("Check Inventory")
@@ -207,4 +210,5 @@ struct NewLoanSelectDetails: View {
 
 #Preview {
     NewLoanSelectDetails()
+        .environment(AppNavigation())
 }

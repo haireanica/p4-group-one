@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ReturnSearchParticipant: View {
+    @Environment(AppNavigation.self) private var navigation
     @State private var lastName = ""
     @State private var phoneNumber = ""
     var body: some View {
@@ -56,7 +57,7 @@ struct ReturnSearchParticipant: View {
                             .foregroundStyle(.white)
                         Spacer()
                         Button {
-                            //need to get the main menu button working
+                            navigation.goToDashboard()
                         } label: {
                             Text("Main Menu")
                                 .font(.custom("Open Sans Bold", size: 24))
@@ -112,7 +113,8 @@ struct ReturnSearchParticipant: View {
                                 }
                             }
                         Button {
-                            
+                            //need to add search function
+                            navigation.navigate(to: .returnSelectParticipant)
                         } label: {
                             Text("Search")
                                 .font(.custom("Open Sans Bold", size: 40))
@@ -137,4 +139,5 @@ struct ReturnSearchParticipant: View {
 
 #Preview {
     ReturnSearchParticipant()
+        .environment(AppNavigation())
 }

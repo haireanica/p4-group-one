@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct InventorySearchResults: View {
+    @Environment(AppNavigation.self) private var navigation
     let devices: [Device]
     @State private var selectedDeviceID: String? = nil
     var body: some View {
@@ -59,7 +60,7 @@ struct InventorySearchResults: View {
                             .foregroundStyle(.white)
                         Spacer()
                         Button {
-                            //need to get the main menu button working
+                            navigation.goToDashboard()
                         } label: {
                             Text("Main Menu")
                                 .font(.custom("Open Sans Bold", size: 24))
@@ -124,7 +125,8 @@ struct InventorySearchResults: View {
                     .padding(.horizontal, 20)
                     
                     Button {
-                        
+                        //add mark for repair function
+                        navigation.goToDashboard()
                     } label: {
                         Text("Needs Repair")
                             .font(.custom("Open Sans Bold", size: 30))
@@ -148,4 +150,5 @@ struct InventorySearchResults: View {
 
 #Preview {
     InventorySearchResults(devices: Device.sampleData)
+        .environment(AppNavigation())
 }

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NewLoanSelectDevice: View {
+    @Environment(AppNavigation.self) private var navigation
     let devices: [Device]
     @State private var selectedDeviceID: String? = nil
     var body: some View {
@@ -56,7 +57,7 @@ struct NewLoanSelectDevice: View {
                             .foregroundStyle(.white)
                         Spacer()
                         Button {
-                            //need to get the main menu button working
+                            navigation.goToDashboard()
                         } label: {
                             Text("Main Menu")
                                 .font(.custom("Open Sans Bold", size: 24))
@@ -120,6 +121,9 @@ struct NewLoanSelectDevice: View {
                     .padding(.horizontal, 20)
                     
                     Button {
+                        //need to add loan function
+                        navigation.goToDashboard()
+
                         
                     } label: {
                         Text("Complete Loan")
@@ -145,4 +149,5 @@ struct NewLoanSelectDevice: View {
 
 #Preview {
     NewLoanSelectDevice(devices: Device.sampleData)
+        .environment(AppNavigation())
 }

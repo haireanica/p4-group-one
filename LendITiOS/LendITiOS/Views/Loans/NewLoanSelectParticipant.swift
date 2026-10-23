@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NewLoanSelectParticipant: View {
+    @Environment(AppNavigation.self) private var navigation
     let participants: [Participant]
     @State private var selectedParticipantID: Int? = nil
     var body: some View {
@@ -56,7 +57,7 @@ struct NewLoanSelectParticipant: View {
                             .foregroundStyle(.white)
                         Spacer()
                         Button {
-                            //need to get the main menu button working
+                            navigation.goToDashboard()
                         } label: {
                             Text("Main Menu")
                                 .font(.custom("Open Sans Bold", size: 24))
@@ -120,7 +121,8 @@ struct NewLoanSelectParticipant: View {
                     .padding(.horizontal, 20)
                     
                     Button {
-                        
+                        //need to pass participant info
+                        navigation.navigate(to: .newLoanSelectDetails)
                     } label: {
                         Text("Start Loan")
                             .font(.custom("Open Sans Bold", size: 30))
@@ -145,4 +147,5 @@ struct NewLoanSelectParticipant: View {
 
 #Preview {
     NewLoanSelectParticipant(participants: Participant.sampleData)
+        .environment(AppNavigation())
 }
