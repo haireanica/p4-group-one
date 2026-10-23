@@ -27,6 +27,7 @@ CREATE TABLE `asset` (
   `inventoryId` int DEFAULT NULL,
   `name` varchar(100) DEFAULT NULL,
   `assetStatus` varchar(12) NOT NULL,
+  `device_type` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`assetId`),
   KEY `fk_inventoryId` (`inventoryId`),
   CONSTRAINT `fk_inventoryId` FOREIGN KEY (`inventoryId`) REFERENCES `inventory` (`inventoryId`)
@@ -39,7 +40,7 @@ CREATE TABLE `asset` (
 
 LOCK TABLES `asset` WRITE;
 /*!40000 ALTER TABLE `asset` DISABLE KEYS */;
-INSERT INTO `asset` VALUES ('cellphone001',2100,'Samsung Galaxy','Operable'),('cellphone002',2100,'iPhone 14 Pro Max','Operable'),('cellphone003',2100,'Google Pixel 11','Operable'),('cellphone010',1201,'Google Pixel 11','Operable'),('cellphone011',1201,'iPhone 16 Pr Max','Operable'),('cellphone012',1201,'Samsung Galaxy Flip Z','Maintenance'),('cellphone013',1201,'Samsung Galaxy A16 ','Operable'),('LAP100',2100,'Macbook Air','Operable'),('lap101',2100,'Lenovo Googlebook','Maintenance'),('lap200',1201,'HP Omnibook X Flip','Operable'),('lap201',1201,'Macboook Pro','Maintenance'),('lap203',1201,'Samsung Galaxy Chromebook','Operable'),('lap204',1201,'Macbook Air','Operable'),('lap205',1201,'Lenovo IdeaPad Slim 3i','Maintenance'),('tablet100',1201,'Lenovo Idea Tab Pro','Operable'),('tablet101',1201,'iPad Pro','Operable'),('tablet102',1201,'Samsung Galaxy Tab','Operable'),('tablet103',1201,'iPad Air','Operable'),('tablet200',2100,'iPad Air','Operable'),('tablet201',2100,'Samsung Galaxy Tab A11+','Operable');
+INSERT INTO `asset` VALUES ('cellphone001',2100,'Samsung Galaxy','Operable','Cellpone'),('cellphone002',2100,'iPhone 14 Pro Max','Operable',NULL),('cellphone003',2100,'Google Pixel 11','Operable',NULL),('cellphone010',1201,'Google Pixel 11','Operable',NULL),('cellphone011',1201,'iPhone 16 Pr Max','Operable',NULL),('cellphone012',1201,'Samsung Galaxy Flip Z','Maintenance',NULL),('cellphone013',1201,'Samsung Galaxy A16 ','Operable',NULL),('LAP100',2100,'Macbook Air','Operable','Laptop'),('lap101',2100,'Lenovo Googlebook','Maintenance',NULL),('lap200',1201,'HP Omnibook X Flip','Operable',NULL),('lap201',1201,'Macboook Pro','Maintenance',NULL),('lap203',1201,'Samsung Galaxy Chromebook','Operable',NULL),('lap204',1201,'Macbook Air','Operable',NULL),('lap205',1201,'Lenovo IdeaPad Slim 3i','Maintenance',NULL),('tablet100',1201,'Lenovo Idea Tab Pro','Operable','Tablet'),('tablet101',1201,'iPad Pro','Operable',NULL),('tablet102',1201,'Samsung Galaxy Tab','Operable',NULL),('tablet103',1201,'iPad Air','Operable',NULL),('tablet200',2100,'iPad Air','Operable',NULL),('tablet201',2100,'Samsung Galaxy Tab A11+','Operable',NULL);
 /*!40000 ALTER TABLE `asset` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,4 +230,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-10-22 17:42:34
+-- Dump completed on 2026-10-23 11:02:11
