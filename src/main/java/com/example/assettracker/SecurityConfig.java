@@ -9,9 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-// PROTOTYPE ONLY: every endpoint is open so the demo works without logging in.
-// Before this is real, replace permitAll() with login backed by the
-// credentials/role/permission tables (e.g. staff-only access to /api/**).
+
 @Configuration
 public class SecurityConfig {
 

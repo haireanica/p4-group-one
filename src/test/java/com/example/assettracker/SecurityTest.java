@@ -13,7 +13,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.junit.jupiter.api.BeforeEach;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,6 +28,12 @@ public class SecurityTest {
 
     @Autowired 
     private RoleRepository roleRepo;
+
+    @Autowired
+    private UserRepository users;
+
+    @Autowired 
+    private PasswordEncoder encoder;
 
     @BeforeEach
       void createRoles() {
@@ -134,4 +140,13 @@ public class SecurityTest {
         .andExpect(status().isOk());
     }
 
+
+    @Test
+    void noRoleLoginReturns403() throws Exception {
+        users.save(new User(1L, "raph", encoder.encode("Secret123"), null));
+
+            mvc.perform(get("/api/assets")
+                    .with(httpBasic("raph", "Secret123")))
+                    .andExpect(status().isForbidden());
+    }
 }
