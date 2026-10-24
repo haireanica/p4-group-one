@@ -40,7 +40,7 @@ public class Loan {
     private String loanStatus;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "loanReason")
+    @Column(name = "reason")
     private LoanReason loanReason;
 
     public Loan() {}
