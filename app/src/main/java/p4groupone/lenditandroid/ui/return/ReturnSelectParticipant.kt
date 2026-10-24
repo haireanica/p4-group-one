@@ -44,7 +44,7 @@ fun ReturnSelectParticipantScreen(navController: NavController) {
         val scale = (maxHeight / referenceHeight)
             .coerceIn(0.75f, 1f)
 
-        val headerHeight = 230.dp * scale
+        val headerHeight = 190.dp * scale
         val buttonTextSize = 32.sp * scale
         val buttonHeight = 60.dp * scale
 
@@ -75,7 +75,7 @@ fun ReturnSelectParticipantScreen(navController: NavController) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(220.dp * scale)
+                        .height(180.dp * scale)
                         .clip(
                             RoundedCornerShape(
                                 bottomEnd = 100.dp * scale
