@@ -26,6 +26,7 @@ public class Role {
     private Set<Permission> permissions;
 
     public Role() {}
+    
     public Role(String name){
         this.name = name;
     }

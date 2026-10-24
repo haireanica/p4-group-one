@@ -10,15 +10,17 @@ import org.springframework.web.server.ResponseStatusException;
 public class UserController {
 
     private final UserRepository users;
+    private final RoleRepository roleRepo;
     private final PasswordEncoder encoder;
 
-    public UserController(UserRepository users, PasswordEncoder encoder) {
+    public UserController(UserRepository users, PasswordEncoder encoder, RoleRepository roleRepo) {
         this.users = users;
         this.encoder = encoder;
+        this.roleRepo = roleRepo;
     }
 
     // userId is caller-assigned, like assetId (the credentials table has no auto-increment).
-    public record RegisterRequest(Long userId, String username, String password) {}
+    public record RegisterRequest(Long userId, String username, String password, String role) {}
     public record LoginRequest(String username, String password) {}
 
     // The response never includes the password or its hash.
@@ -30,13 +32,18 @@ public class UserController {
         if (req.userId() == null || req.username() == null ||req.username().isBlank() || req.password() == null || req.password().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "userId, username and password are required");
         }
+        if (req.role() == null || req.role().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Role cannot be empty");
+        }
         if (users.existsById(req.userId()) || users.findByUserName(req.username()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
         }
 
+        Role role = roleRepo.findByName(req.role())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unknown Role"));
         // Only the hash is stored; the plain-text password is never saved.
         String hash = encoder.encode(req.password());
-        User saved = users.save(new User(req.userId(), req.username(), hash, null));
+        User saved = users.save(new User(req.userId(), req.username(), hash, role));
         return new UserResponse(saved.getId(), saved.getUserName());
     }
 
