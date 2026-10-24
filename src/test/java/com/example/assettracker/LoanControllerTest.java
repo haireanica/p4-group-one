@@ -113,6 +113,24 @@ public class LoanControllerTest {
         .andExpect(status().isNotFound());
     }
 
+    @Test
+    void checkoutWithNegativeDaysReturns400() throws Exception {
+        mvc.perform(post("/api/loans/checkout")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+            {"assetId": "1003", "participantId": 5001, "reason": "EDUCATION", "days": -5}"""))
+        .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void checkoutWithoutDaysReturns201() throws Exception {
+        mvc.perform(post("/api/loans/checkout")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+            {"assetId": "1003", "participantId": 5001, "reason": "EDUCATION"}"""))
+        .andExpect(status().isCreated());
+    }
+
     // --- return ---
 
     @Test

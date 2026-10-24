@@ -42,6 +42,10 @@ public class LoanService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "participantId and reason are required");
         }
 
+        if ( days != null && days <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Days must be greater than 0.");
+        }
+
         Asset asset = assets.findById(assetId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Asset " + assetId + " not found"));
 
@@ -56,7 +60,7 @@ public class LoanService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Participant " + participantId + " not found"));
 
         LocalDate today = LocalDate.now();
-        int loanDays = (days == null || days <= 0) ? DEFAULT_LOAN_DAYS : days;
+        int loanDays = (days == null) ? DEFAULT_LOAN_DAYS : days;
 
         asset.setAssetStatus("ON_LOAN");
         return loans.save(new Loan(asset, loanee, today, today.plusDays(loanDays), null, "ACTIVE", reason.name()));
