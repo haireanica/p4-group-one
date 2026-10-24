@@ -13,7 +13,7 @@ public class User {
 
     @Id
     @Column(name = "userId")
-    private Long id;
+    private Integer id;
 
     @Column(name = "username")
     private String userName;
@@ -27,14 +27,14 @@ public class User {
 
     public User() {}
 
-    public User(Long id, String userName, String passwordHash, Role role) {
+    public User(Integer id, String userName, String passwordHash, Role role) {
         this.id = id;
         this.userName = userName;
         this.passwordHash = passwordHash;
         this.role = role;
     }
 
-    public Long getId() { return id; }
+    public Integer getId() { return id; }
     public String getUserName() { return userName; }
     public String getPasswordHash() { return passwordHash; }
     public Role getRole() { return role; }

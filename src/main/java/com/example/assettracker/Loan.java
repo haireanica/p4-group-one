@@ -3,8 +3,6 @@ package com.example.assettracker;
 import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,7 +15,7 @@ public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "loanId")
-    private Long loanId;
+    private Integer loanId;
 
     @ManyToOne
     @JoinColumn(name = "assetId")
@@ -39,14 +37,16 @@ public class Loan {
     @Column(name = "loanStatus")
     private String loanStatus;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "loanReason")
-    private LoanReason loanReason;
+    // Stored as text: the team database already holds free-text reasons
+    // ("Personal use"), and an enum field would crash on reading them.
+    // New loans can still only be created with a LoanReason (see LoanService).
+    @Column(name = "reason")
+    private String loanReason;
 
     public Loan() {}
 
     public Loan(Asset asset, Loanee loanee, LocalDate checkoutDate, LocalDate dueDate,
-                LocalDate returnDate, String loanStatus, LoanReason loanReason) {
+                LocalDate returnDate, String loanStatus, String loanReason) {
         this.asset = asset;
         this.loanee = loanee;
         this.checkoutDate = checkoutDate;
@@ -56,14 +56,14 @@ public class Loan {
         this.loanReason = loanReason;
     }
 
-    public Long getLoanId() { return loanId; }
+    public Integer getLoanId() { return loanId; }
     public Asset getAsset() { return asset; }
     public Loanee getLoanee() { return loanee; }
     public LocalDate getCheckoutDate() { return checkoutDate; }
     public LocalDate getDueDate() { return dueDate; }
     public LocalDate getReturnDate() { return returnDate; }
     public String getLoanStatus() { return loanStatus; }
-    public LoanReason getLoanReason() { return loanReason; }
+    public String getLoanReason() { return loanReason; }
 
     public void markReturned(LocalDate returnDate) {
         this.returnDate = returnDate;

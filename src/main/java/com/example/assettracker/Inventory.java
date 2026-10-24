@@ -11,7 +11,7 @@ public class Inventory {
 
     @Id
     @Column(name = "inventoryId")
-    private Long inventoryId;
+    private Integer inventoryId;
 
     @ManyToOne
     @JoinColumn(name = "centerId")
@@ -19,11 +19,11 @@ public class Inventory {
 
     public Inventory() {}
 
-    public Inventory(Long inventoryId, Center center) {
+    public Inventory(Integer inventoryId, Center center) {
         this.inventoryId = inventoryId;
         this.center = center;
     }
 
-    public Long getInventoryId() { return inventoryId; }
+    public Integer getInventoryId() { return inventoryId; }
     public Center getCenter() { return center; }
 }

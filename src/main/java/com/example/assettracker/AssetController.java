@@ -23,7 +23,7 @@ public class AssetController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Asset asset) {
          // Check for a missing asset ID
-        if (asset.getAssetId() == null) {
+        if (asset.getAssetId() == null || asset.getAssetId().isBlank()) {
             return ResponseEntity.badRequest()
                     .body("Asset ID is required.");
         }

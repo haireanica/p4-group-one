@@ -222,6 +222,38 @@ class UserControllerTest {
             .andExpect(status().isBadRequest());
     }
 
+    @Test
+    void loginMissingUsernameReturns400() throws Exception {
+        mvc.perform(post("/api/users/login")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                    {"password":"Secret123"}
+                    """))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void loginBlankUsernameReturns400() throws Exception {
+        mvc.perform(post("/api/users/login")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                    {"username":" ","password":"Secret123"}
+                    """))
+            .andExpect(status().isBadRequest());
+    }
+
+    // The credentials.username column is VARCHAR(155).
+    @Test
+    void registerUsernameTooLongReturns400() throws Exception {
+        String longName = "a".repeat(156);
+        mvc.perform(post("/api/users/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                    {"userId": 1, "username":"%s", "password":"Secret123", "role": "STAFF"}
+                    """.formatted(longName)))
+            .andExpect(status().isBadRequest());
+    }
+
 }
 
 

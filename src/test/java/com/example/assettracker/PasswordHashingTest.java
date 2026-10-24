@@ -34,9 +34,9 @@ class PasswordHashingTest {
 
     @Test
     void registerStoresHashNotPlainText() {
-        controller.register(new UserController.RegisterRequest(100L, "hash-test", "MySecret123", "STAFF"));
+        controller.register(new UserController.RegisterRequest(100, "hash-test", "MySecret123", "STAFF"));
 
-        String stored = repo.findById(100L).orElseThrow().getPasswordHash();
+        String stored = repo.findById(100).orElseThrow().getPasswordHash();
         System.out.println("Stored in DB: " + stored);
 
         assertThat(stored).isNotEqualTo("MySecret123");

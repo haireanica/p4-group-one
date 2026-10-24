@@ -20,17 +20,21 @@ public class UserController {
     }
 
     // userId is caller-assigned, like assetId (the credentials table has no auto-increment).
-    public record RegisterRequest(Long userId, String username, String password, String role) {}
+    public record RegisterRequest(Integer userId, String username, String password, String role) {}
     public record LoginRequest(String username, String password) {}
 
     // The response never includes the password or its hash.
-    public record UserResponse(Long userId, String username) {}
+    public record UserResponse(Integer userId, String username) {}
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse register(@RequestBody RegisterRequest req) {
         if (req.userId() == null || req.username() == null ||req.username().isBlank() || req.password() == null || req.password().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "userId, username and password are required");
+        }
+        // credentials.username is VARCHAR(155); without this the DB rejects it with a 500.
+        if (req.username().length() > 155) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "username must be at most 155 characters");
         }
         if (req.role() == null || req.role().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Role cannot be empty");

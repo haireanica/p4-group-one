@@ -11,7 +11,7 @@ public class Asset {
 
     @Id
     @Column(name = "assetId")
-    private Long assetId;
+    private String assetId;
 
     @ManyToOne
     @JoinColumn(name = "inventoryId")
@@ -19,20 +19,25 @@ public class Asset {
 
     private String name;
 
+    @Column(name = "device_type")
+    private String deviceType;
+
     @Column(name = "assetStatus")
     private String assetStatus;
 
     public Asset() {}
 
-    public Asset(Long assetId, Inventory inventory, String name, String assetStatus) {
+    public Asset(String assetId, Inventory inventory, String name, String assetStatus, String deviceType) {
         this.assetId = assetId;
         this.inventory = inventory;
+        this.deviceType = deviceType;
         this.name = name;
         this.assetStatus = assetStatus;
     }
 
-    public Long getAssetId() { return assetId; }
+    public String getAssetId() { return assetId; }
     public Inventory getInventory() { return inventory; }
+    public String getDeviceType() { return deviceType; }
     public String getName() { return name; }
     public String getAssetStatus() { return assetStatus; }
 

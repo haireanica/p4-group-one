@@ -14,7 +14,7 @@ class AssetRepositoryTest {
 
     @Test
     void assetCreation() {
-        Asset testAsset = new Asset(1L, null, "TAG-1", "AVAILABLE");
+        Asset testAsset = new Asset("1", null, "TAG-1", "AVAILABLE", "Laptop");
         Asset saved = repo.save(testAsset);
 
         Optional<Asset> result = repo.findById(saved.getAssetId());
