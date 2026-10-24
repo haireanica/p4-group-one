@@ -32,6 +32,10 @@ public class UserController {
         if (req.userId() == null || req.username() == null ||req.username().isBlank() || req.password() == null || req.password().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "userId, username and password are required");
         }
+        // credentials.username is VARCHAR(155); without this the DB rejects it with a 500.
+        if (req.username().length() > 155) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "username must be at most 155 characters");
+        }
         if (req.role() == null || req.role().isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Role cannot be empty");
         }

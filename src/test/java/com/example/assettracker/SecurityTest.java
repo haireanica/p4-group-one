@@ -47,6 +47,35 @@ public class SecurityTest {
             .andExpect(status().isUnauthorized());
     }
 
+    // Every protected endpoint rejects anonymous callers, so one wrong
+    // permitAll() in SecurityConfig would make one of these fail.
+    @Test
+    void loansWithoutCredentialReturns401() throws Exception {
+        mvc.perform(get("/api/loans"))
+            .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void checkoutWithoutCredentialReturns401() throws Exception {
+        mvc.perform(post("/api/loans/checkout")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                {"assetId": 1003, "participantId": 5001, "reason": "EDUCATION", "days": 14}"""))
+            .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void returnWithoutCredentialReturns401() throws Exception {
+        mvc.perform(post("/api/loans/1/return"))
+            .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void loaneesWithoutCredentialReturns401() throws Exception {
+        mvc.perform(get("/api/loanees"))
+            .andExpect(status().isUnauthorized());
+    }
+
     @Test
     @WithMockUser(username = "raph", roles = "STAFF")
     void assetsWithCredentialReturns200() throws Exception {
