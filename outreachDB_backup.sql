@@ -84,8 +84,12 @@ CREATE TABLE `credentials` (
   `userId` int NOT NULL,
   `username` varchar(155) NOT NULL,
   `password` varchar(155) NOT NULL,
+  `roleId` int DEFAULT NULL,
   PRIMARY KEY (`userId`),
-  UNIQUE KEY `userId` (`userId`)
+  UNIQUE KEY `userId` (`userId`),
+  UNIQUE KEY `uq_credentials_username` (`username`),
+  KEY `fk_credentials_role` (`roleId`),
+  CONSTRAINT `fk_credentials_role` FOREIGN KEY (`roleId`) REFERENCES `role` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -95,7 +99,7 @@ CREATE TABLE `credentials` (
 
 LOCK TABLES `credentials` WRITE;
 /*!40000 ALTER TABLE `credentials` DISABLE KEYS */;
-INSERT INTO `credentials` VALUES (101,'CSanchez','cSpword123'),(102,'Amber123','AM123!@');
+INSERT INTO `credentials` VALUES (1,'admin','2y$10$mizVRRc94bnhjdiJcALaU.VcXURxLJvW/GbPbFtmR07Wr5nmTZeRC%',2),(101,'CSanchez','cSpword123',NULL),(102,'Amber123','AM123!@',NULL);
 /*!40000 ALTER TABLE `credentials` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,6 +224,31 @@ LOCK TABLES `maintenance` WRITE;
 INSERT INTO `maintenance` VALUES (1,'LAP100','No issues at this time','None','N/A','2026-09-01','2026-09-01'),(2,'cellphone012','Unresposnive screen','Scheduled maintenance','Ordered new screen','2026-10-07','2026-10-31'),(3,'lap101','Battery draines fast','Scheduled maintenance','Ordered new battery','2026-09-19','2026-10-25'),(4,'lap201','Software needs an update','Happening right now','Downloading software update','2026-10-07','2026-10-07');
 /*!40000 ALTER TABLE `maintenance` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `role`
+--
+
+DROP TABLE IF EXISTS `role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `role` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role`
+--
+
+LOCK TABLES `role` WRITE;
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES (2,'Admin'),(1,'Staff');
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -230,4 +259,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-10-23 11:02:11
+-- Dump completed on 2026-10-24 18:04:08
