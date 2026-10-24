@@ -3,7 +3,7 @@ package p4groupone.lenditandroid.models
 object SampleParticipants {
     val participants = listOf(
         Participant(
-            id = 1,
+            id = "1",
             firstName = "John",
             lastName = "Smith",
             phoneNumber = "407-555-0123",
@@ -13,7 +13,7 @@ object SampleParticipants {
             zipcode = "32801"
         ),
         Participant(
-            id = 2,
+            id = "2",
             firstName = "Jane",
             lastName = "Doe",
             phoneNumber = "407-555-0145",
@@ -23,7 +23,7 @@ object SampleParticipants {
             zipcode = "34741"
         ),
         Participant(
-            id = 3,
+            id = "3",
             firstName = "Michael",
             lastName = "Johnson",
             phoneNumber = "407-555-0178",

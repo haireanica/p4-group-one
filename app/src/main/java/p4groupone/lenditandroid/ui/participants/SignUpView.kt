@@ -172,9 +172,9 @@ fun SignUpViewScreen(navController: NavController) {
                 }
                 Column(
                     modifier = Modifier.fillMaxWidth()
-                        .padding(vertical = 5.dp)
+                        .padding(vertical = 0.dp)
                         .padding(horizontal = 15.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
                     Text(
                         text = "First Name",
@@ -197,7 +197,7 @@ fun SignUpViewScreen(navController: NavController) {
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(30.dp),
+                            .height(40.dp),
 
                         decorationBox = { innerTextField ->
                             Box(
@@ -246,7 +246,7 @@ fun SignUpViewScreen(navController: NavController) {
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(30.dp),
+                            .height(40.dp),
 
                         decorationBox = { innerTextField ->
                             Box(
@@ -295,7 +295,7 @@ fun SignUpViewScreen(navController: NavController) {
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(30.dp),
+                            .height(40.dp),
 
                         decorationBox = { innerTextField ->
                             Box(
@@ -344,7 +344,7 @@ fun SignUpViewScreen(navController: NavController) {
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(30.dp),
+                            .height(40.dp),
 
                         decorationBox = { innerTextField ->
                             Box(
@@ -384,7 +384,7 @@ fun SignUpViewScreen(navController: NavController) {
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(30.dp),
+                            .height(40.dp),
 
                         decorationBox = { innerTextField ->
                             Box(
@@ -433,7 +433,7 @@ fun SignUpViewScreen(navController: NavController) {
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(30.dp),
+                            .height(40.dp),
 
                         decorationBox = { innerTextField ->
                             Box(
@@ -481,7 +481,7 @@ fun SignUpViewScreen(navController: NavController) {
                         ),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(30.dp),
+                            .height(40.dp),
 
                         decorationBox = { innerTextField ->
                             Box(
@@ -514,6 +514,7 @@ fun SignUpViewScreen(navController: NavController) {
                         },
                         modifier = Modifier
                             .fillMaxWidth()
+                            .padding(top = 10.dp)
                             .height(buttonHeight),
                         shape = RoundedCornerShape(50.dp),
                         colors = ButtonDefaults.buttonColors(

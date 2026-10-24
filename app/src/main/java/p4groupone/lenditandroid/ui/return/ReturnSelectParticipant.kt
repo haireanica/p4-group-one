@@ -16,6 +16,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,6 +31,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import p4groupone.lenditandroid.models.Participant
+import p4groupone.lenditandroid.models.SampleDevices
+import p4groupone.lenditandroid.models.SampleParticipants
+import p4groupone.lenditandroid.ui.components.DeviceList
+import p4groupone.lenditandroid.ui.components.ParticipantList
 import p4groupone.lenditandroid.ui.dashboard.DashboardViewScreen
 import p4groupone.lenditandroid.ui.theme.PrimaryColor
 import p4groupone.lenditandroid.ui.theme.SecondaryColor
@@ -34,6 +43,9 @@ import p4groupone.lenditandroid.ui.theme.openSans
 
 @Composable
 fun ReturnSelectParticipantScreen(navController: NavController) {
+    var selectedParticipantId by remember {
+        mutableStateOf<String?>(null)
+    }
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
@@ -145,15 +157,18 @@ fun ReturnSelectParticipantScreen(navController: NavController) {
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
             ) {
-                //put stuff here
-                Text(
-                    text = "Filler",
-                    fontSize = 20.sp,
-                    fontFamily = openSans,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    textAlign = TextAlign.Left
-                )
+                Box(
+                    modifier = Modifier
+                        .height(300.dp)
+                ) {
+                    ParticipantList(
+                        participants = SampleParticipants.participants,
+                        selectedParticipantId = selectedParticipantId,
+                        onParticipantClick = { participant ->
+                            selectedParticipantId = participant.id
+                        }
+                    )
+                }
 
                 Button(
                     onClick = {

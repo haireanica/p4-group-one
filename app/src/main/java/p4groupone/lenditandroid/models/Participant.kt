@@ -1,7 +1,7 @@
 package p4groupone.lenditandroid.models
 
 data class Participant(
-    val id: Int,
+    val id: String,
     var firstName: String,
     var lastName: String,
     var phoneNumber: String,
@@ -12,4 +12,7 @@ data class Participant(
 ){
     val fullName: String
         get() = "$firstName $lastName"
+
+    val fullAddress: String
+        get() = "$addressLine1 $addressLine2"
 }
