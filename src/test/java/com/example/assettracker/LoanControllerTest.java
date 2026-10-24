@@ -13,7 +13,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import org.springframework.test.web.servlet.MockMvc;
 
 // Invalid inputs for checkout and return. Asset and loan ids come from the
-// V3 demo data: 1003 is AVAILABLE, 1001 is ON_LOAN, loan 1 is ACTIVE.
+// V3 demo data: asset "1003" is AVAILABLE, "1001" is ON_LOAN, loan 1 is ACTIVE,
+// participant 5001 exists.
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
@@ -34,12 +35,22 @@ public class LoanControllerTest {
         .andExpect(status().isBadRequest());
     }
 
+    // assetId is text now, so "" and "  " must be rejected like a missing one.
+    @Test
+    void checkoutBlankAssetIdReturns400() throws Exception {
+        mvc.perform(post("/api/loans/checkout")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+            {"assetId": " ", "participantId": 5001, "reason": "EDUCATION", "days": 14}"""))
+        .andExpect(status().isBadRequest());
+    }
+
     @Test
     void checkoutMissingParticipantIdReturns400() throws Exception {
         mvc.perform(post("/api/loans/checkout")
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
-            {"assetId": 1003, "reason": "EDUCATION", "days": 14}"""))
+            {"assetId": "1003", "reason": "EDUCATION", "days": 14}"""))
         .andExpect(status().isBadRequest());
     }
 
@@ -48,7 +59,7 @@ public class LoanControllerTest {
         mvc.perform(post("/api/loans/checkout")
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
-            {"assetId": 1003, "participantId": 5001, "days": 14}"""))
+            {"assetId": "1003", "participantId": 5001, "days": 14}"""))
         .andExpect(status().isBadRequest());
     }
 
@@ -58,7 +69,7 @@ public class LoanControllerTest {
         mvc.perform(post("/api/loans/checkout")
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
-            {"assetId": 1003, "participantId": 5001, "reason": "PARTY", "days": 14}"""))
+            {"assetId": "1003", "participantId": 5001, "reason": "PARTY", "days": 14}"""))
         .andExpect(status().isBadRequest());
     }
 
@@ -67,7 +78,7 @@ public class LoanControllerTest {
         mvc.perform(post("/api/loans/checkout")
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
-            {"assetId": 1003, """))
+            {"assetId": "1003", """))
         .andExpect(status().isBadRequest());
     }
 
@@ -78,7 +89,7 @@ public class LoanControllerTest {
         mvc.perform(post("/api/loans/checkout")
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
-            {"assetId": 9999, "participantId": 5001, "reason": "EDUCATION", "days": 14}"""))
+            {"assetId": "9999", "participantId": 5001, "reason": "EDUCATION", "days": 14}"""))
         .andExpect(status().isNotFound());
     }
 
@@ -87,8 +98,19 @@ public class LoanControllerTest {
         mvc.perform(post("/api/loans/checkout")
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
-            {"assetId": 1001, "participantId": 5001, "reason": "EDUCATION", "days": 14}"""))
+            {"assetId": "1001", "participantId": 5001, "reason": "EDUCATION", "days": 14}"""))
         .andExpect(status().isConflict());
+    }
+
+    // Loanees need an address in the team schema, so checkout no longer
+    // creates them on the fly.
+    @Test
+    void checkoutUnknownParticipantReturns404() throws Exception {
+        mvc.perform(post("/api/loans/checkout")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+            {"assetId": "1003", "participantId": 9999, "reason": "EDUCATION", "days": 14}"""))
+        .andExpect(status().isNotFound());
     }
 
     // --- return ---

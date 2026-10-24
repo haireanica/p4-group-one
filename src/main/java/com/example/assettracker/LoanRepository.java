@@ -2,5 +2,5 @@ package com.example.assettracker;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LoanRepository extends JpaRepository<Loan, Long> {
+public interface LoanRepository extends JpaRepository<Loan, Integer> {
 }

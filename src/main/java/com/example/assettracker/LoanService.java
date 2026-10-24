@@ -32,38 +32,38 @@ public class LoanService {
     // @Transactional: the new loan row and the asset status change are saved
     // together or not at all, so a device can never end up half checked out.
     @Transactional
-    public Loan checkout(Long assetId, Long participantId, LoanReason reason, Integer days) {
+    public Loan checkout(String assetId, Integer participantId, LoanReason reason, Integer days) {
 
-        if (assetId == null) {
+        // 400 checks first: they need no database access.
+        if (assetId == null || assetId.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "AssetID is required.");
+        }
+        if (participantId == null || reason == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "participantId and reason are required");
         }
 
         Asset asset = assets.findById(assetId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Asset " + assetId + " not found"));
-        
+
         if (!"AVAILABLE".equals(asset.getAssetStatus())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
                     asset.getName() + " is " + asset.getAssetStatus() + ", not AVAILABLE");
         }
-        
-        if (participantId == null || reason == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "participantId and reason are required");
-        }
-        
-        // Participants are only an opaque number, so registering one on first
-        // checkout stores nothing personal.
+
+        // Participants must already be registered: the team schema requires an
+        // address for every loanee, so one can't be created from just an id here.
         Loanee loanee = loanees.findById(participantId)
-                .orElseGet(() -> loanees.save(new Loanee(participantId)));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Participant " + participantId + " not found"));
 
         LocalDate today = LocalDate.now();
         int loanDays = (days == null || days <= 0) ? DEFAULT_LOAN_DAYS : days;
 
         asset.setAssetStatus("ON_LOAN");
-        return loans.save(new Loan(asset, loanee, today, today.plusDays(loanDays), null, "ACTIVE", reason));
+        return loans.save(new Loan(asset, loanee, today, today.plusDays(loanDays), null, "ACTIVE", reason.name()));
     }
 
     @Transactional
-    public Loan returnLoan(Long loanId) {
+    public Loan returnLoan(Integer loanId) {
         Loan loan = loans.findById(loanId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Loan " + loanId + " not found"));
 

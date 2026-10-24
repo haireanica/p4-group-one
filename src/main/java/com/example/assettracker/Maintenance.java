@@ -12,7 +12,7 @@ public class Maintenance {
 
     @Id
     @Column(name = "maintenanceId")
-    private Long maintenanceId;
+    private Integer maintenanceId;
 
     @ManyToOne
     @JoinColumn(name = "assetId")
@@ -34,7 +34,7 @@ public class Maintenance {
 
     public Maintenance() {}
 
-    public Maintenance(Long maintenanceId, Asset asset, String issue, String maintenanceStatus,
+    public Maintenance(Integer maintenanceId, Asset asset, String issue, String maintenanceStatus,
                         String repairNotes, LocalDate openedDate, LocalDate completedDate) {
         this.maintenanceId = maintenanceId;
         this.asset = asset;
@@ -45,7 +45,7 @@ public class Maintenance {
         this.completedDate = completedDate;
     }
 
-    public Long getMaintenanceId() { return maintenanceId; }
+    public Integer getMaintenanceId() { return maintenanceId; }
     public Asset getAsset() { return asset; }
     public String getIssue() { return issue; }
     public String getMaintenanceStatus() { return maintenanceStatus; }

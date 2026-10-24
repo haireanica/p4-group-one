@@ -60,7 +60,7 @@ public class SecurityTest {
         mvc.perform(post("/api/loans/checkout")
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
-                {"assetId": 1003, "participantId": 5001, "reason": "EDUCATION", "days": 14}"""))
+                {"assetId": "1003", "participantId": 5001, "reason": "EDUCATION", "days": 14}"""))
             .andExpect(status().isUnauthorized());
     }
 
@@ -153,7 +153,7 @@ public class SecurityTest {
             .with(user("staff").roles("STAFF"))
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
-                    {"assetId": 1, "name": "TAG-1", "assetStatus": "AVAILABLE"}
+                    {"assetId": "1", "name": "TAG-1", "assetStatus": "AVAILABLE"}
                     """))
             .andExpect(status().isForbidden());
     }
@@ -164,7 +164,7 @@ public class SecurityTest {
         .with(user("admin").roles("ADMIN"))
         .contentType(MediaType.APPLICATION_JSON)
         .content("""
-                {"assetId": 1, "name": "TAG-1", "assetStatus": "AVAILABLE"}
+                {"assetId": "1", "name": "TAG-1", "assetStatus": "AVAILABLE"}
                 """))
         .andExpect(status().isOk());
     }
@@ -172,7 +172,7 @@ public class SecurityTest {
 
     @Test
     void noRoleLoginReturns403() throws Exception {
-        users.save(new User(1L, "raph", encoder.encode("Secret123"), null));
+        users.save(new User(1, "raph", encoder.encode("Secret123"), null));
 
             mvc.perform(get("/api/assets")
                     .with(httpBasic("raph", "Secret123")))
@@ -193,7 +193,7 @@ public class SecurityTest {
         mvc.perform(post("/api/loans/checkout")
             .contentType(MediaType.APPLICATION_JSON)
             .content("""
-                {"assetId": 1003, "participantId": 5001, "reason": "EDUCATION", "days": 14} """))
+                {"assetId": "1003", "participantId": 5001, "reason": "EDUCATION", "days": 14} """))
         .andExpect(status().isCreated());
     }
 

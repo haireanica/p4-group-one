@@ -20,11 +20,11 @@ public class UserController {
     }
 
     // userId is caller-assigned, like assetId (the credentials table has no auto-increment).
-    public record RegisterRequest(Long userId, String username, String password, String role) {}
+    public record RegisterRequest(Integer userId, String username, String password, String role) {}
     public record LoginRequest(String username, String password) {}
 
     // The response never includes the password or its hash.
-    public record UserResponse(Long userId, String username) {}
+    public record UserResponse(Integer userId, String username) {}
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)

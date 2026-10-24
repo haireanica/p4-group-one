@@ -9,7 +9,7 @@ public class Loanee {
 
     @Id
     @Column(name = "participantId")
-    private Long participantId;
+    private Integer participantId;
 
     @Column(name = "firstName")
     private String firstName;
@@ -39,13 +39,13 @@ public class Loanee {
 
     public Loanee() {}
 
-    public Loanee(Long participantId) {
+    public Loanee(Integer participantId) {
         this.participantId = participantId;
     }
 
     
 
-    public Long getParticipantId() { return participantId; }
+    public Integer getParticipantId() { return participantId; }
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
     public String getPhoneNumber() { return phoneNumber; }
