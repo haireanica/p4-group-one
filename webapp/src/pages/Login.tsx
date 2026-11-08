@@ -1,212 +1,88 @@
-import { useEffect, useState } from "react";
-import "./Analytics.css";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
 import loginImage from "../assets/login3.avif";
 
-interface LoanReturnTrend {
-  dayOfWeek: string;
-  totalLoanActivity: number;
-}
+function Login() {
+  // Stores the username
+  const [username, setUsername] = useState("");
 
-interface DeviceStatusDistribution {
-  status: string;
-  count: number;
-}
+  // Stores the user password
+  const [password, setPassword] = useState("");
 
-interface LoanStatusDistribution {
-  status: string;
-  count: number;
-}
+  // Stores any login error message
+  const [error, setError] = useState("");
 
-interface RecentActivity {
-  title: string;
-  description: string;
-  timeAgo: string;
-}
+  const navigate = useNavigate();
 
-function Analytics() {
-  const [totalLoans, setTotalLoans] = useState<number>(0);
-  const [activeLoans, setActiveLoans] = useState<number>(0);
-  const [returnedLoans, setReturnedLoans] = useState<number>(0);
-  const [overdueLoans, setOverdueLoans] = useState<number>(0);
+  // Runs when the user clicks Log In
+  const handleLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setError("");
 
-  const [trends, setTrends] = useState<LoanReturnTrend[]>([]);
-  const [deviceStatuses, setDeviceStatuses] = useState<DeviceStatusDistribution[]>([]);
-  const [loanStatuses, setLoanStatuses] = useState<LoanStatusDistribution[]>([]);
-  const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
+    try {
+      const response = await fetch('/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-  useEffect(() => {
-    const authHeader = localStorage.getItem("authHeader") || "";
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: authHeader,
-    };
-
-    // Summary Cards
-    fetch("/api/analytics/total-loans", { headers })
-      .then((res) => (res.ok ? res.json() : 0))
-      .then((data) => setTotalLoans(data))
-      .catch((err) => console.error("Error fetching total loans:", err));
-
-    fetch("/api/analytics/active-loans", { headers })
-      .then((res) => (res.ok ? res.json() : 0))
-      .then((data) => setActiveLoans(data))
-      .catch((err) => console.error("Error fetching active loans:", err));
-
-    fetch("/api/analytics/returned-loans", { headers })
-      .then((res) => (res.ok ? res.json() : 0))
-      .then((data) => setReturnedLoans(data))
-      .catch((err) => console.error("Error fetching returned loans:", err));
-
-    fetch("/api/analytics/overdue-loans-count", { headers })
-      .then((res) => (res.ok ? res.json() : 0))
-      .then((data) => setOverdueLoans(data))
-      .catch((err) => console.error("Error fetching overdue loans:", err));
-
-    // Weekly Trends Bar Chart Data
-    fetch("/api/analytics/loan-return-trends", { headers })
-      .then((res) => (res.ok ? res.json() : []))
-      .then((data) => setTrends(data))
-      .catch((err) => console.error("Error fetching loan return trends:", err));
-
-    // Device Status Distribution
-    fetch("/api/analytics/device-status", { headers })
-      .then((res) => (res.ok ? res.json() : []))
-      .then((data) => setDeviceStatuses(data))
-      .catch((err) => console.error("Error fetching device status:", err));
-
-    // Loan Status Distribution
-    fetch("/api/analytics/loan-status-distribution", { headers })
-      .then((res) => (res.ok ? res.json() : []))
-      .then((data) => setLoanStatuses(data))
-      .catch((err) => console.error("Error fetching loan status distribution:", err));
-
-    // Recent Activity
-    fetch("/api/analytics/recent-activity", { headers })
-      .then((res) => (res.ok ? res.json() : []))
-      .then((data) => setRecentActivity(data))
-      .catch((err) => console.error("Error fetching recent activity:", err));
-  }, []);
-
-  // Find the peak value in the weekly trends to scale heights relative to the highest day
-  const maxTrendValue = Math.max(...trends.map((t) => t.totalLoanActivity), 1);
+      if (response.ok) {
+        navigate('/dashboard');
+      } else {
+        setError('Invalid username or password');
+      }
+    } catch (err) {
+      setError('An error occurred connecting to the server.');
+    }
+  };
 
   return (
     <div
-      className="analytics-page"
+      className="login-page"
       style={{ backgroundImage: `url(${loginImage})` }}
     >
-      {/* Page Header */}
-      <div className="analytics-header">
-        <h1>Analytics</h1>
-        <p>View lending activity and equipment statistics.</p>
-      </div>
+      <div className="login-container">
+        <h1>Orlando LendIT</h1>
 
-      {/* Summary Cards */}
-      <div className="analytics-cards">
-        <div className="analytics-card">
-          <h3>Total Loans</h3>
-          <p className="analytics-number">{totalLoans}</p>
-        </div>
+        <p>Community Technology Loan Program</p>
 
-        <div className="analytics-card">
-          <h3>Active Loans</h3>
-          <p className="analytics-number">{activeLoans}</p>
-        </div>
+        {error && <p className="error-message" style={{ color: "red", marginBottom: "1rem" }}>{error}</p>}
 
-        <div className="analytics-card">
-          <h3>Returned</h3>
-          <p className="analytics-number">{returnedLoans}</p>
-        </div>
+        <form onSubmit={handleLogin}>
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
 
-        <div className="analytics-card">
-          <h3>Overdue</h3>
-          <p className="analytics-number">{overdueLoans}</p>
-        </div>
-      </div>
+            <input
+              id="username"
+              type="text"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+              required
+            />
+          </div>
 
-      {/* Loan Activity Bar Chart */}
-      <div className="analytics-section">
-        <h2>Loan Activity (Last 7 Days)</h2>
-        <div className="activity-chart">
-          {trends.length === 0 ? (
-            <p style={{ textAlign: "center", width: "100%" }}>No activity trend data available.</p>
-          ) : (
-            trends.map((trend, index) => {
-              const activityCount = trend.totalLoanActivity || 0;
-              let heightPercent = 0;
-              if (activityCount > 0) {
-                heightPercent = Math.max(
-                  Math.round((activityCount / maxTrendValue) * 100),
-                  8
-                );
-              }
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
 
-              return (
-                <div className="chart-bar" key={index} title={`${trend.dayOfWeek}: ${activityCount} loans`}>
-                  <div
-                    className="bar"
-                    style={{ height: `${heightPercent}%` }}
-                  ></div>
-                  <span>{trend.dayOfWeek}</span>
-                </div>
-              );
-            })
-          )}
-        </div>
-      </div>
+            <input
+              id="password"
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              required
+            />
+          </div>
 
-      {/* Equipment and Loan Statistics Grid */}
-      <div className="analytics-grid">
-        <div className="analytics-section">
-          <h2>Equipment Status</h2>
-          {deviceStatuses.length === 0 ? (
-            <p>No equipment status data.</p>
-          ) : (
-            deviceStatuses.map((ds, index) => (
-              <div className="stat-row" key={index}>
-                <span>{ds.status}</span>
-                <strong>{ds.count}</strong>
-              </div>
-            ))
-          )}
-        </div>
-
-        <div className="analytics-section">
-          <h2>Loan Status</h2>
-          {loanStatuses.length === 0 ? (
-            <p>No loan status data.</p>
-          ) : (
-            loanStatuses.map((ls, index) => (
-              <div className="stat-row" key={index}>
-                <span>{ls.status}</span>
-                <strong>{ls.count}</strong>
-              </div>
-            ))
-          )}
-        </div>
-      </div>
-
-      {/* Recent Activity */}
-      <div className="analytics-section">
-        <h2>Recent Activity</h2>
-        <div className="recent-activity">
-          {recentActivity.length === 0 ? (
-            <p>No recent activity recorded.</p>
-          ) : (
-            recentActivity.map((activity, index) => (
-              <div className="activity-row" key={index}>
-                <div>
-                  <strong>{activity.title}</strong>
-                  <p>{activity.description}</p>
-                </div>
-                <span>{activity.timeAgo}</span>
-              </div>
-            ))
-          )}
-        </div>
+          <button type="submit">Log In</button>
+        </form>
       </div>
     </div>
   );
 }
 
-export default Analytics;
+export default Login;
