@@ -1,87 +1,188 @@
 .equipment-page {
   min-height: 100vh;
-
   padding: 30px;
   box-sizing: border-box;
-
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  }
-  
-  /* Page title and Add Equipment button */
-  .equipment-header {
-    display: flex;
-    text-align: left;
-    align-items: center;
-    gap: 150px;
-  }
-  
-  .equipment-header h1 {
-    margin-bottom: 10px;
-    color:white;
-    font-weight: 600;
-  }
-  
-  .equipment-header p {
-    margin-top: 20px;
-    color:white;
-  }
-  
-  /* Add equipment button */
-  .add-equipment-button {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  /* Search and filter area */
-  .equipment-controls {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .equipment-controls input {
-    flex: 1;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-  }
-  
-  .equipment-controls button {
-    padding: 12px 20px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: white;
-    cursor: pointer;
-  }
-  
-  /* Table container */
-  .equipment-table-container {
-    width: 100%;
-    overflow-x: auto;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Equipment table */
-  .equipment-table-container table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  /* Table cells */
-  .equipment-table-container th,
-  .equipment-table-container td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-  }
-  
-  /* Table headings */
-  .equipment-table-container th {
-    font-weight: bold;
-  }
+}
+
+/* Page title and Add Equipment button */
+.equipment-header {
+  display: flex;
+  text-align: left;
+  align-items: center;
+  justify-content: space-between;
+  gap: 150px;
+  margin-bottom: 20px;
+}
+
+.equipment-header h1 {
+  margin-bottom: 10px;
+  color: white;
+  font-weight: 600;
+}
+
+.equipment-header p {
+  margin-top: 20px;
+  color: white;
+}
+
+/* Add equipment button */
+.add-equipment-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  background-color: #0056b3;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.add-equipment-button:hover {
+  background-color: #004085;
+}
+
+/* Search and filter area */
+.equipment-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.equipment-controls input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.equipment-controls button {
+  padding: 12px 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: white;
+  cursor: pointer;
+}
+
+/* Table container */
+.equipment-table-container {
+  width: 100%;
+  overflow-x: auto;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Equipment table */
+.equipment-table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Table cells */
+.equipment-table-container th,
+.equipment-table-container td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+
+/* Table headings */
+.equipment-table-container th {
+  font-weight: bold;
+  background-color: #f8f9fa;
+}
+
+/* Modal Overlay & Dialog Styles */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #333;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #111;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.cancel-button {
+  padding: 0.5rem 1rem;
+  background: #ccc;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #333;
+}
+
+.cancel-button:hover {
+  background: #b3b3b3;
+}
+
+.save-button {
+  padding: 0.5rem 1rem;
+  background: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background: #004085;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
