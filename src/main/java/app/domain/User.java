@@ -31,7 +31,7 @@ public class User {
     @JoinColumn(name = "roleId")
     private Role role;
 
-    protected User() {}
+    public User() {}
 
     public User(String userName, String passwordHash, Role role) {
         this.userName = userName;

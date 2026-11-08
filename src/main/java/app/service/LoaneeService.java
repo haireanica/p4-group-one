@@ -17,4 +17,8 @@ public class LoaneeService {
     public List<Loanee> findAll() {
         return repo.findAll();
     }
+
+    public Loanee save(Loanee loanee) {
+        return repo.save(loanee);
+    }
 }

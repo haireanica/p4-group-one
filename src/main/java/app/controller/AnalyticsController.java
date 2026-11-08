@@ -42,6 +42,15 @@ public class AnalyticsController {
         return analyticsService.getOverdueLoansCount();
     }
 
+    @GetMapping("/total-equipment")
+    public long getTotalEquipment() {
+        return analyticsService.getTotalEquipment();
+    }
+
+    @GetMapping("/total-participants")
+    public long getTotalParticipants() {
+        return analyticsService.getTotalParticipants();
+    }
 
     // Weekly Bar Chart Endpoint
     @GetMapping("/loan-return-trends")

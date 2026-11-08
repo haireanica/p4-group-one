@@ -14,18 +14,24 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 /**
- * The loan class will be used to keep track of the loans that are given to residents by OrlandoLendIT.
- * It will change the resident to a Loanee object, and will change the asset to an Asset object.
- * This will allow for the loan to be associated with a specific resident and asset, and will allow for the loan to be tracked and managed more easily.
+ - The loan class will be used to keep track of the loans that are given to residents by OrlandoLendIT.
+
+ - It will change the resident to a Loanee object, and will change the asset to an Asset object.
+
+ - This will allow for the loan to be associated with a specific resident and asset, and will allow for the loan to be tracked and managed more easily.
+
  */
 @Entity
 @Table(name = "loan")
 public class Loan {
 
     /**
-     * Class attributes
-     * The loanId will be the class primary key, and will be used to identify the
-     * loan in the database.
+     - Class attributes
+
+     - The loanId will be the class primary key, and will be used to identify the
+
+     - loan in the database.
+
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,36 +53,47 @@ public class Loan {
     @JoinColumn(name = "assetId")
     private Asset assetId;
 
-    @Column(name = "reason", length = 80)
+    @Column(name = "reason", length = 255)
     private String reason;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "LoanPurpose")
-    private LoanPurpose loanPurpose;
+    @Column(name = "LoanPurpose", length = 100)
+    private String loanPurpose;
 
     /**
-     * Constructors
-     * The default constructor is protected to prevent instantiation without parameters.
-     * The parameterized constructor allows for the creation of a Loan object with specific attributes.
+     - Constructors
+
+     - The default constructor is protected to prevent instantiation without parameters.
+
+     - The parameterized constructor allows for the creation of a Loan object with specific attributes.
+
      */
     /**
-     * The default constructor is protected to prevent instantiation without parameters.
+     - The default constructor is protected to prevent instantiation without parameters.
+
      */
     protected Loan() {}
 
     /**
-     * Creates a new Loan object with the specified attributes.
+     - Creates a new Loan object with the specified attributes.
+
      *
-     * @param checkoutDate The date the loan was checked out.
-     * @param dueDate The date the loan is due.
-     * @param returnDate The date the loan was returned.
-     * @param assetId The asset that was loaned.
-     * @param loanStatus The status of the loan.
-     * @param participantId The participant who borrowed the asset.
-     * @param loanPurpose The purpose of the loan.
+     -
+     @param checkoutDate The date the loan was checked out.
+     -
+     @param dueDate The date the loan is due.
+     -
+     @param returnDate The date the loan was returned.
+     -
+     @param assetId The asset that was loaned.
+     -
+     @param loanStatus The status of the loan.
+     -
+     @param participantId The participant who borrowed the asset.
+     -
+     @param loanPurpose The purpose of the loan.
      */
     public Loan(LocalDate checkoutDate, LocalDate dueDate, LocalDate returnDate,
-                Asset assetId, loanStats loanStatus, Loanee participantId, String reason, LoanPurpose loanPurpose) {
+                Asset assetId, loanStats loanStatus, Loanee participantId, String reason, String loanPurpose) {
         this.checkoutDate = checkoutDate;
         this.dueDate = dueDate;
         this.returnDate = returnDate;
@@ -88,8 +105,10 @@ public class Loan {
     }
 
     /**
-     * Get the loan status of the loan.
-     * @return the loan status of the loan
+     - Get the loan status of the loan.
+
+     -
+     @return the loan status of the loan
      */
 
     public loanStats getLoanStatus() {
@@ -97,23 +116,29 @@ public class Loan {
     }
 
     /**
-     * get tje assetId of the loan.
-     * @return the assetId of the loan
+     - get tje assetId of the loan.
+
+     -
+     @return the assetId of the loan
      */
     public Asset getAssetId() {
         return assetId;
     }
 
     /**
-     * get the participantId of the loan.
+     - get the participantId of the loan.
+
      *
-     * @return the participantId of the loan
+     -
+     @return the participantId of the loan
      */
     public Loanee getParticipantId() { return participantId; }
 
     /**
-     * Sets the loan status of the loan.
-     * @param loanStatus the loan status to set
+     - Sets the loan status of the loan.
+
+     -
+     @param loanStatus the loan status to set
      *
      */
     public void setLoanStatus(loanStats loanStatus) {
@@ -121,8 +146,10 @@ public class Loan {
     }
 
     /**
-     * Sets the assetId of the loan.
-     * @return the updated assetId of the loan
+     - Sets the assetId of the loan.
+
+     -
+     @return the updated assetId of the loan
      *
      */
     public Integer getLoanId() {
@@ -130,17 +157,21 @@ public class Loan {
     }
 
     /**
-     * Sets the participantId of the loan.
+     - Sets the participantId of the loan.
+
      *
-     * @return the updated participantId of the loan
+     -
+     @return the updated participantId of the loan
      */
     public LocalDate getCheckoutDate() {
         return checkoutDate;
     }
 
     /**
-     * Sets the checkout date of the loan.
-     * @param checkoutDate the checkout date to set
+     - Sets the checkout date of the loan.
+
+     -
+     @param checkoutDate the checkout date to set
      *
      */
     public void setCheckoutDate(LocalDate checkoutDate) {
@@ -148,16 +179,20 @@ public class Loan {
     }
 
     /**
-     * Returns the due date of the loan.
-     * @return the due date of the loan
+     - Returns the due date of the loan.
+
+     -
+     @return the due date of the loan
      */
     public LocalDate getDueDate() {
         return dueDate;
     }
 
     /**
-     * Sets the due date of the loan.
-     * @param dueDate the due date to set
+     - Sets the due date of the loan.
+
+     -
+     @param dueDate the due date to set
      *
      */
     public void setDueDate(LocalDate dueDate) {
@@ -165,16 +200,20 @@ public class Loan {
     }
 
     /**
-     * Returns the return date of the loan.
-     * @return the return date of the loan
+     - Returns the return date of the loan.
+
+     -
+     @return the return date of the loan
      */
     public LocalDate getReturnDate() {
         return returnDate;
     }
 
     /**
-     * Sets the return date of the loan.
-     * @param returnDate the return date to set
+     - Sets the return date of the loan.
+
+     -
+     @param returnDate the return date to set
      *
      */
     public void setReturnDate(LocalDate returnDate) {
@@ -182,32 +221,40 @@ public class Loan {
     }
 
     /**
-     * Returns the loan purpose of the loan.
-     * @return the loan purpose of the loan
+     - Returns the loan purpose of the loan.
+
+     -
+     @return the loan purpose of the loan
      */
-    public LoanPurpose getLoanPurpose() {
+    public String getLoanPurpose() {
         return loanPurpose;
     }
 
     /**
-     * Sets the loan purpose of the loan.
-     * @param loanPurpose the loan purpose to set
+     - Sets the loan purpose of the loan.
+
+     -
+     @param loanPurpose the loan purpose to set
      */
-    public void setLoanPurpose(LoanPurpose loanPurpose) {
+    public void setLoanPurpose(String loanPurpose) {
         this.loanPurpose = loanPurpose;
     }
 
     /**
-     * Returns the loan reason of the loan.
-     * @return the loan reason of the loan
+     - Returns the loan reason of the loan.
+
+     -
+     @return the loan reason of the loan
      */
     public String getReason() {
         return reason;
     }
 
     /**
-     * Sets the loan reason of the loan.
-     * @param reason the loan reason to set
+     - Sets the loan reason of the loan.
+
+     -
+     @param reason the loan reason to set
      */
     public void setReason(String reason) {
         this.reason = reason;
@@ -217,7 +264,7 @@ public class Loan {
     public String toString() {
         return "Loan{" +
                 "loanId=" + loanId +
-                ", loanPurpose=" + loanPurpose +
+                ", loanPurpose='" + loanPurpose + '\'' +
                 ", reason='" + reason + '\'' +
                 ", participantId=" + participantId +
                 ", checkoutDate=" + checkoutDate +

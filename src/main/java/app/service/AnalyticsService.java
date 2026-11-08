@@ -1,8 +1,8 @@
 package app.service;
 
+import app.repository.LoaneeRepository;
 import org.springframework.data.domain.PageRequest;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 import app.analytics.*;
@@ -12,17 +12,18 @@ import org.springframework.stereotype.Service;
 import app.domain.loanStats;
 import app.repository.AssetRepository;
 import app.repository.LoanRepository;
-import app.repository.MaintenanceRepository;
 
 @Service
 public class AnalyticsService {
 
     private final AssetRepository assetRepo;
     private final LoanRepository loanRepo;
+    private final LoaneeRepository loaneeRepo;
 
-    public AnalyticsService(AssetRepository assetRepo, LoanRepository loanRepo, MaintenanceRepository maintRepo) {
+    public AnalyticsService(AssetRepository assetRepo, LoanRepository loanRepo, LoaneeRepository loaneeRepo) {
         this.assetRepo = assetRepo;
         this.loanRepo = loanRepo;
+        this.loaneeRepo = loaneeRepo;
     }
 
     // Individual Metric Endpoints for Top Cards
@@ -40,6 +41,14 @@ public class AnalyticsService {
 
     public long getOverdueLoansCount() {
         return loanRepo.countOverdueLoans();
+    }
+
+    public long getTotalEquipment() {
+        return assetRepo.count();
+    }
+
+    public long getTotalParticipants() {
+        return loaneeRepo.count();
     }
 
     // Weekly Bar Chart Endpoint

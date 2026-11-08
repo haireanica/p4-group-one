@@ -45,6 +45,7 @@ public class Inventory {
      * The @OneToMany annotation means that one inventory can have many assets.
      */
     @OneToMany(mappedBy = "inventory")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Asset> assets = new ArrayList<>();
 
     /**

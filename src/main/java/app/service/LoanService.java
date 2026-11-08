@@ -3,18 +3,13 @@ package app.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import app.domain.*;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import app.domain.Asset;
-import app.domain.Loan;
-import app.domain.LoanPurpose;
-import app.domain.Loanee;
-import app.domain.assetStatus;
-import app.domain.loanStats;
 import app.repository.AssetRepository;
 import app.repository.LoanRepository;
 import app.repository.LoaneeRepository;
@@ -27,11 +22,13 @@ public class LoanService {
     private final LoanRepository loans;
     private final AssetRepository assets;
     private final LoaneeRepository loanees;
+    private final MaintenanceManager maintenanceManager;
 
-    public LoanService(LoanRepository loans, AssetRepository assets, LoaneeRepository loanees) {
+    public LoanService(LoanRepository loans, AssetRepository assets, LoaneeRepository loanees, MaintenanceManager maintenanceManager) {
         this.loans = loans;
         this.assets = assets;
         this.loanees = loanees;
+        this.maintenanceManager = maintenanceManager;
     }
 
     public List<Loan> findAll() {
@@ -44,13 +41,13 @@ public class LoanService {
     }
 
     @Transactional
-    public Loan checkout(String assetId, Integer participantId, String reason, LoanPurpose loanPurpose, Integer days) {
+    public Loan checkout(String assetId, Integer participantId, String reason, String loanPurpose, Integer days) {
 
         if (assetId == null || assetId.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "AssetID is required.");
         }
-        if (participantId == null || loanPurpose == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "participantId and loanPurpose are required");
+        if (participantId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "participantId is required");
         }
 
         Asset asset = assets.findById(assetId)
@@ -84,7 +81,7 @@ public class LoanService {
     }
 
     @Transactional
-    public Loan returnLoan(Integer loanId) {
+    public Loan returnLoan(Integer loanId, String condition, String notes) {
         Loan loan = loans.findById(loanId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Loan not found: " + loanId));
 
@@ -97,8 +94,33 @@ public class LoanService {
 
         Asset asset = loan.getAssetId();
         if (asset != null) {
-            asset.setStatus(assetStatus.AVAILABLE);
-            assets.save(asset);
+            if (condition != null && !condition.equalsIgnoreCase("good")) {
+                String issueTitle = "Returned: " + condition.replace("-", " ");
+                if (issueTitle.length() > 40) {
+                    issueTitle = issueTitle.substring(0, 40);
+                }
+
+                String repairNotesContent = (notes != null && !notes.isBlank()) ? notes : "No additional notes provided.";
+                if (repairNotesContent.length() > 100) {
+                    repairNotesContent = repairNotesContent.substring(0, 100);
+                }
+
+                Maintenance maintenance = new Maintenance(
+                        issueTitle,
+                        maintStat.IN_PROGRESS,
+                        repairNotesContent,
+                        LocalDate.now(),
+                        null,
+                        asset
+                );
+                maintenanceManager.save(maintenance);
+
+                asset.setStatus(assetStatus.IN_MAINTENANCE);
+                assets.save(asset);
+            } else {
+                asset.setStatus(assetStatus.AVAILABLE);
+                assets.save(asset);
+            }
         }
 
         return loans.save(loan);

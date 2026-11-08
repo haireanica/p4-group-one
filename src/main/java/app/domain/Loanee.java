@@ -1,9 +1,6 @@
 package app.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 /**
  - The loanee class will be used to represent a resident who will receive a loan from OrlandoLendIT.
@@ -15,6 +12,7 @@ import jakarta.persistence.Table;
 @Table(name = "loanee")
 public class Loanee {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "participantId")
     private Integer participantId;
     @Column(name = "firstName", length = 100)
@@ -34,7 +32,7 @@ public class Loanee {
     @Column(name = "postal_code", length = 100)
     private String postalCode;
 
-    protected Loanee() {}
+    public Loanee() {}
 
     public Loanee(Integer participantId) {
         this.participantId = participantId;

@@ -53,7 +53,7 @@ public class Center {
      * It is used by the JPA provider to create instances of the class.
      *
      */
-    protected Center() {}
+    public Center() {}
 
 
     /**

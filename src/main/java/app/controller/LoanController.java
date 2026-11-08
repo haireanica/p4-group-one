@@ -3,13 +3,13 @@ package app.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import app.domain.LoanPurpose;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import app.domain.Asset;
 import app.domain.Inventory;
 import app.domain.Loan;
-import app.domain.LoanPurpose;
 import app.service.LoanService;
 
 @RestController
@@ -28,14 +28,19 @@ public class LoanController {
             String assetId,
             Integer participantId,
             String reason,
-            LoanPurpose loanPurpose,
+            String loanPurpose,
             Integer days
+    ) {}
+
+    public record ReturnRequest(
+            String condition,
+            String notes
     ) {}
 
     // The team database has loan rows with no participant and inventories
     // with no center, so every link is null-checked.
     public record LoanResponse(Integer loanId, String assetId, String assetName, String center,
-                               Integer participantId, String reason, LocalDate checkoutDate,
+                               Integer participantId, String reason, String loanPurpose, LocalDate checkoutDate,
                                LocalDate dueDate, LocalDate returnDate, String status) {
 
         static LoanResponse from(Loan loan) {
@@ -53,6 +58,7 @@ public class LoanController {
                     center,
                     participantId,
                     loan.getReason(),
+                    loan.getLoanPurpose(),
                     loan.getCheckoutDate(),
                     loan.getDueDate(),
                     loan.getReturnDate(),
@@ -78,8 +84,11 @@ public class LoanController {
         ));
     }
 
+
     @PostMapping("/{loanId}/return")
-    public LoanResponse returnLoan(@PathVariable Integer loanId) {
-        return LoanResponse.from(service.returnLoan(loanId));
+    public LoanResponse returnLoan(@PathVariable Integer loanId, @RequestBody(required = false) ReturnRequest req) {
+        String condition = (req != null) ? req.condition() : "good";
+        String notes = (req != null) ? req.notes() : null;
+        return LoanResponse.from(service.returnLoan(loanId, condition, notes));
     }
 }
