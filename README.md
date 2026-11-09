@@ -1,9 +1,11 @@
 ## How to Run
 
 ### Step 1: Run the Backend (Make sure you have Java 21 JDK)
-1. Open your terminal.
-2. Navigate into the backend folder via terminal
-3. Start the Spring Boot application using the Maven wrapper:
+1. Run the backend/outreachdb_dump.sql.
+2. Edit the backend/src/main/resources/application.properties file, replacing the following with your system's database: datasource url, username and password.
+3. Open your terminal.
+4. Navigate into the backend folder via terminal
+5. Start the Spring Boot application using the Maven wrapper:
 `mvn spring-boot:run`
 *(Keep this terminal window running while using the app so the server stays active).*
 
