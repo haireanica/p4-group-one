@@ -8,8 +8,8 @@ function Navbar() {
             <Link to="/dashboard">Dashboard</Link>{" "}
             <Link to="/signup">Sign Up</Link>{" "}
             <Link to="/participants">Participants</Link>{" "}
-            <Link to="/loans">Loans</Link>{" "}
-            <Link to="/returns">Returns</Link>{" "}
+            <Link to="/loans">New Loan</Link>{" "}
+            <Link to="/returns">New Return</Link>{" "}
             <Link to="/equipment">Inventory</Link>{" "}
             <Link to="/analytics">Analytics</Link>
         </nav>

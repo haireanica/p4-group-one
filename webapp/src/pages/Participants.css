@@ -1,49 +1,42 @@
 
+/* Main page */
 .participants-page {
     width: 100%;
     min-height: 100vh;
     padding: 30px;
     box-sizing: border-box;
     color: #111827;
-
-    background-image: url("../assets/login3.avif");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background: url("../assets/login3.avif") center / cover no-repeat;
 }
 
+/* Header */
 .participants-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 20px;
     margin-bottom: 24px;
-    color:antiquewhite;
+    color: antiquewhite;
 }
 
 .participants-header h1 {
     margin: 0 0 8px;
     font-size: 28px;
-    font-weight: 700;
-    color:antiquewhite;
 }
 
 .participants-header p {
     margin: 0;
-    color:antiquewhite;
     font-size: 14px;
-
 }
 
-/* Search area */
-
+/* Search */
 .participant-search {
     display: flex;
     align-items: flex-end;
     gap: 16px;
     padding: 20px;
     margin-bottom: 24px;
-    background-color: white;
+    background: white;
     border: 1px solid #e5e7eb;
     border-radius: 10px;
 }
@@ -56,36 +49,29 @@
     min-width: 0;
 }
 
-.participant-search-field label,
-.participant-form-field label {
+.participant-search-field label {
     font-size: 13px;
     font-weight: 600;
     color: #374151;
 }
 
-.participant-search-field input,
-.participant-form-field input {
+.participant-search-field input {
     width: 100%;
     min-height: 42px;
     padding: 10px 12px;
+    box-sizing: border-box;
     border: 1px solid #d1d5db;
     border-radius: 6px;
-    box-sizing: border-box;
-    background-color: white;
-    color: #111827;
     font: inherit;
     font-size: 14px;
 }
 
-.participant-search-field input:focus,
-.participant-form-field input:focus {
+.participant-search-field input:focus {
     outline: 2px solid #93c5fd;
     outline-offset: 1px;
-    border-color: #2563eb;
 }
 
-/* Main directory and details layout */
-
+/* Main layout and panels */
 .participants-workspace {
     display: grid;
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
@@ -97,7 +83,7 @@
 .participant-details-panel {
     min-width: 0;
     padding: 20px;
-    background-color: white;
+    background: white;
     border: 1px solid #e5e7eb;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
@@ -114,7 +100,6 @@
 .participant-panel-heading h2 {
     margin: 0;
     font-size: 18px;
-    font-weight: 700;
 }
 
 .participant-panel-heading p {
@@ -129,7 +114,6 @@
 }
 
 /* Participant table */
-
 .participant-table-wrapper {
     width: 100%;
     overflow-x: auto;
@@ -144,32 +128,28 @@
 
 .participant-table th {
     padding: 12px 10px;
-    background-color: #f9fafb;
+    background: #f9fafb;
     color: #6b7280;
     font-size: 11px;
-    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
     border-bottom: 1px solid #e5e7eb;
 }
 
 .participant-table td {
     padding: 14px 10px;
     border-bottom: 1px solid #e5e7eb;
-    vertical-align: middle;
 }
 
 .participant-table tbody tr {
     cursor: pointer;
-    transition: background-color 0.15s ease;
 }
 
 .participant-table tbody tr:hover {
-    background-color: #f9fafb;
+    background: #f9fafb;
 }
 
 .participant-table tbody tr.selected-participant {
-    background-color: #eff6ff;
+    background: #eff6ff;
 }
 
 .participant-table tbody tr.selected-participant td:first-child {
@@ -177,14 +157,12 @@
 }
 
 .participant-name-button {
-    display: block;
     padding: 0;
     border: none;
     background: none;
     color: #1d4ed8;
     font: inherit;
     font-weight: 600;
-    text-align: left;
     cursor: pointer;
 }
 
@@ -192,20 +170,7 @@
     text-decoration: underline;
 }
 
-.participant-email-preview {
-    display: block;
-    margin-top: 5px;
-    color: #6b7280;
-    font-size: 11px;
-    overflow-wrap: anywhere;
-}
-
 /* Participant details */
-
-.participant-id {
-    white-space: nowrap;
-}
-
 .participant-profile {
     display: flex;
     align-items: center;
@@ -216,13 +181,13 @@
 
 .participant-avatar {
     display: flex;
-    flex-shrink: 0;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
     width: 54px;
     height: 54px;
     border-radius: 50%;
-    background-color: #dbeafe;
+    background: #dbeafe;
     color: #1d4ed8;
     font-size: 18px;
     font-weight: 700;
@@ -258,50 +223,20 @@
 
 .participant-info-list dd {
     margin: 0;
-    color: #111827;
     font-size: 14px;
     overflow-wrap: anywhere;
 }
 
-/* Forms */
-
-.participant-form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-}
-
-.participant-form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-width: 0;
-}
-
-.participant-form-field.full-width {
-    grid-column: 1 / -1;
-}
-
-.participant-action-row,
-.participant-detail-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 24px;
-}
-
-.participant-detail-actions {
-    flex-direction: column;
+.participant-id {
+    white-space: nowrap;
 }
 
 /* Buttons */
-
 .participant-primary-button,
-.participant-secondary-button,
-.participant-delete-button {
+.participant-secondary-button {
     display: inline-flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     min-height: 40px;
     padding: 10px 14px;
     border: 1px solid transparent;
@@ -310,52 +245,47 @@
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.15s ease;
 }
 
 .participant-primary-button {
-    background-color: #1d4ed8;
+    background: #064b82;
+    border-radius: 20px;
     color: white;
 }
 
 .participant-primary-button:hover {
-    background-color: #1e40af;
+    background: #1e40af;
 }
 
 .participant-secondary-button {
     border-color: #d1d5db;
-    background-color: white;
+    background: white;
     color: #374151;
 }
 
 .participant-secondary-button:hover {
-    background-color: #f3f4f6;
+    background: #f3f4f6;
 }
 
-.participant-delete-button {
-    border-color: #fecaca;
-    background-color: #fff;
-    color: #b91c1c;
-}
-
-.participant-delete-button:hover {
-    background-color: #fef2f2;
-}
-
-.participant-primary-button:focus-visible,
-.participant-secondary-button:focus-visible,
-.participant-delete-button:focus-visible,
-.participant-name-button:focus-visible {
-    outline: 2px solid #2563eb;
-    outline-offset: 2px;
+.participant-detail-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 24px;
 }
 
 .clear-search-button {
     flex-shrink: 0;
 }
 
-/* Loan records */
+.participant-primary-button:focus-visible,
+.participant-secondary-button:focus-visible,
+.participant-name-button:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+}
 
+/* Loan history */
 .participant-loan-list {
     display: flex;
     flex-direction: column;
@@ -392,22 +322,21 @@
 }
 
 .loan-status-active {
-    background-color: #dcfce7;
+    background: #dcfce7;
     color: #166534;
 }
 
 .loan-status-overdue {
-    background-color: #fee2e2;
+    background: #fee2e2;
     color: #991b1b;
 }
 
 .loan-status-returned {
-    background-color: #e5e7eb;
+    background: #e5e7eb;
     color: #374151;
 }
 
-/* Empty states */
-
+/* Messages */
 .participant-empty-state,
 .participant-empty-detail {
     padding: 28px 12px;
@@ -425,8 +354,14 @@
     line-height: 1.6;
 }
 
-/* Responsive layout */
+.participant-error {
+    padding: 12px;
+    border-radius: 8px;
+    background: #fee2e2;
+    color: #991b1b;
+}
 
+/* Responsive layout */
 @media (max-width: 1100px) {
     .participants-workspace {
         grid-template-columns: 1fr;
@@ -438,26 +373,18 @@
         padding: 16px;
     }
 
-    .participants-header {
+    .participants-header,
+    .participant-search {
         align-items: flex-start;
         flex-direction: column;
     }
 
     .participant-search {
         align-items: stretch;
-        flex-direction: column;
     }
 
     .clear-search-button {
         align-self: flex-start;
-    }
-
-    .participant-form-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .participant-form-field.full-width {
-        grid-column: auto;
     }
 
     .participant-list-panel,
@@ -468,5 +395,9 @@
     .participant-panel-heading {
         align-items: flex-start;
         flex-wrap: wrap;
+    }
+
+    .participant-loan-card {
+        flex-direction: column;
     }
 }

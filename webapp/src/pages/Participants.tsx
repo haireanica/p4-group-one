@@ -73,9 +73,6 @@ function Participants() {
                 setParticipants(participantData);
                 setLoans(loanData);
 
-                if (participantData.length > 0) {
-                    setSelectedId(participantData[0].participantId);
-                }
             } catch (err) {
                 setError(
                     err instanceof Error
@@ -91,26 +88,33 @@ function Participants() {
     }, []);
 
     // Find the currently selected participant
-    const selectedParticipant = participants.find(
-        (participant) => participant.participantId === selectedId
-    );
+    const selectedParticipant = selectedId === null
+        ? undefined
+        : participants.find(
+            (participant) => participant.participantId === selectedId
+        );
 
     // Find loans belonging to the selected participant
     const participantLoans = loans.filter(
         (loan) => loan.participantId === selectedId
     );
 
-    // Search participants by last name and phone number
     const filteredParticipants = useMemo(() => {
         const normalizedLastName = lastNameSearch.trim().toLowerCase();
         const normalizedPhone = phoneSearch.replace(/\D/g, "");
 
+        // Don't display participants until the user starts searching
+        if (!normalizedLastName && !normalizedPhone) {
+            return [];
+        }
+
         return participants.filter((participant) => {
-            const matchesLastName = participant.lastName
+            const matchesLastName = (participant.lastName || "")
                 .toLowerCase()
                 .includes(normalizedLastName);
 
-            const participantPhone = participant.phoneNumber.replace(/\D/g, "");
+            const participantPhone = (participant.phoneNumber || "")
+                .replace(/\D/g, "");
 
             const matchesPhone = participantPhone.includes(normalizedPhone);
 
@@ -122,6 +126,8 @@ function Participants() {
     function clearSearch() {
         setLastNameSearch("");
         setPhoneSearch("");
+        setSelectedId(null);
+        setShowLoans(false);
     }
 
     // Select a participant from the directory
@@ -219,7 +225,9 @@ function Participants() {
 
                     {filteredParticipants.length === 0 ? (
                         <p className="participant-empty-state">
-                            No participants match your search.
+                            {!lastNameSearch.trim() && !phoneSearch.trim()
+                                ? "Start typing a last name or phone number to find participants."
+                                : "No participants match your search."}
                         </p>
                     ) : (
                         <div className="participant-table-wrapper">
