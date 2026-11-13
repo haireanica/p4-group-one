@@ -11,6 +11,7 @@ import Equipment from "./pages/Equipment";
 import Loans from "./pages/Loans";
 import Returns from "./pages/Returns";
 import Analytics from "./pages/Analytics";
+import Participants from "./pages/Participants"
 
 function App() {
     return (
@@ -40,6 +41,18 @@ function App() {
                             <Navbar />
                             <main className="main-content">
                                 <Signup />
+                            </main>
+                        </div>
+                    }
+                />
+
+                <Route
+                    path="/participants"
+                    element={
+                        <div className="app-layout">
+                            <Navbar />
+                            <main className="main-content">
+                                <Participants />
                             </main>
                         </div>
                     }

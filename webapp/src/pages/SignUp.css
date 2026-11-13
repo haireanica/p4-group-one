@@ -4,7 +4,7 @@
   gap: 32px;
   padding: 24px;
   background-color: #00529B;
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh);
   box-sizing: border-box;
 }
 
