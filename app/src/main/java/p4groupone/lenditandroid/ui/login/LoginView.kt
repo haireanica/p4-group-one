@@ -47,13 +47,48 @@ import p4groupone.lenditandroid.R
 import p4groupone.lenditandroid.ui.theme.PrimaryColor
 import p4groupone.lenditandroid.ui.theme.SecondaryColor
 import p4groupone.lenditandroid.ui.theme.openSans
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
+import p4groupone.lenditandroid.network.ApiClient
+import p4groupone.lenditandroid.network.LoginRequest
+import androidx.compose.ui.platform.LocalContext
+import p4groupone.lenditandroid.network.CredentialsManager
 
 @Composable
 fun LoginViewScreen(navController: NavController) {
 
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var rememberMe by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+
+    val credentialsManager = remember {
+        CredentialsManager(context)
+    }
+
+    var username by remember {
+        mutableStateOf(
+            if (credentialsManager.isRememberMeEnabled())
+                credentialsManager.getUsername()
+            else ""
+        )
+    }
+
+    var password by remember {
+        mutableStateOf(
+            if (credentialsManager.isRememberMeEnabled())
+                credentialsManager.getPassword()
+            else ""
+        )
+    }
+
+    var rememberMe by remember {
+        mutableStateOf(credentialsManager.isRememberMeEnabled())
+    }
+    var isLoading by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    val coroutineScope = rememberCoroutineScope()
 
     BoxWithConstraints(
         modifier = Modifier
@@ -321,7 +356,13 @@ fun LoginViewScreen(navController: NavController) {
 
                     Checkbox(
                         checked = rememberMe,
-                        onCheckedChange = { rememberMe = it },
+                        onCheckedChange = { checked ->
+                            rememberMe = checked
+
+                            if (!checked) {
+                                credentialsManager.clearCredentials()
+                            }
+                        },
                         colors = CheckboxDefaults.colors(
                             checkedColor = Color.White,
                             uncheckedColor = Color.White,
@@ -340,7 +381,49 @@ fun LoginViewScreen(navController: NavController) {
 
                 Button(
                     onClick = {
-                        navController.navigate("dashboard")
+                        coroutineScope.launch {
+                            isLoading = true
+                            errorMessage = null
+
+                            if(password.isNotBlank() && username.isNotBlank()) {
+
+                                try {
+                                    ApiClient.apiService.login(
+                                        LoginRequest(
+                                            username = username.trim(),
+                                            password = password
+                                        )
+                                    )
+                                    if (rememberMe) {
+                                        credentialsManager.saveCredentials(
+                                            username = username.trim(),
+                                            password = password
+                                        )
+                                    } else {
+                                        credentialsManager.clearCredentials()
+                                    }
+
+                                    navController.navigate("dashboard")
+
+                                } catch (e: HttpException) {
+                                    errorMessage = when (e.code()) {
+                                        401, 403 -> "Invalid username or password."
+                                        else -> "Login failed. Please try again."
+                                    }
+
+                                } catch (e: IOException) {
+                                    errorMessage = "Unable to connect to the server."
+
+                                } catch (e: Exception) {
+                                    errorMessage = "Something went wrong. Please try again."
+
+                                } finally {
+                                    isLoading = false
+                                }
+                            }else{
+                                isLoading = false;
+                            }
+                        }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -350,41 +433,61 @@ fun LoginViewScreen(navController: NavController) {
                         containerColor = SecondaryColor
                     )
                 ) {
-
-                    Text(
-                        text = "Log In",
-                        fontFamily = openSans,
-                        fontSize = buttonTextSize,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
+                    if (isLoading) {
+                        CircularProgressIndicator(
+                            color = Color.White,
+                            modifier = Modifier.size(30.dp),
+                            strokeWidth = 3.dp
+                        )
+                    } else {
+                        Text(
+                            text = "Log In",
+                            fontFamily = openSans,
+                            fontSize = buttonTextSize,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                    }
                 }
 
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
 
-                    Spacer(
-                        modifier = Modifier.height(10.dp * scale)
-                    )
+                        Spacer(
+                            modifier = Modifier.height(10.dp * scale)
+                        )
 
+                        Text(
+                            text = "Forgot Password",
+                            fontSize = forgotSize,
+                            fontFamily = openSans,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            textDecoration = TextDecoration.Underline,
+                            modifier = Modifier.clickable {
+                                navController.navigate("forgotPasswordView")
+                            }
+                        )
+                    }
+
+                errorMessage?.let { message ->
                     Text(
-                        text = "Forgot Password",
-                        fontSize = forgotSize,
-                        fontFamily = openSans,
-                        fontWeight = FontWeight.Bold,
+                        text = message,
                         color = Color.White,
-                        textDecoration = TextDecoration.Underline,
-                        modifier = Modifier.clickable {
-                            navController.navigate("forgotPasswordView")
-                        }
+                        fontFamily = openSans,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
+                }
                 }
             }
         }
     }
-}
+
 
 @Preview(showBackground = true)
 @Composable
