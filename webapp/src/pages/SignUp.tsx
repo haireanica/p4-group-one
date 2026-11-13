@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import "./SignUp.css";
 import signupImage from "../assets/signup.avif";
@@ -15,12 +16,56 @@ function SignUp() {
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
+    // Automatically format phone number as ###-###-####
+    const handlePhoneChange = (value: string) => {
+        const digits = value.replace(/\D/g, "").slice(0, 10);
+
+        let formattedPhone = digits;
+
+        if (digits.length > 6) {
+            formattedPhone =
+                digits.slice(0, 3) +
+                "-" +
+                digits.slice(3, 6) +
+                "-" +
+                digits.slice(6);
+        } else if (digits.length > 3) {
+            formattedPhone =
+                digits.slice(0, 3) +
+                "-" +
+                digits.slice(3);
+        }
+
+        setPhoneNumber(formattedPhone);
+    };
+
+    // Allow only 5 numbers in the ZIP code
+    const handleZipChange = (value: string) => {
+        const digits = value.replace(/\D/g, "").slice(0, 5);
+        setPostalCode(digits);
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setSuccessMessage("");
         setErrorMessage("");
 
+        // Validate phone number
+        if (!/^\d{3}-\d{3}-\d{4}$/.test(phoneNumber)) {
+            setErrorMessage(
+                "Phone number must be in the format ###-###-####."
+            );
+            return;
+        }
+
+        // Validate ZIP code
+        if (!/^\d{5}$/.test(postalCode)) {
+            setErrorMessage("ZIP code must contain exactly 5 digits.");
+            return;
+        }
+
         const authHeader = localStorage.getItem("authHeader") || "";
+
         const headers = {
             "Content-Type": "application/json",
             Authorization: authHeader,
@@ -40,13 +85,14 @@ function SignUp() {
         try {
             const response = await fetch("/api/loanees", {
                 method: "POST",
-                credentials: 'include',
+                credentials: "include",
                 headers,
                 body: JSON.stringify(newLoanee),
             });
 
             if (response.ok) {
                 setSuccessMessage("Loanee registered successfully!");
+
                 // Reset form inputs
                 setFirstName("");
                 setLastName("");
@@ -78,8 +124,17 @@ function SignUp() {
             <div className="signup-form-container">
                 <h1>Sign-Up</h1>
 
-                {successMessage && <p style={{ color: "green", marginBottom: "1rem" }}>{successMessage}</p>}
-                {errorMessage && <p style={{ color: "red", marginBottom: "1rem" }}>{errorMessage}</p>}
+                {successMessage && (
+                    <p style={{ color: "green", marginBottom: "1rem" }}>
+                        {successMessage}
+                    </p>
+                )}
+
+                {errorMessage && (
+                    <p style={{ color: "red", marginBottom: "1rem" }}>
+                        {errorMessage}
+                    </p>
+                )}
 
                 <form onSubmit={handleSubmit}>
                     <div className="form-section">
@@ -92,6 +147,7 @@ function SignUp() {
                                 onChange={(e) => setFirstName(e.target.value)}
                                 required
                             />
+
                             <input
                                 type="text"
                                 placeholder="Last"
@@ -107,8 +163,13 @@ function SignUp() {
                         <input
                             id="phone"
                             type="tel"
+                            placeholder="###-###-####"
                             value={phoneNumber}
-                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            onChange={(e) => handlePhoneChange(e.target.value)}
+                            maxLength={12}
+                            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                            title="Enter phone number as ###-###-####"
+                            inputMode="numeric"
                             required
                         />
                     </div>
@@ -156,7 +217,13 @@ function SignUp() {
                                 maxLength={2}
                                 placeholder="FL"
                                 value={state}
-                                onChange={(e) => setState(e.target.value)}
+                                onChange={(e) =>
+                                    setState(
+                                        e.target.value
+                                            .toUpperCase()
+                                            .replace(/[^A-Z]/g, "")
+                                    )
+                                }
                                 required
                             />
                         </div>
@@ -166,8 +233,13 @@ function SignUp() {
                             <input
                                 id="zip"
                                 type="text"
+                                placeholder="#####"
                                 value={postalCode}
-                                onChange={(e) => setPostalCode(e.target.value)}
+                                onChange={(e) => handleZipChange(e.target.value)}
+                                maxLength={5}
+                                pattern="[0-9]{5}"
+                                title="ZIP code must contain exactly 5 digits"
+                                inputMode="numeric"
                                 required
                             />
                         </div>

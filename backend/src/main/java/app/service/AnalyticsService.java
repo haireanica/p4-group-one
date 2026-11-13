@@ -1,5 +1,6 @@
 package app.service;
 
+import app.domain.Asset;
 import app.repository.LoaneeRepository;
 import org.springframework.data.domain.PageRequest;
 
@@ -89,12 +90,17 @@ public class AnalyticsService {
             String title;
             String description;
 
+            // Get the asset information from the Asset object
+            Asset asset = loan.getAssetId();
+            String assetName = asset.getName();
+            String assetId = asset.getAssetId();
+
             if (loan.getReturnDate() != null) {
                 title = "Device Returned";
-                description = "Asset #" + loan.getAssetId() + " was checked back in.";
+                description = assetName + " (Device ID: " + assetId + ") was checked back in.";
             } else {
                 title = "Device Checked Out";
-                description = "Asset #" + loan.getAssetId() + " was checked out.";
+                description = assetName + " (Device ID: " + assetId + ") was checked out.";
             }
 
             // Use the actual date/timestamp or fallback to "Recently"
