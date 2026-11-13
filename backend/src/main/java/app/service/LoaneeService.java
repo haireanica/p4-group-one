@@ -21,4 +21,19 @@ public class LoaneeService {
     public Loanee save(Loanee loanee) {
         return repo.save(loanee);
     }
+
+    public Loanee updateLoanee(Integer id, Loanee updatedLoanee) {
+        Loanee existingLoanee = repo.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Participant not found with ID: " + id));
+        existingLoanee.setFirstName(updatedLoanee.getFirstName());
+        existingLoanee.setLastName(updatedLoanee.getLastName());
+        existingLoanee.setPhoneNumber(updatedLoanee.getPhoneNumber());
+        existingLoanee.setAddressLine1(updatedLoanee.getAddressLine1());
+        existingLoanee.setAddressLine2(updatedLoanee.getAddressLine2());
+        existingLoanee.setCity(updatedLoanee.getCity());
+        existingLoanee.setState(updatedLoanee.getState());
+        existingLoanee.setPostalCode(updatedLoanee.getPostalCode());
+        return repo.save(existingLoanee);
+    }
 }

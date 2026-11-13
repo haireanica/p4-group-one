@@ -1,5 +1,6 @@
 
 import { useEffect, useMemo, useState } from "react";
+import type { FormEvent } from "react";
 import "./Participants.css";
 
 type Participant = {
@@ -37,9 +38,23 @@ function Participants() {
     const [selectedId, setSelectedId] = useState<number | null>(null);
 
     const [showLoans, setShowLoans] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+
+    const [editForm, setEditForm] = useState({
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        addressLine1: "",
+        addressLine2: "",
+        city: "",
+        state: "",
+        postalCode: "",
+    });
 
     const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
     const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
     // Load participants and loans from the Spring Boot API
     useEffect(() => {
@@ -99,11 +114,11 @@ function Participants() {
         (loan) => loan.participantId === selectedId
     );
 
+    // Filter participants using last name and phone number
     const filteredParticipants = useMemo(() => {
         const normalizedLastName = lastNameSearch.trim().toLowerCase();
         const normalizedPhone = phoneSearch.replace(/\D/g, "");
 
-        // Don't display participants until the user starts searching
         if (!normalizedLastName && !normalizedPhone) {
             return [];
         }
@@ -128,12 +143,18 @@ function Participants() {
         setPhoneSearch("");
         setSelectedId(null);
         setShowLoans(false);
+        setIsEditing(false);
+        setError("");
+        setSuccess("");
     }
 
     // Select a participant from the directory
     function selectParticipant(id: number) {
         setSelectedId(id);
         setShowLoans(false);
+        setIsEditing(false);
+        setError("");
+        setSuccess("");
     }
 
     // Display the participant's complete address
@@ -156,6 +177,100 @@ function Participants() {
         return new Date(`${date}T00:00:00`).toLocaleDateString();
     }
 
+    // Open the edit form with the participant's existing information
+    function handleEditClick() {
+        if (!selectedParticipant) return;
+
+        setEditForm({
+            firstName: selectedParticipant.firstName || "",
+            lastName: selectedParticipant.lastName || "",
+            phoneNumber: selectedParticipant.phoneNumber || "",
+            addressLine1: selectedParticipant.addressLine1 || "",
+            addressLine2: selectedParticipant.addressLine2 || "",
+            city: selectedParticipant.city || "",
+            state: selectedParticipant.state || "",
+            postalCode: selectedParticipant.postalCode || "",
+        });
+
+        setIsEditing(true);
+        setError("");
+        setSuccess("");
+    }
+
+    // Update the edit form fields
+    function handleEditChange(
+        event: React.ChangeEvent<HTMLInputElement>
+    ) {
+        const { name, value } = event.target;
+
+        setEditForm((previousForm) => ({
+            ...previousForm,
+            [name]: value,
+        }));
+    }
+
+    // Cancel editing without saving changes
+    function cancelEdit() {
+        setIsEditing(false);
+        setError("");
+    }
+
+    // Save updated participant information
+    async function handleUpdateParticipant(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        if (!selectedParticipant) return;
+
+        try {
+            setSaving(true);
+            setError("");
+            setSuccess("");
+
+            const response = await fetch(
+                `/api/loanees/${selectedParticipant.participantId}`,
+                {
+                    method: "PUT",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(editForm),
+                }
+            );
+
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(
+                    errorMessage || "Failed to update participant."
+                );
+            }
+
+            const updatedParticipant: Participant = await response.json();
+
+            // Update the participant in the local list
+            setParticipants((previousParticipants) =>
+                previousParticipants.map((participant) =>
+                    participant.participantId ===
+                    updatedParticipant.participantId
+                        ? updatedParticipant
+                        : participant
+                )
+            );
+
+            setIsEditing(false);
+            setSuccess("Participant information updated successfully.");
+
+        } catch (err) {
+            setError(
+                err instanceof Error
+                    ? err.message
+                    : "Something went wrong while updating the participant."
+            );
+        } finally {
+            setSaving(false);
+        }
+    }
+
     if (loading) {
         return (
             <div className="participants-page">
@@ -176,6 +291,12 @@ function Participants() {
             {error && (
                 <p className="participant-error" role="alert">
                     {error}
+                </p>
+            )}
+
+            {success && (
+                <p className="participant-success" role="status">
+                    {success}
                 </p>
             )}
 
@@ -350,6 +471,149 @@ function Participants() {
                                 </div>
                             )}
                         </>
+                    ) : isEditing && selectedParticipant ? (
+                        <>
+                            <div className="participant-panel-heading">
+                                <h2>Edit Participant</h2>
+                                <span className="participant-id">
+                                    ID: {selectedParticipant.participantId}
+                                </span>
+                            </div>
+
+                            <form
+                                className="participant-edit-form"
+                                onSubmit={handleUpdateParticipant}
+                            >
+                                <div className="participant-edit-field">
+                                    <label htmlFor="edit-first-name">
+                                        First Name
+                                    </label>
+                                    <input
+                                        id="edit-first-name"
+                                        name="firstName"
+                                        type="text"
+                                        value={editForm.firstName}
+                                        onChange={handleEditChange}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="participant-edit-field">
+                                    <label htmlFor="edit-last-name">
+                                        Last Name
+                                    </label>
+                                    <input
+                                        id="edit-last-name"
+                                        name="lastName"
+                                        type="text"
+                                        value={editForm.lastName}
+                                        onChange={handleEditChange}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="participant-edit-field">
+                                    <label htmlFor="edit-phone">
+                                        Phone Number
+                                    </label>
+                                    <input
+                                        id="edit-phone"
+                                        name="phoneNumber"
+                                        type="tel"
+                                        value={editForm.phoneNumber}
+                                        onChange={handleEditChange}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="participant-edit-field">
+                                    <label htmlFor="edit-address1">
+                                        Address Line 1
+                                    </label>
+                                    <input
+                                        id="edit-address1"
+                                        name="addressLine1"
+                                        type="text"
+                                        value={editForm.addressLine1}
+                                        onChange={handleEditChange}
+                                    />
+                                </div>
+
+                                <div className="participant-edit-field">
+                                    <label htmlFor="edit-address2">
+                                        Address Line 2
+                                    </label>
+                                    <input
+                                        id="edit-address2"
+                                        name="addressLine2"
+                                        type="text"
+                                        value={editForm.addressLine2}
+                                        onChange={handleEditChange}
+                                    />
+                                </div>
+
+                                <div className="participant-edit-field">
+                                    <label htmlFor="edit-city">
+                                        City
+                                    </label>
+                                    <input
+                                        id="edit-city"
+                                        name="city"
+                                        type="text"
+                                        value={editForm.city}
+                                        onChange={handleEditChange}
+                                    />
+                                </div>
+
+                                <div className="participant-edit-row">
+                                    <div className="participant-edit-field">
+                                        <label htmlFor="edit-state">
+                                            State
+                                        </label>
+                                        <input
+                                            id="edit-state"
+                                            name="state"
+                                            type="text"
+                                            maxLength={2}
+                                            value={editForm.state}
+                                            onChange={handleEditChange}
+                                        />
+                                    </div>
+
+                                    <div className="participant-edit-field">
+                                        <label htmlFor="edit-postal-code">
+                                            ZIP Code
+                                        </label>
+                                        <input
+                                            id="edit-postal-code"
+                                            name="postalCode"
+                                            type="text"
+                                            value={editForm.postalCode}
+                                            onChange={handleEditChange}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="participant-detail-actions">
+                                    <button
+                                        type="submit"
+                                        className="participant-primary-button"
+                                        disabled={saving}
+                                    >
+                                        {saving ? "Saving..." : "Save Changes"}
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        className="participant-secondary-button"
+                                        onClick={cancelEdit}
+                                        disabled={saving}
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </>
                     ) : selectedParticipant ? (
                         <>
                             <div className="participant-panel-heading">
@@ -412,6 +676,14 @@ function Participants() {
                                 <button
                                     type="button"
                                     className="participant-primary-button"
+                                    onClick={handleEditClick}
+                                >
+                                    Edit Participant
+                                </button>
+
+                                <button
+                                    type="button"
+                                    className="participant-secondary-button"
                                     onClick={() => setShowLoans(true)}
                                 >
                                     View Loans

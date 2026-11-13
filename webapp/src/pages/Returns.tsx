@@ -130,6 +130,15 @@ function Returns() {
         );
     }, [loans, selectedParticipant]);
 
+    function getCurrentDate() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, "0");
+        const day = String(today.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+    }
+
     // Select a participant
     function selectParticipant(participant: Participant) {
         setSelectedParticipant(participant);
@@ -138,7 +147,7 @@ function Returns() {
         setErrorMessage("");
         setCondition("");
         setNotes("");
-        setReturnDate("");
+        setReturnDate(getCurrentDate());
     }
 
     // Clear participant search
@@ -151,7 +160,7 @@ function Returns() {
         setErrorMessage("");
         setCondition("");
         setNotes("");
-        setReturnDate("");
+        setReturnDate(getCurrentDate());
     }
 
     // Refresh loans after a return

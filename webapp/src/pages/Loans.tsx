@@ -604,14 +604,6 @@ function Loans() {
                                                 <option value="14">
                                                     2 Weeks
                                                 </option>
-
-                                                <option value="21">
-                                                    3 Weeks
-                                                </option>
-
-                                                <option value="28">
-                                                    4 Weeks
-                                                </option>
                                             </select>
                                         </div>
 

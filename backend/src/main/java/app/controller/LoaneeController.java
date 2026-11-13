@@ -1,6 +1,8 @@
 package app.controller;
 
 import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +32,26 @@ public class LoaneeController {
         } catch (Exception e) {
             e.printStackTrace(); // This will print the exact validation or mapping error in your IDE console
             return ResponseEntity.badRequest().body("Failed to register loanee: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateLoanee(
+            @PathVariable Integer id,
+            @RequestBody Loanee updatedLoanee) {
+
+        try {
+            Loanee savedLoanee = service.updateLoanee(id, updatedLoanee);
+            return ResponseEntity.ok(savedLoanee);
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest()
+                    .body("Failed to update participant: " + e.getMessage());
         }
     }
 }
