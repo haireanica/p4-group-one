@@ -1,42 +1,42 @@
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\analytics\DeviceStatusDistributionDTO.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\analytics\LoanReturnTrendDTO.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\analytics\LoanReturnTrendProjection.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\analytics\LoanStatusDistributionDTO.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\analytics\RecentActivityDTO.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\Application.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\controller\AnalyticsController.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\controller\AssetController.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\controller\CenterController.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\controller\InventoryController.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\controller\LoanController.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\controller\LoaneeController.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\controller\UserController.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\domain\Asset.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\domain\assetStatus.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\domain\Center.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\domain\Inventory.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\domain\Loan.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\domain\Loanee.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\domain\LoanPurpose.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\domain\LoanReason.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\domain\loanStats.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\domain\Maintenance.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\domain\maintStat.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\domain\Role.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\domain\User.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\repository\AssetRepository.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\repository\CenterRepository.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\repository\InventoryRepository.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\repository\LoaneeRepository.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\repository\LoanRepository.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\repository\MaintenanceRepository.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\repository\RoleRepository.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\repository\UserRepository.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\service\AnalyticsService.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\service\AssetManager.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\service\DatabaseUserDetailsService.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\service\LoaneeService.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\service\LoanService.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\service\MaintenanceManager.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\service\SecurityConfig.java
-C:\Users\Brobr\Documents\Backend2\Git Upload\backend\src\main\java\app\service\UserService.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/Application.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/analytics/DeviceStatusDistributionDTO.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/analytics/LoanReturnTrendDTO.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/analytics/LoanReturnTrendProjection.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/analytics/LoanStatusDistributionDTO.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/analytics/RecentActivityDTO.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/controller/AnalyticsController.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/controller/AssetController.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/controller/CenterController.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/controller/InventoryController.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/controller/LoanController.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/controller/LoaneeController.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/controller/UserController.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/domain/Asset.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/domain/Center.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/domain/Inventory.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/domain/Loan.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/domain/LoanPurpose.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/domain/LoanReason.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/domain/Loanee.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/domain/Maintenance.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/domain/Role.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/domain/User.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/domain/assetStatus.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/domain/loanStats.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/domain/maintStat.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/repository/AssetRepository.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/repository/CenterRepository.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/repository/InventoryRepository.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/repository/LoanRepository.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/repository/LoaneeRepository.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/repository/MaintenanceRepository.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/repository/RoleRepository.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/repository/UserRepository.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/service/AnalyticsService.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/service/AssetManager.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/service/DatabaseUserDetailsService.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/service/LoanService.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/service/LoaneeService.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/service/MaintenanceManager.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/service/SecurityConfig.java
+/Users/anicahaire/Desktop/p4-group-one/backend/src/main/java/app/service/UserService.java
