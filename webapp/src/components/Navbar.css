@@ -1,0 +1,27 @@
+nav {
+    text-align: left;
+    font-size: x-large;
+    width: 180px;
+    min-width: 220px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    padding: 24px 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background-color: #1f2937;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+nav a:hover {
+    background-color: #2d4977;
+}

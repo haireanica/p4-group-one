@@ -1,4 +1,5 @@
 
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
@@ -12,22 +13,88 @@ import Returns from "./pages/Returns";
 import Analytics from "./pages/Analytics";
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Navbar />
+    return (
+        <BrowserRouter>
+            <Routes>
+                {/* Login pages without the Navbar */}
+                <Route path="/" element={<Login />} />
+                <Route path="/login" element={<Login />} />
 
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/equipment" element={<Equipment />} />
-        <Route path="/loans" element={<Loans />} />
-        <Route path="/returns" element={<Returns />} />
-        <Route path="/analytics" element={<Analytics />} />
-      </Routes>
-    </BrowserRouter>
-  );
+                {/* Pages with the left-side Navbar */}
+                <Route
+                    path="/dashboard"
+                    element={
+                        <div className="app-layout">
+                            <Navbar />
+                            <main className="main-content">
+                                <Dashboard />
+                            </main>
+                        </div>
+                    }
+                />
+
+                <Route
+                    path="/signup"
+                    element={
+                        <div className="app-layout">
+                            <Navbar />
+                            <main className="main-content">
+                                <Signup />
+                            </main>
+                        </div>
+                    }
+                />
+
+                <Route
+                    path="/equipment"
+                    element={
+                        <div className="app-layout">
+                            <Navbar />
+                            <main className="main-content">
+                                <Equipment />
+                            </main>
+                        </div>
+                    }
+                />
+
+                <Route
+                    path="/loans"
+                    element={
+                        <div className="app-layout">
+                            <Navbar />
+                            <main className="main-content">
+                                <Loans />
+                            </main>
+                        </div>
+                    }
+                />
+
+                <Route
+                    path="/returns"
+                    element={
+                        <div className="app-layout">
+                            <Navbar />
+                            <main className="main-content">
+                                <Returns />
+                            </main>
+                        </div>
+                    }
+                />
+
+                <Route
+                    path="/analytics"
+                    element={
+                        <div className="app-layout">
+                            <Navbar />
+                            <main className="main-content">
+                                <Analytics />
+                            </main>
+                        </div>
+                    }
+                />
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;

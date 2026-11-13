@@ -9,10 +9,13 @@
   background-position: center;
   background-repeat: no-repeat;
 }
-  
-  .dashboard-header {
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 30px;
-  }
+}
   
   .dashboard-header h1 {
     margin-bottom: 8px;
@@ -70,3 +73,29 @@
   .recent-activity h2 {
     margin-bottom: 15px;
   }
+
+.logout-button {
+    background-color: #dc2626;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.logout-button:hover {
+    background-color: #b91c1c;
+}
+
+.logout-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.logout-error {
+    color: #dc2626;
+    font-weight: 600;
+}

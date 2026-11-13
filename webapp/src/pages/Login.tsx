@@ -46,7 +46,7 @@ function Login() {
             style={{ backgroundImage: `url(${loginImage})` }}
         >
             <div className="login-container">
-                <h1>Orlando LendIT</h1>
+                <h1>Orlando Lend IT</h1>
 
                 <p>Community Technology Loan Program</p>
 
