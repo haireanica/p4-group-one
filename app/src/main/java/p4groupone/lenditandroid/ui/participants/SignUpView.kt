@@ -52,6 +52,14 @@ import p4groupone.lenditandroid.ui.dashboard.DashboardViewScreen
 import p4groupone.lenditandroid.ui.theme.PrimaryColor
 import p4groupone.lenditandroid.ui.theme.SecondaryColor
 import p4groupone.lenditandroid.ui.theme.openSans
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.runtime.LaunchedEffect
+import kotlinx.coroutines.launch
+import androidx.compose.runtime.rememberCoroutineScope
+import p4groupone.lenditandroid.network.ApiClient
+import p4groupone.lenditandroid.network.LoaneeRegistration
 
 @Composable
 fun SignUpViewScreen(navController: NavController) {
@@ -61,8 +69,15 @@ fun SignUpViewScreen(navController: NavController) {
     var phoneNumber by remember { mutableStateOf("") }
     var addressLine1 by remember { mutableStateOf("") }
     var addressLine2 by remember { mutableStateOf("") }
-    var city by remember { mutableStateOf("") }
+    var city by remember { mutableStateOf("Orlando") }
     var zipcode by remember { mutableStateOf("") }
+
+    var state by remember { mutableStateOf("FL") }
+    var isSubmitting by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+    var successMessage by remember { mutableStateOf<String?>(null) }
+
+    val coroutineScope = rememberCoroutineScope()
 
 
     BoxWithConstraints(
@@ -359,7 +374,7 @@ fun SignUpViewScreen(navController: NavController) {
                                     Text(
                                         text = "Enter Address",
                                         fontFamily = openSans,
-                                        fontSize = 16.sp,
+                                        fontSize = 18.sp,
                                         textAlign = TextAlign.Center,
                                         fontWeight = FontWeight.Bold,
                                         color = Color.Black.copy(alpha = 0.2f),
@@ -399,7 +414,7 @@ fun SignUpViewScreen(navController: NavController) {
                                     Text(
                                         text = "Enter Unit/Apt Number",
                                         fontFamily = openSans,
-                                        fontSize = 16.sp,
+                                        fontSize = 18.sp,
                                         textAlign = TextAlign.Center,
                                         fontWeight = FontWeight.Bold,
                                         color = Color.Black.copy(alpha = 0.2f),
@@ -448,7 +463,7 @@ fun SignUpViewScreen(navController: NavController) {
                                     Text(
                                         text = "Enter City",
                                         fontFamily = openSans,
-                                        fontSize = 16.sp,
+                                        fontSize = 18.sp,
                                         textAlign = TextAlign.Center,
                                         fontWeight = FontWeight.Bold,
                                         color = Color.Black.copy(alpha = 0.2f),
@@ -456,6 +471,42 @@ fun SignUpViewScreen(navController: NavController) {
                                     )
                                 }
 
+                                innerTextField()
+                            }
+                        }
+                    )
+                    Text(
+                        text = "State",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = openSans,
+                        fontSize = 18.sp
+                    )
+
+                    BasicTextField(
+                        value = state,
+                        onValueChange = { state = it },
+                        singleLine = true,
+                        textStyle = TextStyle(
+                            fontSize = 18.sp,
+                            fontFamily = openSans,
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.White, RoundedCornerShape(50.dp))
+                            .padding(16.dp),
+                        decorationBox = { innerTextField ->
+                            Box(contentAlignment = Alignment.Center) {
+                                if (state.isEmpty()) {
+                                    Text("State (e.g. FL)",
+                                        color = Color.Black.copy(alpha = 0.2f),
+                                        fontSize = 18.sp,
+                                        fontFamily = openSans,
+                                        fontWeight = FontWeight.Bold)
+                                }
                                 innerTextField()
                             }
                         }
@@ -496,7 +547,7 @@ fun SignUpViewScreen(navController: NavController) {
                                     Text(
                                         text = "Enter Zipcode",
                                         fontFamily = openSans,
-                                        fontSize = 16.sp,
+                                        fontSize = 18.sp,
                                         textAlign = TextAlign.Center,
                                         fontWeight = FontWeight.Bold,
                                         color = Color.Black.copy(alpha = 0.2f),
@@ -510,7 +561,51 @@ fun SignUpViewScreen(navController: NavController) {
                     )
                     Button(
                         onClick = {
-                            navController.navigate("dashboard")
+                            if (
+                                firstName.isBlank() ||
+                                lastName.isBlank() ||
+                                phoneNumber.isBlank() ||
+                                addressLine1.isBlank() ||
+                                city.isBlank() ||
+                                state.isBlank() ||
+                                zipcode.isBlank()
+                            ) {
+                                errorMessage = "Please complete all required fields."
+                                successMessage = null
+                            } else {
+                                coroutineScope.launch {
+                                    isSubmitting = true
+                                    errorMessage = null
+                                    successMessage = null
+
+                                    try {
+                                        val request = LoaneeRegistration(
+                                            firstName = firstName.trim(),
+                                            lastName = lastName.trim(),
+                                            phoneNumber = phoneNumber.trim(),
+                                            addressLine1 = addressLine1.trim(),
+                                            addressLine2 = addressLine2.trim(),
+                                            city = city.trim(),
+                                            state = state.trim().uppercase(),
+                                            postalCode = zipcode.trim()
+                                        )
+
+                                        val registeredLoanee =
+                                            ApiClient.apiService.registerLoanee(request)
+
+                                        successMessage =
+                                            "Participant registered successfully! ID: ${registeredLoanee.participantId}"
+
+                                        navController.navigate("dashboard")
+                                    } catch (e: Exception) {
+                                        errorMessage =
+                                            "Registration failed: ${e.message ?: "Please try again."}"
+                                    } finally {
+                                        isSubmitting = false
+                                    }
+                                }
+
+                            }
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -530,11 +625,13 @@ fun SignUpViewScreen(navController: NavController) {
                             color = Color.White
                         )
                     }
-
-
-
-
-
+                    errorMessage?.let {
+                        Text(
+                            text = it,
+                            color = Color.Red,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
 
                 }
             }

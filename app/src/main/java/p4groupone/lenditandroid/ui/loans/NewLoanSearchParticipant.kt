@@ -1,5 +1,6 @@
 package p4groupone.lenditandroid.ui.loans
 
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -247,7 +248,11 @@ fun NewLoanSearchParticipantScreen(navController: NavController) {
                     )
                     Button(
                         onClick = {
-                            navController.navigate("newLoanSelectParticipant")
+                            navController.navigate("newLoanSelectParticipant/${Uri.encode(lastName.trim())}/${
+                                Uri.encode(
+                                    phoneNumber.trim()
+                                )
+                            }")
                         },
                         modifier = Modifier
                             .fillMaxWidth()

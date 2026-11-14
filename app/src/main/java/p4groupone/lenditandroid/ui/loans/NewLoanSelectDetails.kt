@@ -38,20 +38,27 @@ import p4groupone.lenditandroid.ui.theme.SecondaryColor
 import p4groupone.lenditandroid.ui.theme.openSans
 
 @Composable
-fun NewLoanSelectDetailsScreen(navController: NavController) {
+fun NewLoanSelectDetailsScreen(
+    navController: NavController,
+    participantId: Int
+) {
     var selectedDeviceType by remember {
-        mutableStateOf("Laptop")
+        mutableStateOf("All")
     }
 
     val deviceTypes = listOf(
+        "All",
         "Laptop",
         "Tablet",
-        "Hotspot"
+        "Hotspot",
+        "Cellphone"
     )
     var selectedCenter by remember {
-        mutableStateOf("Office for Local Aassistance (OLA)")
+        mutableStateOf("All")
     }
     val centers = listOf(
+        "All",
+        "Orlando Cares",
         "Dr. James R. Smith Neighborhood Center",
         "Engelwood Neighborhood Center",
         "John H. Jackson Neighborhood Center",
@@ -79,12 +86,11 @@ fun NewLoanSelectDetailsScreen(navController: NavController) {
     )
 
     var selectedReason by remember {
-        mutableStateOf("Education")
+        mutableStateOf("EDUCATION")
     }
     val reasons = listOf(
-        "Education",
-        "Employment",
-        "Personal Use"
+        "EMPLOYMENT",
+        "EDUCATION"
     )
 
     BoxWithConstraints(
@@ -230,7 +236,13 @@ fun NewLoanSelectDetailsScreen(navController: NavController) {
 
                 Button(
                     onClick = {
-                        navController.navigate("newLoanSelectDevice")
+                        navController.navigate(
+                            "newLoanSelectDevice/$participantId/" +
+                                    "${android.net.Uri.encode(selectedDeviceType)}/" +
+                                    "${android.net.Uri.encode(selectedCenter)}/" +
+                                    "${android.net.Uri.encode(selectedDuration)}/" +
+                                    android.net.Uri.encode(selectedReason)
+                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -255,14 +267,4 @@ fun NewLoanSelectDetailsScreen(navController: NavController) {
 
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun NewLoanSelectDetailsScreenPreview() {
-    val navController = rememberNavController()
-
-    NewLoanSelectDetailsScreen(
-        navController = navController
-    )
 }

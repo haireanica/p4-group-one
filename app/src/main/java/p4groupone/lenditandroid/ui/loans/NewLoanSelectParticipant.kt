@@ -14,8 +14,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,7 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import p4groupone.lenditandroid.models.Participant
 import p4groupone.lenditandroid.models.SampleParticipants
+import p4groupone.lenditandroid.network.ApiClient
 import p4groupone.lenditandroid.ui.components.ParticipantList
 import p4groupone.lenditandroid.ui.dashboard.DashboardViewScreen
 import p4groupone.lenditandroid.ui.theme.PrimaryColor
@@ -39,9 +43,43 @@ import p4groupone.lenditandroid.ui.theme.SecondaryColor
 import p4groupone.lenditandroid.ui.theme.openSans
 
 @Composable
-fun NewLoanSelectParticipantScreen(navController: NavController) {
+fun NewLoanSelectParticipantScreen(
+    navController: NavController,
+    lastName: String = "",
+    phoneNumber: String = ""
+) {
     var selectedParticipantId by remember {
         mutableStateOf<String?>(null)
+    }
+    var participants by remember { mutableStateOf(emptyList<Participant>()) }
+    var isLoading by remember { mutableStateOf(true) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+    LaunchedEffect(Unit) {
+        try {
+            isLoading = true
+            errorMessage = null
+
+            participants = ApiClient.apiService
+                .getLoanees()
+                .map { it.toParticipant() }
+
+        } catch (e: Exception) {
+            errorMessage = e.message ?: "Unable to load participants."
+        } finally {
+            isLoading = false
+        }
+    }
+    val filteredParticipants = participants.filter { participant ->
+        val matchesLastName =
+            lastName.isBlank() ||
+                    participant.lastName.contains(lastName.trim(), ignoreCase = true)
+
+        val matchesPhoneNumber =
+            phoneNumber.isBlank() ||
+                    participant.phoneNumber.filter { it.isDigit() }
+                        .contains(phoneNumber.filter { it.isDigit() })
+
+        matchesLastName && matchesPhoneNumber
     }
     BoxWithConstraints(
         modifier = Modifier
@@ -159,18 +197,45 @@ fun NewLoanSelectParticipantScreen(navController: NavController) {
                     modifier = Modifier
                         .height(300.dp)
                 ) {
-                    ParticipantList(
-                        participants = SampleParticipants.participants,
-                        selectedParticipantId = selectedParticipantId,
-                        onParticipantClick = { participant ->
-                            selectedParticipantId = participant.id
+                    when {
+                        isLoading -> {
+                            CircularProgressIndicator()
                         }
-                    )
+
+                        errorMessage != null -> {
+                            Text(text = "Error: $errorMessage")
+                        }
+
+                        filteredParticipants.isEmpty() -> {
+
+                            Text(
+                                text = "No participants found.",
+                                fontSize = 20.sp,
+                                fontFamily = openSans,
+                                color = Color.White,
+                                modifier = Modifier.padding(top = 20.dp)
+
+                            )
+                        }
+
+                        else -> {
+                            ParticipantList(
+                                participants = filteredParticipants,
+                                selectedParticipantId = selectedParticipantId,
+                                onParticipantClick = { participant ->
+                                    selectedParticipantId = participant.id
+                                }
+                            )
+                        }
+                    }
                 }
 
                 Button(
                     onClick = {
-                        navController.navigate("newLoanSelectDetails")
+                        if(selectedParticipantId != null){
+                        selectedParticipantId?.let { participantId ->
+                            navController.navigate("newLoanSelectDetails/$participantId")
+                        }}
                     },
                     modifier = Modifier
                         .fillMaxWidth()

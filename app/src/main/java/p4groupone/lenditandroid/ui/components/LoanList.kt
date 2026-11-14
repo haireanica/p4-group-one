@@ -87,7 +87,7 @@ fun LoanList(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = loan.deviceType,
+                            text = "Device: " + loan.deviceType,
                             fontFamily = openSans,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
@@ -95,7 +95,7 @@ fun LoanList(
                         )
 
                         Text(
-                            text = loan.centerLocation,
+                            text = "Center: " +loan.centerLocation,
                             fontFamily = openSans,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
@@ -103,7 +103,7 @@ fun LoanList(
                         )
 
                         Text(
-                            text = loan.loanStartDate,
+                            text = "Checked Out: " +loan.loanStartDate,
                             fontFamily = openSans,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
@@ -111,7 +111,7 @@ fun LoanList(
                         )
 
                         Text(
-                            text = loan.loanDueDate,
+                            text = "Due By: " +loan.loanDueDate,
                             fontFamily = openSans,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,

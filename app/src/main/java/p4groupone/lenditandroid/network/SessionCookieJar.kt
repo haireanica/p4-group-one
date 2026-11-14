@@ -35,4 +35,9 @@ class SessionCookieJar : CookieJar {
 
         return cookies.filter { it.matches(url) }
     }
+
+    @Synchronized
+    fun clear() {
+        cookies.clear()
+    }
 }

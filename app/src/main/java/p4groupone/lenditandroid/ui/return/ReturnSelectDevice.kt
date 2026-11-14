@@ -15,6 +15,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,30 +40,138 @@ import p4groupone.lenditandroid.ui.dashboard.DashboardViewScreen
 import p4groupone.lenditandroid.ui.theme.PrimaryColor
 import p4groupone.lenditandroid.ui.theme.SecondaryColor
 import p4groupone.lenditandroid.ui.theme.openSans
+import androidx.compose.runtime.LaunchedEffect
+import p4groupone.lenditandroid.models.Device
+import p4groupone.lenditandroid.network.ApiClient
+import p4groupone.lenditandroid.network.LoanDto
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
+import p4groupone.lenditandroid.network.ReturnRequest
+
 
 @Composable
-fun ReturnSelectDeviceScreen(navController: NavController) {
+fun ReturnSelectDeviceScreen(
+    navController: NavController,
+    participantId: String?
+) {
+    val scope = rememberCoroutineScope()
     var selectedDeviceId by remember {
+        mutableStateOf<String?>(null)
+    }
+
+    var activeDevices by remember {
+        mutableStateOf<List<Device>>(emptyList())
+    }
+
+    var isLoading by remember {
+        mutableStateOf(true)
+    }
+
+    var loadError by remember {
         mutableStateOf<String?>(null)
     }
     var selectedDeviceCondition by remember {
         mutableStateOf("Good")
     }
 
+    var activeLoans by remember {
+        mutableStateOf<List<LoanDto>>(emptyList())
+    }
+
+    var selectedLoanId by remember {
+        mutableStateOf<Int?>(null)
+    }
+
+    var returnNotes by remember {
+        mutableStateOf("")
+    }
+
+    var isSubmitting by remember {
+        mutableStateOf(false)
+    }
+
+    var returnMessage by remember {
+        mutableStateOf<String?>(null)
+    }
+
+
+    LaunchedEffect(participantId) {
+
+        isLoading = true
+        loadError = null
+
+        try {
+            val participantIdInt = participantId?.toIntOrNull()
+
+            if (participantIdInt == null) {
+                activeDevices = emptyList()
+                loadError = "Invalid participant ID."
+                return@LaunchedEffect
+            }
+
+            val loans = ApiClient.apiService.getLoans()
+
+            activeDevices = loans
+                .filter { loan ->
+                    loan.participantId == participantIdInt &&
+                            loan.returnDate.isNullOrBlank() &&
+                            loan.loanId != null
+                }
+                .map { loan ->
+                    Device(
+                        id = loan.loanId.toString(),
+                        deviceType = loan.assetName ?: "Unknown Device",
+                        centerLocation = loan.center ?: "Unknown Center",
+                        status = loan.status ?: "Active"
+                    )
+                }
+
+        } catch (e: Exception) {
+            loadError = e.message ?: "Unable to retrieve active loans."
+            e.printStackTrace()
+
+        } finally {
+            isLoading = false
+        }
+    }
+
     val deviceCondition = listOf(
         "Good",
-        "Dirty",
-        "Broken"
+        "Minor Damage",
+        "Major Damage",
+        "Needs Repair"
     )
     var selectedDeviceAccessories by remember {
         mutableStateOf("Return")
     }
+    var devices by remember {
+        mutableStateOf<List<Device>>(emptyList())
+    }
 
-    val deviceAccessories = listOf(
-        "Return",
-        "Not Returned",
-        "Broken"
-    )
+    LaunchedEffect(participantId) {
+        try {
+            val loans = ApiClient.apiService.getLoans()
+
+            devices = loans
+                .filter { loan ->
+                    loan.participantId?.toString() == participantId &&
+                            loan.status == "CHECKED_OUT"
+                }
+                .map { loan ->
+                    Device(
+                        id = loan.assetId.orEmpty(),
+                        deviceType = loan.assetName.orEmpty(),
+                        centerLocation = loan.center.orEmpty(),
+                        status = loan.status.orEmpty()
+                    )
+                }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            isLoading = false
+        }
+    }
+
 
     BoxWithConstraints(
         modifier = Modifier
@@ -178,13 +288,49 @@ fun ReturnSelectDeviceScreen(navController: NavController) {
                     modifier = Modifier
                         .height(300.dp)
                 ) {
-                    DeviceList(
-                        devices = SampleDevices.devices,
-                        selectedDeviceId = selectedDeviceId,
-                        onDeviceClick = { device ->
-                            selectedDeviceId = device.id
+                    if (isLoading) {
+                        Text(
+                            text = "Loading active loans...",
+                            color = Color.White
+                        )
+                    } else if (devices.isEmpty()) {
+                        Text(
+                            text = "No active loans found for this participant.",
+                            color = Color.White
+                        )
+                    } else {
+                        if (isLoading) {
+
+                            Text(
+                                text = "Loading active loans...",
+                                color = Color.White
+                            )
+
+                        } else if (loadError != null) {
+
+                            Text(
+                                text = loadError!!,
+                                color = Color.White
+                            )
+
+                        } else if (activeDevices.isEmpty()) {
+
+                            Text(
+                                text = "No active loans found for this participant.",
+                                color = Color.White
+                            )
+
+                        } else {
+
+                            DeviceList(
+                                devices = activeDevices,
+                                selectedDeviceId = selectedDeviceId,
+                                onDeviceClick = { device ->
+                                    selectedDeviceId = device.id
+                                }
+                            )
                         }
-                    )
+                    }
                 }
 
                 LendITDropdown(
@@ -194,16 +340,72 @@ fun ReturnSelectDeviceScreen(navController: NavController) {
                     onValueChange = { selectedDeviceCondition = it }
                 )
 
-                LendITDropdown(
-                    label = "Device Accessories",
-                    options = deviceAccessories,
-                    selectedValue = selectedDeviceAccessories,
-                    onValueChange = { selectedDeviceAccessories = it }
+                TextField(
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
+                    ),
+                    value = returnNotes,
+                    onValueChange = {
+                        returnNotes = it
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(top = 10.dp),
+                    label = {
+                        Text("Return Notes (Optional)")
+                    },
+                    placeholder = {
+                        Text("Describe any damage or issues...")
+                    },
+                    maxLines = 3,
                 )
 
                 Button(
                     onClick = {
-                        navController.navigate("dashboard")
+
+                        val loanId = selectedDeviceId?.toIntOrNull()
+
+                        if (loanId == null) {
+                            returnMessage = "Please select a device."
+                            return@Button
+                        }
+
+                        scope.launch {
+
+                            isSubmitting = true
+                            returnMessage = null
+
+                            try {
+
+                                val condition = selectedDeviceCondition
+                                    .lowercase()
+                                    .replace(" ", "-")
+
+                                val request = ReturnRequest(
+                                    condition = condition,
+                                    notes = returnNotes.ifBlank { null }
+                                )
+
+                                ApiClient.apiService.returnLoan(
+                                    loanId = loanId,
+                                    request = request
+                                )
+
+                                navController.navigate("dashboard")
+
+                            } catch (e: Exception) {
+
+                                returnMessage = e.message
+                                    ?: "Unable to complete return."
+
+                            } finally {
+
+                                isSubmitting = false
+
+                            }
+                        }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -228,14 +430,4 @@ fun ReturnSelectDeviceScreen(navController: NavController) {
 
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ReturnSelectDeviceScreenPreview() {
-    val navController = rememberNavController()
-
-    ReturnSelectDeviceScreen(
-        navController = navController
-    )
 }

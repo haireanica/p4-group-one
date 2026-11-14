@@ -38,11 +38,75 @@ import p4groupone.lenditandroid.ui.dashboard.DashboardViewScreen
 import p4groupone.lenditandroid.ui.theme.PrimaryColor
 import p4groupone.lenditandroid.ui.theme.SecondaryColor
 import p4groupone.lenditandroid.ui.theme.openSans
+import androidx.compose.runtime.LaunchedEffect
+import p4groupone.lenditandroid.network.ApiClient
 
 @Composable
-fun InventorySearchResultsScreen(navController: NavController) {
-    var selectedDeviceId by remember {
-        mutableStateOf<String?>(null)
+fun InventorySearchResultsScreen(
+    navController: NavController,
+    deviceType: String,
+    center: String,
+    status: String
+) {
+    var selectedDeviceId by remember { mutableStateOf<String?>(null) }
+
+    var devices by remember { mutableStateOf<List<Device>>(emptyList()) }
+    var isLoading by remember { mutableStateOf(true) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(deviceType, center, status) {
+        try {
+            isLoading = true
+            errorMessage = null
+
+            val backendStatus = when (status) {
+                "Available" -> "AVAILABLE"
+                "Loaned Out" -> "CHECKED_OUT"
+                "Under Repair" -> "IN_MAINTENANCE"
+                else -> status
+            }
+
+            devices = ApiClient.apiService.getAssets()
+                .filter { asset ->
+
+                    val matchesDeviceType =
+                        deviceType == "All" ||
+                                asset.deviceType.equals(deviceType, ignoreCase = true)
+
+                    val matchesCenter =
+                        center == "All" ||
+                                asset.inventory?.center?.name.equals(center, ignoreCase = true)
+
+                    val matchesStatus =
+                        status == "All" ||
+                                asset.status.equals(backendStatus, ignoreCase = true)
+
+                    matchesDeviceType && matchesCenter && matchesStatus
+                }
+                .mapNotNull { asset ->
+                    val assetId = asset.assetId ?: return@mapNotNull null
+
+                    val displayStatus = when (asset.status?.uppercase()) {
+                        "AVAILABLE" -> "Available"
+                        "CHECKED_OUT" -> "Loaned Out"
+                        "IN_MAINTENANCE" -> "Under Repair"
+                        "RETIRED" -> "Retired"
+                        else -> "Unknown"
+                    }
+
+                    Device(
+                        id = assetId,
+                        deviceType = asset.deviceType ?: "Unknown",
+                        centerLocation = asset.inventory?.center?.name ?: "Unknown",
+                        status = displayStatus
+                    )
+                }
+
+        } catch (e: Exception) {
+            errorMessage = e.message ?: "Unable to retrieve inventory."
+        } finally {
+            isLoading = false
+        }
     }
 
     BoxWithConstraints(
@@ -164,37 +228,43 @@ fun InventorySearchResultsScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                if (isLoading) {
+                    Text(
+                        text = "Loading devices...",
+                        color = Color.White,
+                        fontFamily = openSans
+                    )
+                }
+
+                if (errorMessage != null) {
+                    Text(
+                        text = errorMessage ?: "",
+                        color = Color.White,
+                        fontFamily = openSans
+                    )
+                }
+
+                if (!isLoading && errorMessage == null && devices.isEmpty()) {
+                    Text(
+                        text = "No matching devices found.",
+                        fontSize = 20.sp,
+                        color = Color.White,
+                        fontFamily = openSans,
+                        modifier = Modifier.padding(top = 20.dp)
+                    )
+                }
+
                 DeviceList(
-                    devices = SampleDevices.devices,
+                    devices = devices,
                     selectedDeviceId = selectedDeviceId,
                     onDeviceClick = { device ->
                         selectedDeviceId = device.id
                     }
                 )
-
-                Button(
-                    onClick = {
-                        navController.navigate("dashboard")
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(buttonHeight),
-                    shape = RoundedCornerShape(50.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = SecondaryColor
-                    )
-                ) {
-                    Text(
-                        text = "Needs Repair",
-                        fontFamily = openSans,
-                        fontSize = buttonTextSize,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                }
             }
 
 
@@ -209,6 +279,9 @@ fun InventorySearchResultsScreenPreview() {
     val navController = rememberNavController()
 
     InventorySearchResultsScreen(
-        navController = navController
+        navController = navController,
+        deviceType = "Laptop",
+        center = "Office for Local Aassistance (OLA)",
+        status = "Available"
     )
 }

@@ -23,4 +23,8 @@ object ApiClient {
             .build()
             .create(ApiService::class.java)
     }
+
+    fun clearSession() {
+        cookieJar.clear()
+    }
 }

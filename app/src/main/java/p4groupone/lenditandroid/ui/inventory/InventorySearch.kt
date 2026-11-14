@@ -42,18 +42,22 @@ import p4groupone.lenditandroid.ui.components.LendITDropdown
 @Composable
 fun InventorySearchScreen(navController: NavController) {
     var selectedDeviceType by remember {
-        mutableStateOf("Laptop")
+        mutableStateOf("All")
     }
 
     val deviceTypes = listOf(
+        "All",
         "Laptop",
         "Tablet",
-        "Hotspot"
+        "Hotspot",
+        "Cellphone"
     )
     var selectedCenter by remember {
-        mutableStateOf("Office for Local Aassistance (OLA)")
+        mutableStateOf("All")
     }
     val centers = listOf(
+        "All",
+        "Orlando Cares",
         "Dr. James R. Smith Neighborhood Center",
         "Engelwood Neighborhood Center",
         "John H. Jackson Neighborhood Center",
@@ -73,12 +77,14 @@ fun InventorySearchScreen(navController: NavController) {
     )
 
     var selectedState by remember {
-        mutableStateOf("Available")
+        mutableStateOf("All")
     }
     val states = listOf(
+        "All",
         "Available",
         "Loaned Out",
-        "Under Repair"
+        "Under Repair",
+        "RETIRED"
     )
 
 
@@ -228,7 +234,7 @@ fun InventorySearchScreen(navController: NavController) {
 
                 Button(
                     onClick = {
-                        navController.navigate("inventorySearchResults")
+                        navController.navigate("inventorySearchResults/${android.net.Uri.encode(selectedDeviceType)}/${android.net.Uri.encode(selectedCenter)}/${android.net.Uri.encode(selectedState)}")
                     },
                     modifier = Modifier
                         .fillMaxWidth()

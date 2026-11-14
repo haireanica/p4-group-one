@@ -39,11 +39,48 @@ import p4groupone.lenditandroid.ui.dashboard.DashboardViewScreen
 import p4groupone.lenditandroid.ui.theme.PrimaryColor
 import p4groupone.lenditandroid.ui.theme.SecondaryColor
 import p4groupone.lenditandroid.ui.theme.openSans
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.runtime.LaunchedEffect
+import p4groupone.lenditandroid.network.ApiClient
+import p4groupone.lenditandroid.models.Loan
 
 @Composable
-fun ParticipantViewLoansScreen(navController: NavController) {
+fun ParticipantViewLoansScreen(
+    navController: NavController,
+    participantId: String
+) {
     var selectedLoanId by remember {
         mutableStateOf<String?>(null)
+    }
+
+    var loans by remember {
+        mutableStateOf(emptyList<Loan>())
+    }
+
+    var isLoading by remember {
+        mutableStateOf(true)
+    }
+
+    var errorMessage by remember {
+        mutableStateOf<String?>(null)
+    }
+
+    LaunchedEffect(participantId) {
+        try {
+            isLoading = true
+            errorMessage = null
+
+            loans = ApiClient.apiService
+                .getLoans()
+                .filter { it.participantId?.toString() == participantId  &&
+                    it.status.equals("CHECKED_OUT", ignoreCase = true)}
+                .map { it.toLoan() }
+
+        } catch (e: Exception) {
+            errorMessage = e.message ?: "Unable to load loans."
+        } finally {
+            isLoading = false
+        }
     }
     BoxWithConstraints(
         modifier = Modifier
@@ -169,36 +206,44 @@ fun ParticipantViewLoansScreen(navController: NavController) {
                     modifier = Modifier
                         .height(350.dp)
                 ) {
-                    LoanList(
-                        loans = SampleLoans.loans,
-                        selectedLoanId = selectedLoanId,
-                        onLoanClick = { loan ->
-                            selectedLoanId = loan.id
+                    when {
+                        isLoading -> {
+                            CircularProgressIndicator(
+                                color = Color.White
+                            )
                         }
-                    )
+
+                        errorMessage != null -> {
+                            Text(
+                                text = "Error: $errorMessage",
+                                color = Color.White,
+                                fontFamily = openSans
+                            )
+                        }
+
+                        loans.isEmpty() -> {
+                            Text(
+                                text = "No loans found for this participant.",
+                                fontSize = 20.sp,
+                                fontFamily = openSans,
+                                color = Color.White,
+                                modifier = Modifier.padding(top = 20.dp)
+                            )
+                        }
+
+                        else -> {
+                            LoanList(
+                                loans = loans,
+                                selectedLoanId = selectedLoanId,
+                                onLoanClick = { loan ->
+                                    selectedLoanId = loan.id
+                                }
+                            )
+                        }
+                    }
                 }
 
-                Button(
-                    onClick = {
-                        navController.navigate("dashboard")
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(buttonHeight),
-                    shape = RoundedCornerShape(50.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = SecondaryColor
-                    )
-                ) {
 
-                    Text(
-                        text = "Complete Return",
-                        fontFamily = openSans,
-                        fontSize = buttonTextSize,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                }
             }
 
 
@@ -211,7 +256,9 @@ fun ParticipantViewLoansScreen(navController: NavController) {
 fun ParticipantViewLoansScreenPreview() {
     val navController = rememberNavController()
 
-    ParticipantViewLoansScreen(
-        navController = navController
-    )
+    fun ParticipantViewLoansScreen(
+        navController: NavController,
+        participantId: String
+    ) {
+    }
 }

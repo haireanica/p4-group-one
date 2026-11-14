@@ -1,5 +1,6 @@
 package p4groupone.lenditandroid.ui.`return`
 
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -243,7 +244,11 @@ fun ReturnSearchParticipantScreen(navController: NavController) {
 
                 Button(
                     onClick = {
-                        navController.navigate("returnSelectParticipant")
+                        navController.navigate("returnSelectParticipant/${Uri.encode(lastName.trim())}/${
+                            Uri.encode(
+                                phoneNumber.trim()
+                            )
+                        }")
                     },
                     modifier = Modifier
                         .fillMaxWidth()

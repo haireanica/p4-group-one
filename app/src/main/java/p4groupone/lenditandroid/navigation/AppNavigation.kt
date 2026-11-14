@@ -23,6 +23,8 @@ import p4groupone.lenditandroid.ui.participants.SignUpViewScreen
 import p4groupone.lenditandroid.ui.`return`.ReturnSearchParticipantScreen
 import p4groupone.lenditandroid.ui.`return`.ReturnSelectDeviceScreen
 import p4groupone.lenditandroid.ui.`return`.ReturnSelectParticipantScreen
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 
 @Composable
 fun AppNavigation(){
@@ -48,24 +50,82 @@ fun AppNavigation(){
             InventorySearchScreen(navController)
         }
 
-        composable("inventorySearchResults") {
-            InventorySearchResultsScreen(navController)
+        composable("inventorySearchResults/{deviceType}/{center}/{status}") { backStackEntry ->
+
+            val deviceType = backStackEntry.arguments?.getString("deviceType") ?: ""
+            val center = backStackEntry.arguments?.getString("center") ?: ""
+            val status = backStackEntry.arguments?.getString("status") ?: ""
+
+            InventorySearchResultsScreen(
+                navController = navController,
+                deviceType = deviceType,
+                center = center,
+                status = status
+            )
         }
 
         composable("newLoanSearchParticipant") {
             NewLoanSearchParticipantScreen(navController)
         }
 
-        composable("newLoanSelectDetails") {
-            NewLoanSelectDetailsScreen(navController)
+        composable("newLoanSelectDetails/{participantId}") { backStackEntry ->
+
+            val participantId = backStackEntry.arguments
+                ?.getString("participantId")
+                ?.toIntOrNull()
+
+            if (participantId != null) {
+                NewLoanSelectDetailsScreen(
+                    navController = navController,
+                    participantId = participantId
+                )
+            }
         }
 
-        composable("newLoanSelectDevice") {
-            NewLoanSelectDeviceScreen(navController)
+        composable(
+            "newLoanSelectDevice/{participantId}/{deviceType}/{center}/{duration}/{reason}"
+        ) { backStackEntry ->
+
+            val participantId = backStackEntry.arguments
+                ?.getString("participantId")
+                ?.toIntOrNull()
+
+            val deviceType = backStackEntry.arguments
+                ?.getString("deviceType") ?: "All"
+
+            val center = backStackEntry.arguments
+                ?.getString("center") ?: "All"
+
+            val duration = backStackEntry.arguments
+                ?.getString("duration") ?: "1 Week"
+
+            val reason = backStackEntry.arguments
+                ?.getString("reason") ?: "EDUCATION"
+
+            if (participantId != null) {
+                NewLoanSelectDeviceScreen(
+                    navController = navController,
+                    participantId = participantId,
+                    deviceType = deviceType,
+                    center = center,
+                    duration = duration,
+                    reason = reason
+                )
+            }
         }
 
-        composable("newLoanSelectParticipant") {
-            NewLoanSelectParticipantScreen(navController)
+        composable(
+            route = "newLoanSelectParticipant/{lastName}/{phoneNumber}"
+        ) { backStackEntry ->
+
+            val lastName = backStackEntry.arguments?.getString("lastName") ?: ""
+            val phoneNumber = backStackEntry.arguments?.getString("phoneNumber") ?: ""
+
+            NewLoanSelectParticipantScreen(
+                navController = navController,
+                lastName = lastName,
+                phoneNumber = phoneNumber
+            )
         }
 
         composable("forgotPasswordReset") {
@@ -76,20 +136,49 @@ fun AppNavigation(){
             ForgotPasswordViewScreen(navController)
         }
 
-        composable("participantEditInfo") {
-            ParticipantEditInfoScreen(navController)
+        composable("participantEditInfo/{participantId}") { backStackEntry ->
+
+            val participantId = backStackEntry.arguments
+                ?.getString("participantId")
+                ?.toIntOrNull()
+
+            if (participantId != null) {
+                ParticipantEditInfoScreen(
+                    navController = navController,
+                    participantId = participantId
+                )
+            }
         }
 
         composable("participantSearchForm") {
             ParticipantSearchFormScreen(navController)
         }
 
-        composable("participantSearchResults") {
-            ParticipantSearchResultsScreen(navController)
+        composable(
+            route = "participantSearchResults/{lastName}/{phoneNumber}"
+        ) { backStackEntry ->
+
+            val lastName = backStackEntry.arguments?.getString("lastName") ?: ""
+            val phoneNumber = backStackEntry.arguments?.getString("phoneNumber") ?: ""
+
+            ParticipantSearchResultsScreen(
+                navController = navController,
+                lastName = lastName,
+                phoneNumber = phoneNumber
+            )
         }
 
-        composable("participantViewLoans") {
-            ParticipantViewLoansScreen(navController)
+        composable(
+            route = "participantViewLoans/{participantId}"
+        ) { backStackEntry ->
+
+            val participantId =
+                backStackEntry.arguments?.getString("participantId") ?: ""
+
+            ParticipantViewLoansScreen(
+                navController = navController,
+                participantId = participantId
+            )
         }
 
         composable("signUpView") {
@@ -100,12 +189,36 @@ fun AppNavigation(){
             ReturnSearchParticipantScreen(navController)
         }
 
-        composable("returnSelectDevice") {
-            ReturnSelectDeviceScreen(navController)
+        composable(
+            route = "returnSelectDevice/{participantId}",
+            arguments = listOf(
+                navArgument("participantId") {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+
+            val participantId =
+                backStackEntry.arguments?.getString("participantId")
+
+            ReturnSelectDeviceScreen(
+                navController = navController,
+                participantId = participantId
+            )
         }
 
-        composable("returnSelectParticipant") {
-            ReturnSelectParticipantScreen(navController)
+        composable(
+            route = "returnSelectParticipant/{lastName}/{phoneNumber}"
+        ) { backStackEntry ->
+
+            val lastName = backStackEntry.arguments?.getString("lastName") ?: ""
+            val phoneNumber = backStackEntry.arguments?.getString("phoneNumber") ?: ""
+
+            ReturnSelectParticipantScreen(
+                navController = navController,
+                lastName = lastName,
+                phoneNumber = phoneNumber
+            )
         }
 
 

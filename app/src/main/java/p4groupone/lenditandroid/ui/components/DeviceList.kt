@@ -36,7 +36,7 @@ fun DeviceList(
     Card(
         modifier = modifier.fillMaxWidth()
             .padding(vertical = 10.dp)
-            .height(400.dp),
+            .height(600.dp),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.Gray.copy(0.5f)
@@ -87,7 +87,7 @@ fun DeviceList(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = device.deviceType,
+                            text = "Type: " + device.deviceType,
                             fontFamily = openSans,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
@@ -95,7 +95,7 @@ fun DeviceList(
                         )
 
                         Text(
-                            text = device.id,
+                            text = "ID: " + device.id,
                             fontFamily = openSans,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
@@ -103,7 +103,7 @@ fun DeviceList(
                         )
 
                         Text(
-                            text = device.centerLocation,
+                            text = "Center: " + device.centerLocation,
                             fontFamily = openSans,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
@@ -111,7 +111,7 @@ fun DeviceList(
                         )
 
                         Text(
-                            text = device.status,
+                            text = "Status: " + device.status,
                             fontFamily = openSans,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,

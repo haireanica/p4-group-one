@@ -37,9 +37,17 @@ import p4groupone.lenditandroid.ui.dashboard.DashboardViewScreen
 import p4groupone.lenditandroid.ui.theme.PrimaryColor
 import p4groupone.lenditandroid.ui.theme.SecondaryColor
 import p4groupone.lenditandroid.ui.theme.openSans
+import androidx.compose.runtime.LaunchedEffect
+import p4groupone.lenditandroid.network.ApiClient
+import kotlinx.coroutines.launch
+import androidx.compose.runtime.rememberCoroutineScope
+import p4groupone.lenditandroid.network.LoaneeRegistration
 
 @Composable
-fun ParticipantEditInfoScreen(navController: NavController) {
+fun ParticipantEditInfoScreen(
+    navController: NavController,
+    participantId: Int
+){
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
@@ -54,6 +62,10 @@ fun ParticipantEditInfoScreen(navController: NavController) {
         val buttonTextSize = 32.sp * scale
         val buttonHeight = 60.dp * scale
 
+        var state by remember { mutableStateOf("") }
+        var isLoading by remember { mutableStateOf(true) }
+        var errorMessage by remember { mutableStateOf<String?>(null) }
+
         var firstName by remember { mutableStateOf("") }
         var lastName by remember { mutableStateOf("") }
         var phoneNumber by remember { mutableStateOf("") }
@@ -61,6 +73,40 @@ fun ParticipantEditInfoScreen(navController: NavController) {
         var addressLine2 by remember { mutableStateOf("") }
         var city by remember { mutableStateOf("") }
         var zipcode by remember { mutableStateOf("") }
+        var isSaving by remember { mutableStateOf(false) }
+        var saveMessage by remember { mutableStateOf<String?>(null) }
+
+        val coroutineScope = rememberCoroutineScope()
+
+
+        LaunchedEffect(participantId) {
+            try {
+                isLoading = true
+                errorMessage = null
+
+                val participant = ApiClient.apiService
+                    .getLoanees()
+                    .firstOrNull { it.participantId == participantId }
+
+                if (participant != null) {
+                    firstName = participant.firstName ?: ""
+                    lastName = participant.lastName ?: ""
+                    phoneNumber = participant.phoneNumber ?: ""
+                    addressLine1 = participant.addressLine1 ?: ""
+                    addressLine2 = participant.addressLine2 ?: ""
+                    city = participant.city ?: ""
+                    state = participant.state ?: ""
+                    zipcode = participant.postalCode ?: ""
+                } else {
+                    errorMessage = "Participant not found."
+                }
+
+            } catch (e: Exception) {
+                errorMessage = "Unable to load participant: ${e.message}"
+            } finally {
+                isLoading = false
+            }
+        }
 
         Column(
             modifier = Modifier
@@ -155,7 +201,7 @@ fun ParticipantEditInfoScreen(navController: NavController) {
                 }
                 Column(
                     modifier = Modifier.fillMaxWidth()
-                        .padding(vertical = 5.dp)
+                        .padding(vertical = 0.dp)
                         .padding(horizontal = 15.dp),
                     verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
@@ -342,7 +388,7 @@ fun ParticipantEditInfoScreen(navController: NavController) {
                                     Text(
                                         text = "Enter Address",
                                         fontFamily = openSans,
-                                        fontSize = 16.sp,
+                                        fontSize = 18.sp,
                                         textAlign = TextAlign.Center,
                                         fontWeight = FontWeight.Bold,
                                         color = Color.Black.copy(alpha = 0.2f),
@@ -382,7 +428,7 @@ fun ParticipantEditInfoScreen(navController: NavController) {
                                     Text(
                                         text = "Enter Unit/Apt Number",
                                         fontFamily = openSans,
-                                        fontSize = 16.sp,
+                                        fontSize = 18.sp,
                                         textAlign = TextAlign.Center,
                                         fontWeight = FontWeight.Bold,
                                         color = Color.Black.copy(alpha = 0.2f),
@@ -403,7 +449,8 @@ fun ParticipantEditInfoScreen(navController: NavController) {
                     )
 
                     BasicTextField(
-                        value = city,
+                        value = city
+                        ,
                         onValueChange = { city = it },
                         singleLine = true,
                         textStyle = TextStyle(
@@ -430,7 +477,7 @@ fun ParticipantEditInfoScreen(navController: NavController) {
                                     Text(
                                         text = "Enter City",
                                         fontFamily = openSans,
-                                        fontSize = 16.sp,
+                                        fontSize = 18.sp,
                                         textAlign = TextAlign.Center,
                                         fontWeight = FontWeight.Bold,
                                         color = Color.Black.copy(alpha = 0.2f),
@@ -438,6 +485,42 @@ fun ParticipantEditInfoScreen(navController: NavController) {
                                     )
                                 }
 
+                                innerTextField()
+                            }
+                        }
+                    )
+                    Text(
+                        text = "State",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = openSans,
+                        fontSize = 18.sp
+                    )
+
+                    BasicTextField(
+                        value = state,
+                        onValueChange = { state = it },
+                        singleLine = true,
+                        textStyle = TextStyle(
+                            fontSize = 18.sp,
+                            fontFamily = openSans,
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.White, RoundedCornerShape(50.dp))
+                            .padding(16.dp),
+                        decorationBox = { innerTextField ->
+                            Box(contentAlignment = Alignment.Center) {
+                                if (state.isEmpty()) {
+                                    Text("State (e.g. FL)",
+                                        color = Color.Black.copy(alpha = 0.2f),
+                                        fontSize = 18.sp,
+                                        fontFamily = openSans,
+                                        fontWeight = FontWeight.Bold)
+                                }
                                 innerTextField()
                             }
                         }
@@ -478,7 +561,7 @@ fun ParticipantEditInfoScreen(navController: NavController) {
                                     Text(
                                         text = "Enter Zipcode",
                                         fontFamily = openSans,
-                                        fontSize = 16.sp,
+                                        fontSize = 18.sp,
                                         textAlign = TextAlign.Center,
                                         fontWeight = FontWeight.Bold,
                                         color = Color.Black.copy(alpha = 0.2f),
@@ -492,7 +575,47 @@ fun ParticipantEditInfoScreen(navController: NavController) {
                     )
                     Button(
                         onClick = {
-                            navController.navigate("dashboard")
+                                if (
+                                    firstName.isBlank() ||
+                                    lastName.isBlank() ||
+                                    phoneNumber.isBlank() ||
+                                    addressLine1.isBlank() ||
+                                    city.isBlank() ||
+                                    state.isBlank() ||
+                                    zipcode.isBlank()
+                                ) {
+                                    saveMessage = "Please complete all required fields."
+                                } else {
+                                    coroutineScope.launch {
+                                        isSaving = true
+                                        saveMessage = null
+
+                                        try {
+                                            val request = LoaneeRegistration(
+                                                firstName = firstName.trim(),
+                                                lastName = lastName.trim(),
+                                                phoneNumber = phoneNumber.trim(),
+                                                addressLine1 = addressLine1.trim(),
+                                                addressLine2 = addressLine2.trim(),
+                                                city = city.trim(),
+                                                state = state.trim().uppercase(),
+                                                postalCode = zipcode.trim()
+                                            )
+
+                                            ApiClient.apiService.updateLoanee(
+                                                id = participantId,
+                                                request = request
+                                            )
+
+                                            saveMessage = "Participant information updated successfully!"
+                                            navController.navigate("dashboard")
+                                        } catch (e: Exception) {
+                                            saveMessage = "Update failed: ${e.message}"
+                                        } finally {
+                                            isSaving = false
+                                        }
+                                    }
+                                }
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -512,7 +635,13 @@ fun ParticipantEditInfoScreen(navController: NavController) {
                             color = Color.White
                         )
                     }
-
+                    errorMessage?.let {
+                        Text(
+                            text = it,
+                            color = Color.Red,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
 
                 }
 
@@ -522,12 +651,3 @@ fun ParticipantEditInfoScreen(navController: NavController) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun ParticipantEditInfoScreenPreview() {
-    val navController = rememberNavController()
-
-    ParticipantEditInfoScreen(
-        navController = navController
-    )
-}

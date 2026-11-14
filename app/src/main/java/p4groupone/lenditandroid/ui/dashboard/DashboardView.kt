@@ -38,10 +38,20 @@ import p4groupone.lenditandroid.R
 import p4groupone.lenditandroid.ui.theme.PrimaryColor
 import p4groupone.lenditandroid.ui.theme.SecondaryColor
 import p4groupone.lenditandroid.ui.theme.openSans
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
+import p4groupone.lenditandroid.network.ApiClient
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 
 @Composable
 fun DashboardViewScreen(navController: NavController) {
+    val coroutineScope = rememberCoroutineScope()
+    var isLoggingOut by remember { mutableStateOf(false) }
+
 
     BoxWithConstraints(
         modifier = Modifier
@@ -281,7 +291,27 @@ fun DashboardViewScreen(navController: NavController) {
                     size = buttonSize,
                     scale = scale
                 ) {
-                    navController.navigate("login")
+                    if (!isLoggingOut) {
+                        coroutineScope.launch {
+                            isLoggingOut = true
+
+                            try {
+                                ApiClient.apiService.logout()
+                            } catch (e: Exception) {
+                            } finally {
+                                ApiClient.clearSession()
+
+                                navController.navigate("login") {
+                                    popUpTo("dashboard") {
+                                        inclusive = true
+                                    }
+                                    launchSingleTop = true
+                                }
+
+                                isLoggingOut = false
+                            }
+                        }
+                    }
                 }
             }
         }

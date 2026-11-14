@@ -38,6 +38,7 @@ import p4groupone.lenditandroid.ui.dashboard.DashboardViewScreen
 import p4groupone.lenditandroid.ui.theme.PrimaryColor
 import p4groupone.lenditandroid.ui.theme.SecondaryColor
 import p4groupone.lenditandroid.ui.theme.openSans
+import android.net.Uri
 
 @Composable
 fun ParticipantSearchFormScreen(navController: NavController) {
@@ -217,7 +218,7 @@ fun ParticipantSearchFormScreen(navController: NavController) {
 
                 TextField(
                     value = phoneNumber,
-                    onValueChange = { lastName = it },
+                    onValueChange = { phoneNumber = it },
                     textStyle = TextStyle(
                         fontFamily = openSans,
                         fontSize = placeholderSize,
@@ -252,7 +253,9 @@ fun ParticipantSearchFormScreen(navController: NavController) {
 
                 Button(
                     onClick = {
-                        navController.navigate("participantSearchResults")
+                        navController.navigate(
+                            "participantSearchResults/${Uri.encode(lastName.trim())}/${Uri.encode(phoneNumber.trim())}"
+                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()
