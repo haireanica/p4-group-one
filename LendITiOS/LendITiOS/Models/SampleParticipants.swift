@@ -1,9 +1,4 @@
-//
-//  SampleParticipants.swift
-//  LendITiOS
-//
-//  Created by Steven Petocz on 10/21/26.
-//
+
 
 import Foundation
 
@@ -17,6 +12,7 @@ extension Participant {
             addressLine1: "123 Main Street",
             addressLine2: "",
             city: "Orlando",
+            state: "FL",
             zipcode: "32801"
         ),
         Participant(
@@ -27,6 +23,7 @@ extension Participant {
             addressLine1: "456 Oak Avenue",
             addressLine2: "Apt 2B",
             city: "Kissimmee",
+            state: "FL",
             zipcode: "34741"
         ),
         Participant(
@@ -37,6 +34,7 @@ extension Participant {
             addressLine1: "789 Lake Street",
             addressLine2: "",
             city: "Sanford",
+            state: "FL",
             zipcode: "32771"
         )
     ]

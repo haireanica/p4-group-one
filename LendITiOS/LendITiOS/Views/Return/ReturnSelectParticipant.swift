@@ -1,9 +1,4 @@
-//
-//  ReturnSelectParticipant.swift
-//  LendITiOS
-//
-//  Created by Steven Petocz on 10/14/26.
-//
+
 
 import SwiftUI
 
@@ -120,8 +115,13 @@ struct ReturnSelectParticipant: View {
                     .padding(.horizontal, 20)
                     
                     Button {
-                        //need to pass participant info
-                        navigation.navigate(to: .returnSelectDevice)
+                        if let participant = participants.first(where: {
+                                $0.id == selectedParticipantID
+                            }) {
+                                navigation.navigate(
+                                    to: .returnSelectDevice(participant: participant)
+                                )
+                            }
                     } label: {
                         Text("Start Return")
                             .font(.custom("Open Sans Bold", size: 30))

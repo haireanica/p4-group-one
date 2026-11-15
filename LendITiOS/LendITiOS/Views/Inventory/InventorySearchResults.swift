@@ -1,17 +1,35 @@
-//
-//  InventorySearchResults.swift
-//  LendITiOS
-//
-//  Created by Steven Petocz on 10/14/26.
-//
 
 
 import SwiftUI
 
 struct InventorySearchResults: View {
     @Environment(AppNavigation.self) private var navigation
-    let devices: [Device]
+
+    let deviceType: String
+    let center: String
+    let status: String
+
+    @State private var devices: [Device] = []
     @State private var selectedDeviceID: String? = nil
+    @State private var isLoading = false
+    @State private var loadError: String?
+    
+    private var filteredDevices: [Device] {
+        devices.filter { device in
+
+            let matchesType = deviceType == "All" ||
+                device.deviceType.localizedCaseInsensitiveContains(deviceType)
+
+            let matchesCenter = center == "All" ||
+                device.centerLocation.localizedCaseInsensitiveContains(center)
+
+            let matchesStatus = status == "All" ||
+                device.status.localizedCaseInsensitiveContains(status)
+
+            return matchesType && matchesCenter && matchesStatus
+        }
+    }
+    
     var body: some View {
         ZStack {
             Color("Primary Color")
@@ -76,9 +94,27 @@ struct InventorySearchResults: View {
                     
                     ScrollView {
                         LazyVStack(spacing: 12) {
+
+                            if isLoading {
+                                ProgressView("Loading inventory...")
+                                    .foregroundStyle(.white)
+                                    .padding()
+
+                            } else if let loadError {
+                                Text(loadError)
+                                    .foregroundStyle(.white)
+                                    .font(.custom("Open Sans Bold", size: 16))
+                                    .padding()
+
+                            } else if filteredDevices.isEmpty {
+                                Text("No devices found.")
+                                    .foregroundStyle(.white)
+                                    .font(.custom("Open Sans Bold", size: 16))
+                                    .padding()
+
+                            } else {
                             
-                            
-                            ForEach(devices) { device in
+                            ForEach(filteredDevices) { device in
                                 let isSelected = selectedDeviceID == device.id
 
                                 Button {
@@ -115,8 +151,9 @@ struct InventorySearchResults: View {
                                 }
                                 .buttonStyle(.plain)
                             }
-                        }
-                        .padding(10)
+                                 }
+                                 }
+                                 .padding(10)
                     }
                     .frame(maxHeight: 400)
                     .background(Color.gray.opacity(0.5))
@@ -124,19 +161,7 @@ struct InventorySearchResults: View {
                     .padding(.top, 20)
                     .padding(.horizontal, 20)
                     
-                    Button {
-                        //add mark for repair function
-                        navigation.goToDashboard()
-                    } label: {
-                        Text("Needs Repair")
-                            .font(.custom("Open Sans Bold", size: 30))
-                            .foregroundStyle(.white)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 60)
-                            .background(Color("Secondary Color"))
-                            .clipShape(RoundedRectangle(cornerRadius: 50))
-                    }.padding(.top, 15)
-                        .padding(.horizontal, 20)
+                
                     
                 }
                 Spacer()
@@ -144,11 +169,37 @@ struct InventorySearchResults: View {
             }
         }
         .ignoresSafeArea(edges: .top)
+        .task {
+            await loadInventory()
+        }
             }
+    @MainActor
+    private func loadInventory() async {
+
+        isLoading = true
+        loadError = nil
+
+        defer {
+            isLoading = false
+        }
+
+        do {
+            let assets = try await APIService.shared.getAssets()
+
+            devices = assets.map { $0.toDevice() }
+
+        } catch {
+            loadError = error.localizedDescription
+        }
+    }
 }
 
 
 #Preview {
-    InventorySearchResults(devices: Device.sampleData)
+    InventorySearchResults(
+        deviceType: "All",
+        center: "All",
+        status: "All"
+    )
         .environment(AppNavigation())
 }

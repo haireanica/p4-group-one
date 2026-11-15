@@ -1,9 +1,3 @@
-//
-//  NewLoanSelectParticipant.swift
-//  LendITiOS
-//
-//  Created by Steven Petocz on 10/14/26.
-//
 
 import SwiftUI
 
@@ -121,8 +115,13 @@ struct NewLoanSelectParticipant: View {
                     .padding(.horizontal, 20)
                     
                     Button {
-                        //need to pass participant info
-                        navigation.navigate(to: .newLoanSelectDetails)
+                        if let participant = participants.first(where: {
+                                $0.id == selectedParticipantID
+                            }) {
+                                navigation.navigate(
+                                    to: .newLoanSelectDetails(participant: participant)
+                                )
+                            }
                     } label: {
                         Text("Start Loan")
                             .font(.custom("Open Sans Bold", size: 30))

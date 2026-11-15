@@ -1,9 +1,3 @@
-//
-//  ReturnSearchParticipant.swift
-//  LendITiOS
-//
-//  Created by Steven Petocz on 10/14/26.
-//
 
 import SwiftUI
 
@@ -11,6 +5,9 @@ struct ReturnSearchParticipant: View {
     @Environment(AppNavigation.self) private var navigation
     @State private var lastName = ""
     @State private var phoneNumber = ""
+    @State private var isSearching = false
+    @State private var showSearchError = false
+    @State private var searchError = ""
     var body: some View {
         ZStack {
             Color("Primary Color")
@@ -79,6 +76,7 @@ struct ReturnSearchParticipant: View {
                         
                         TextField("", text: $lastName)
                             .multilineTextAlignment(.center)
+                            .disableAutocorrection(true)
                             .font(.custom("Open Sans", size: 20))
                             .padding()
                             .background(.white)
@@ -113,8 +111,9 @@ struct ReturnSearchParticipant: View {
                                 }
                             }
                         Button {
-                            //need to add search function
-                            navigation.navigate(to: .returnSelectParticipant)
+                            Task {
+                                    await searchParticipants()
+                                }
                         } label: {
                             Text("Search")
                                 .font(.custom("Open Sans Bold", size: 40))
@@ -125,7 +124,8 @@ struct ReturnSearchParticipant: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 50))
                         }.padding(.top, 20)
                         
-                    }.padding(.horizontal, 20)
+                    }
+                    .padding(.horizontal, 20)
                     
                 }
                 Spacer()
@@ -133,7 +133,50 @@ struct ReturnSearchParticipant: View {
             }
         }
         .ignoresSafeArea(edges: .top)
+        .alert("Search Error", isPresented: $showSearchError) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(searchError)
+        }
             }
+    @MainActor
+    private func searchParticipants() async {
+        isSearching = true
+        defer {
+            isSearching = false
+        }
+
+        do {
+            let allParticipants = try await APIService.shared.getLoanees()
+
+            let searchLastName = lastName.trimmingCharacters(
+                in: .whitespacesAndNewlines
+            )
+            let searchPhone = phoneNumber.filter { $0.isNumber }
+
+            let participants = allParticipants
+                .map { $0.toParticipant() }
+                .filter { participant in
+                    let matchesLastName = !searchLastName.isEmpty &&
+                        participant.lastName.localizedCaseInsensitiveContains(searchLastName)
+
+                    let participantPhone = participant.phoneNumber.filter { $0.isNumber }
+
+                    let matchesPhone = !searchPhone.isEmpty &&
+                        participantPhone.contains(searchPhone)
+
+                    return matchesLastName || matchesPhone
+                }
+
+            navigation.navigate(
+                to: .returnSelectParticipant(participants: participants)
+            )
+
+        } catch {
+            searchError = error.localizedDescription
+            showSearchError = true
+        }
+    }
 }
 
 

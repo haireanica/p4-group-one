@@ -1,9 +1,3 @@
-//
-//  ForgotPasswordReset.swift
-//  LendITiOS
-//
-//  Created by Steven Petocz on 10/22/26.
-//
 
 import SwiftUI
 

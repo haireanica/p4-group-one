@@ -1,9 +1,3 @@
-//
-//  AppNavigation.swift
-//  LendITiOS
-//
-//  Created by Steven Petocz on 10/21/26.
-//
 
 
 import SwiftUI
@@ -12,22 +6,28 @@ enum AppRoute: Hashable {
     
     case dashboard
     case inventorySearch
-    case inventorySearchResults
+    case inventorySearchResults(deviceType: String, center: String, status: String)
     case newLoanSearchParticipant
-    case newLoanSelectDetails
-    case newLoanSelectDevice
-    case newLoanSelectParticipant
+    case newLoanSelectDetails(participant: Participant)
+    case newLoanSelectDevice(
+        participant: Participant,
+        deviceType: String,
+        center: String,
+        days: Int,
+        reason: String
+    )
+    case newLoanSelectParticipant(participants: [Participant])
     case login
     case forgotPassword
     case forgotPasswordReset
-    case participantEditInfo
+    case participantEditInfo(participant: Participant)
     case participantSearchForm
-    case participantSearchResults
-    case participantViewLoans
+    case participantSearchResults(lastName: String, phoneNumber: String)
+    case participantViewLoans(participant: Participant)
     case signUp
     case returnSearchParticipant
-    case returnSelectParticipant
-    case returnSelectDevice
+    case returnSelectParticipant(participants: [Participant])
+    case returnSelectDevice(participant: Participant)
 }
 
 @Observable

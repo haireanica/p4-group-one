@@ -1,9 +1,3 @@
-//
-//  LendITiOSApp.swift
-//  LendITiOS
-//
-//  Created by Steven Petocz on 9/16/26.
-//
 
 import SwiftUI
 
@@ -25,22 +19,30 @@ struct LendITiOSApp: App {
                         case .inventorySearch:
                             InventorySearch()
                             
-                        case .inventorySearchResults:
+                        case let .inventorySearchResults(deviceType, center, status):
                             InventorySearchResults(
-                                devices: Device.sampleData
+                                deviceType: deviceType,
+                                center: center,
+                                status: status
                             )
                             
                         case .newLoanSearchParticipant:
                             NewLoanSearchParticipant()
 
-                        case .newLoanSelectDetails:
-                            NewLoanSelectDetails()
+                        case let .newLoanSelectDetails(participant):
+                            NewLoanSelectDetails(participant: participant)
                         
-                        case .newLoanSelectDevice:
-                            NewLoanSelectDevice(devices: Device.sampleData)
+                        case let .newLoanSelectDevice(participant, deviceType, center, days, reason):
+                            NewLoanSelectDevice(
+                                participant: participant,
+                                deviceType: deviceType,
+                                center: center,
+                                days: days,
+                                reason: reason
+                            )
                             
-                        case .newLoanSelectParticipant:
-                            NewLoanSelectParticipant(participants: Participant.sampleData)
+                        case let .newLoanSelectParticipant(participants):
+                            NewLoanSelectParticipant(participants: participants)
                             
                         case .forgotPassword:
                             ForgotPasswordView()
@@ -51,8 +53,8 @@ struct LendITiOSApp: App {
                         case .login:
                             LoginView()
                             
-                        case .participantEditInfo:
-                            ParticipantEditInfoView()
+                        case let .participantEditInfo(participant):
+                            ParticipantEditInfoView(participant: participant)
                             
                         case .participantSearchForm:
                             ParticipantSearchFormView()
@@ -60,21 +62,20 @@ struct LendITiOSApp: App {
                         case .signUp:
                             SignUpView()
 
-                        case .participantSearchResults:
+                        case let .participantSearchResults(lastName, phoneNumber):
                             ParticipantSearchResultsView(
-                                participants: Participant.sampleData
+                                lastName: lastName,
+                                phoneNumber: phoneNumber
                             )
                             
-                        case .participantViewLoans:
-                            ParticipantViewLoans(loans: Loan.sampleData)
+                        case let .participantViewLoans(participant):
+                            ParticipantViewLoans(participant: participant)
 
-                        case .returnSelectParticipant:
-                            ReturnSelectParticipant(participants: Participant.sampleData)
+                        case let .returnSelectParticipant(participants):
+                            ReturnSelectParticipant(participants: participants)
 
-                        case .returnSelectDevice:
-                            ReturnSelectDevice(
-                                devices: Device.sampleData
-                            )
+                        case let .returnSelectDevice(participant):
+                            ReturnSelectDevice(participant: participant)
                             
                         case .returnSearchParticipant:
                             ReturnSearchParticipant()

@@ -1,14 +1,12 @@
-//
-//  DashboardView.swift
-//  LendITiOS
-//
-//  Created by Steven Petocz on 9/16/26.
-//
+
 
 import SwiftUI
 
 struct DashboardView: View {
     @Environment(AppNavigation.self) private var navigation
+    @State private var isLoggingOut = false
+    @State private var showLogoutError = false
+    @State private var logoutError = ""
     
     
     var body: some View {
@@ -233,8 +231,9 @@ struct DashboardView: View {
                         }.buttonStyle(.plain)
                         
                         Button{
-                            navigation.navigate(to: .login)
-                            navigation.signOut()
+                            Task {
+                                    await logout()
+                                }
                         }label: {
                             ZStack{
                                 UnevenRoundedRectangle(
@@ -274,7 +273,33 @@ struct DashboardView: View {
         
         }
     
+
+    @MainActor
+    private func logout() async {
+
+        isLoggingOut = true
+
+        defer {
+            isLoggingOut = false
+        }
+
+        do {
+            // Send logout request to backend.
+            try await APIService.shared.logout()
+
+            // Return to the login screen.
+            navigation.signOut()
+
+        } catch {
+
+            logoutError = error.localizedDescription
+            showLogoutError = true
+        }
     }
+    
+    }
+
+
 
 #Preview {
     DashboardView()

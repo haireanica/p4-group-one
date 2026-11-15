@@ -1,21 +1,21 @@
-//  InventorySearch.swift
-//  LendITiOS
-//
-//  Created by Steven Petocz on 10/14/26.
-//
 
 import SwiftUI
 
 struct InventorySearch: View {
     @Environment(AppNavigation.self) private var navigation
-    @State private var selectedDeviceType = "Laptop"
+    @State private var selectedDeviceType = "All"
     private let deviceType = [
+        "All",
         "Laptop",
         "Tablet",
-        "Hotspot"
+        "Hotspot",
+        "Cellphone"
     ]
-    @State private var selectedCenter = "Office for Local Aassistance (OLA)"
+    @State private var selectedCenter = "All"
     private let center = [
+        "All",
+        "Orlando Cares",
+        "Main Center",
         "Dr. James R. Smith Neighborhood Center",
         "Engelwood Neighborhood Center",
         "John H. Jackson Neighborhood Center",
@@ -33,11 +33,13 @@ struct InventorySearch: View {
         "Citrus Square Neighborhood Center",
         "RISE Employment and Training Office"
     ]
-    @State private var selectedState = "Available"
+    @State private var selectedState = "All"
     private let state = [
-        "Available",
-        "Loaned Out",
-        "Under Repair"
+        "All",
+        "AVAILABLE",
+        "CHECKED_OUT",
+        "IN_MAINTENANCE",
+        "RETIRED"
     ]
     
     var body: some View {
@@ -160,7 +162,13 @@ struct InventorySearch: View {
                         
                         
                         Button {
-                            navigation.navigate(to: .inventorySearchResults)
+                            navigation.navigate(
+                                    to: .inventorySearchResults(
+                                        deviceType: selectedDeviceType,
+                                        center: selectedCenter,
+                                        status: selectedState
+                                    )
+                                )
                         } label: {
                             Text("Check Inventory")
                                 .font(.custom("Open Sans Bold", size: 30))

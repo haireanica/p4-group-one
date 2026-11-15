@@ -1,16 +1,15 @@
-//
-//  ParticipantViewLoans.swift
-//  LendITiOS
-//
-//  Created by Steven Petocz on 10/22/26.
-//
+
 
 import SwiftUI
 
 struct ParticipantViewLoans: View {
     @Environment(AppNavigation.self) private var navigation
     
-    let loans: [Loan]
+    let participant: Participant
+
+    @State private var loans: [Loan] = []
+    @State private var isLoading = false
+    @State private var loadError: String?
     @State private var selectedLoanID: String? = nil
     
     var body: some View {
@@ -79,41 +78,55 @@ struct ParticipantViewLoans: View {
                         LazyVStack(spacing: 12) {
                             
                             
-                            ForEach(loans) { loan in
-                                let isSelected = selectedLoanID == loan.id
+                            if isLoading {
+                                ProgressView("Loading loans...")
+                                    .foregroundStyle(.white)
 
-                                Button {
-                                    selectedLoanID = loan.id
-                                } label: {
-                                    VStack(alignment: .center, spacing: 5) {
-                                        Text(loan.deviceType)
-                                            .font(.custom("Open Sans Bold", size: 18))
-                                            .foregroundStyle(.black)
-                                        Text(loan.centerLocation)
-                                            .font(.custom("Open Sans Bold", size: 18))
-                                            .foregroundStyle(.black)
-                                        Text("Loaned: " + loan.loanStartDate)
-                                            .font(.custom("Open Sans Bold", size: 18))
-                                            .foregroundStyle(.black)
-                                        Text("Due: " + loan.loanDueDate)
-                                            .font(.custom("Open Sans Bold", size: 18))
-                                            .foregroundStyle(.black)
+                            } else if let loadError {
+                                Text(loadError)
+                                    .foregroundStyle(.white)
 
+                            } else if loans.isEmpty {
+                                Text("No loans found for this participant.")
+                                    .foregroundStyle(.white)
+
+                            } else {
+                                ForEach(loans) { loan in
+                                    let isSelected = selectedLoanID == loan.id
+                                    
+                                    Button {
+                                        selectedLoanID = loan.id
+                                    } label: {
+                                        VStack(alignment: .center, spacing: 5) {
+                                            Text(loan.deviceType)
+                                                .font(.custom("Open Sans Bold", size: 18))
+                                                .foregroundStyle(.black)
+                                            Text(loan.centerLocation)
+                                                .font(.custom("Open Sans Bold", size: 18))
+                                                .foregroundStyle(.black)
+                                            Text("Loaned: " + loan.loanStartDate)
+                                                .font(.custom("Open Sans Bold", size: 18))
+                                                .foregroundStyle(.black)
+                                            Text("Due: " + loan.loanDueDate)
+                                                .font(.custom("Open Sans Bold", size: 18))
+                                                .foregroundStyle(.black)
+                                            
+                                        }
+                                        .frame(maxWidth: .infinity)
+                                        .padding(12)
+                                        .background(.white)
+                                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                                        .overlay {
+                                            RoundedRectangle(cornerRadius: 20)
+                                                .stroke(
+                                                    isSelected ? Color.black : Color.clear,
+                                                    lineWidth: 4
+                                                )
+                                        }
+                                        .contentShape(RoundedRectangle(cornerRadius: 20))
                                     }
-                                    .frame(maxWidth: .infinity)
-                                    .padding(12)
-                                    .background(.white)
-                                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                                    .overlay {
-                                        RoundedRectangle(cornerRadius: 20)
-                                            .stroke(
-                                                isSelected ? Color.black : Color.clear,
-                                                lineWidth: 4
-                                            )
-                                    }
-                                    .contentShape(RoundedRectangle(cornerRadius: 20))
+                                    .buttonStyle(.plain)
                                 }
-                                .buttonStyle(.plain)
                             }
                         }
                         .padding(10)
@@ -123,20 +136,6 @@ struct ParticipantViewLoans: View {
                     .clipShape(RoundedRectangle(cornerRadius: 25))
                     .padding(.top, 20)
                     .padding(.horizontal, 20)
-                    
-                    Button {
-                        //need to add function to return device
-                        navigation.goToDashboard()
-                    } label: {
-                        Text("Complete Return")
-                            .font(.custom("Open Sans Bold", size: 30))
-                            .foregroundStyle(.white)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 60)
-                            .background(Color("Secondary Color"))
-                            .clipShape(RoundedRectangle(cornerRadius: 50))
-                    }.padding(.top, 25)
-                        .padding(.horizontal, 20)
                     
                     
                     Spacer()
@@ -148,11 +147,34 @@ struct ParticipantViewLoans: View {
             }
         }
         .ignoresSafeArea(edges: .top)
+        .task {
+            await loadLoans()
+        }
             }
+    @MainActor
+    private func loadLoans() async {
+        isLoading = true
+        loadError = nil
+
+        defer {
+            isLoading = false
+        }
+
+        do {
+            let loanDtos = try await APIService.shared.getLoans()
+
+            loans = loanDtos
+                .filter { $0.participantId == participant.id }
+                .map { $0.toLoan() }
+
+        } catch {
+            loadError = error.localizedDescription
+        }
+    }
 }
 
 
 #Preview {
-    ParticipantViewLoans(loans: Loan.sampleData)
-        .environment(AppNavigation())
+    ParticipantViewLoans(participant: Participant.sampleData[0])
+            .environment(AppNavigation())
 }

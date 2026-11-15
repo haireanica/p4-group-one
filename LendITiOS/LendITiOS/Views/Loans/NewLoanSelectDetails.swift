@@ -1,27 +1,26 @@
-//  NewLoanSelectDetails.swift
-//  LendITiOS
-//
-//  Created by Steven Petocz on 10/14/26.
-//
 
 import SwiftUI
 
 struct NewLoanSelectDetails: View {
     @Environment(AppNavigation.self) private var navigation
+    let participant: Participant
     @State private var selectedDeviceType = "Laptop"
     private let deviceType = [
         "Laptop",
         "Tablet",
-        "Hotspot"
+        "Hotspot",
+        "Cellphone"
     ]
-    @State private var selectedCenter = "Office for Local Aassistance (OLA)"
+    @State private var selectedCenter = "Office for Local Assistance (OLA)"
     private let center = [
+        "Orlando Cares",
+        "Main Center",
         "Dr. James R. Smith Neighborhood Center",
         "Engelwood Neighborhood Center",
         "John H. Jackson Neighborhood Center",
         "Rosemont Neighborhood Center",
         "L. Claudia Allen Senior Center",
-        "Office for Local Aassistance (OLA)",
+        "Office for Local Assistance (OLA)",
         "Dr. I Sylvester Hankins Park Neighborhood Center",
         "Callahan Neighborhood Center",
         "Northwest Neighborhood Center",
@@ -36,8 +35,7 @@ struct NewLoanSelectDetails: View {
     @State private var selectedReason = "Education"
     private let reason = [
         "Education",
-        "Employment",
-        "Personal Use"
+        "Employment"
     ]
     
     @State private var selectedDuration = "1 Week"
@@ -182,8 +180,15 @@ struct NewLoanSelectDetails: View {
                         
                         
                         Button {
-                            //need to add device search function
-                            navigation.navigate(to: .newLoanSelectDevice)
+                            navigation.navigate(
+                                    to: .newLoanSelectDevice(
+                                        participant: participant,
+                                        deviceType: selectedDeviceType,
+                                        center: selectedCenter,
+                                        days: selectedDuration == "1 Week" ? 7 : 14,
+                                        reason: selectedReason
+                                    )
+                                )
                             
                         } label: {
                             Text("Check Inventory")
@@ -207,8 +212,3 @@ struct NewLoanSelectDetails: View {
             }
 }
 
-
-#Preview {
-    NewLoanSelectDetails()
-        .environment(AppNavigation())
-}

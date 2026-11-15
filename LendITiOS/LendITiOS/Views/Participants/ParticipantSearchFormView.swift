@@ -1,9 +1,4 @@
-//
-//  ParticipantSearchFormView.swift
-//  LendITiOS
-//
-//  Created by Steven Petocz on 10/14/26.
-//
+
 import SwiftUI
 
 struct ParticipantSearchFormView: View {
@@ -84,6 +79,7 @@ struct ParticipantSearchFormView: View {
                         
                         TextField("", text: $lastName)
                             .multilineTextAlignment(.center)
+                            .disableAutocorrection(true)
                             .font(.custom("Open Sans", size: 20))
                             .padding()
                             .background(.white)
@@ -118,7 +114,14 @@ struct ParticipantSearchFormView: View {
                                 }
                             }
                         Button {
-                            navigation.navigate(to: .participantSearchResults)
+                            if(lastName != "" || phoneNumber != ""){
+                                navigation.navigate(
+                                    to: .participantSearchResults(
+                                        lastName: lastName,
+                                        phoneNumber: phoneNumber
+                                    )
+                                )
+                            }
                         } label: {
                             Text("Search")
                                 .font(.custom("Open Sans Bold", size: 40))

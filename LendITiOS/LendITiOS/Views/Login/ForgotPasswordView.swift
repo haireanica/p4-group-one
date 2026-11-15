@@ -1,9 +1,4 @@
-//
-//  ForgotPasswordView.swift
-//  LendITiOS
-//
-//  Created by Steven Petocz on 10/20/26.
-//
+
 
 import SwiftUI
 

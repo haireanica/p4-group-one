@@ -1,9 +1,4 @@
-//
-//  LoginView.swift
-//  LendITiOS
-//
-//  Created by Steven Petocz on 9/16/26.
-//
+
 
 import SwiftUI
 
@@ -13,6 +8,10 @@ struct LoginView: View {
     @State private var username = ""
     @State private var password = ""
     @State private var rememberMe = false
+    
+    @State private var isLoading = false
+    @State private var showLoginError = false
+    @State private var loginError = ""
 
     var body: some View {
         GeometryReader { geometry in
@@ -94,6 +93,8 @@ struct LoginView: View {
 
                         TextField("Enter Username", text: $username)
                             .multilineTextAlignment(.center)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
                             .font(.custom("Open Sans", size: 25))
                             .padding()
                             .background(.white)
@@ -162,18 +163,28 @@ struct LoginView: View {
                         .padding(.top, 10)
 
                         Button {
-                            navigation.goToDashboard()
+                            Task {
+                                await login()
+                            }
                         } label: {
-                            Text("Log In")
-                                .font(.custom("Open Sans Bold", size: 30))
-                                .foregroundStyle(.white)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 60)
-                                .background(Color("Secondary Color"))
-                                .clipShape(
-                                    RoundedRectangle(cornerRadius: 50)
-                                )
+                            Group {
+                                if isLoading {
+                                    ProgressView()
+                                        .tint(.white)
+                                } else {
+                                    Text("Log In")
+                                        .font(.custom("Open Sans Bold", size: 30))
+                                        .foregroundStyle(.white)
+                                }
+                            }
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 60)
+                            .background(Color("Secondary Color"))
+                            .clipShape(
+                                RoundedRectangle(cornerRadius: 50)
+                            )
                         }
+                        .disabled(isLoading)
                         .padding(.top, 15)
 
                         Button {
@@ -203,11 +214,84 @@ struct LoginView: View {
                 alignment: .top
             )
             .ignoresSafeArea(edges: .top)
+            .onAppear {
+
+                if CredentialsManager.shared.isRememberMeEnabled() {
+
+                    username = CredentialsManager.shared.getUsername()
+                    password = CredentialsManager.shared.getPassword()
+                    rememberMe = true
+                }
+            }
+            .alert("Login Failed", isPresented: $showLoginError) {
+
+                Button("OK", role: .cancel) {}
+
+            } message: {
+
+                Text(loginError)
+            }
+        }
+    }
+
+    @MainActor
+    private func login() async {
+
+        let trimmedUsername = username.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+
+        guard !trimmedUsername.isEmpty, !password.isEmpty else {
+            loginError = "Please enter your username and password."
+            showLoginError = true
+            return
+        }
+
+        isLoading = true
+
+        defer {
+            isLoading = false
+        }
+
+        do {
+
+            let request = LoginRequest(
+                username: trimmedUsername,
+                password: password
+            )
+
+            let _ = try await APIService.shared.login(
+                request: request
+            )
+
+            do {
+                if rememberMe {
+                    try CredentialsManager.shared.saveCredentials(
+                        username: trimmedUsername,
+                        password: password
+                    )
+                } else {
+                    try CredentialsManager.shared.clearCredentials()
+
+                    username = ""
+                    password = ""
+                }
+            } catch {
+                print("Credential storage error: \(error)")
+            }
+
+            navigation.goToDashboard()
+
+        } catch {
+
+            loginError = error.localizedDescription
+            showLoginError = true
         }
     }
 }
 
-// MARK: Preview
+
+
 
 #Preview {
     LendITiOSAppPreview()
@@ -239,53 +323,53 @@ private struct LendITiOSAppPreview: View {
                     case .inventorySearch:
                         InventorySearch()
 
-                    case .inventorySearchResults:
+                    case let .inventorySearchResults(deviceType, center, status):
                         InventorySearchResults(
-                            devices: Device.sampleData
+                            deviceType: deviceType,
+                            center: center,
+                            status: status
                         )
 
                     case .newLoanSearchParticipant:
                         NewLoanSearchParticipant()
 
-                    case .newLoanSelectDetails:
-                        NewLoanSelectDetails()
+                    case let .newLoanSelectDetails(participant):
+                        NewLoanSelectDetails(participant: participant)
 
-                    case .newLoanSelectDevice:
+                    case let .newLoanSelectDevice(participant, deviceType, center, days, reason):
                         NewLoanSelectDevice(
-                            devices: Device.sampleData
+                            participant: participant,
+                            deviceType: deviceType,
+                            center: center,
+                            days: days,
+                            reason: reason
                         )
 
-                    case .newLoanSelectParticipant:
-                        NewLoanSelectParticipant(
-                            participants: Participant.sampleData
-                        )
+                    case let .newLoanSelectParticipant(participants):
+                        NewLoanSelectParticipant(participants: participants)
                         
-                    case .participantViewLoans:
-                        ParticipantViewLoans(loans: Loan.sampleData)
+                    case let .participantViewLoans(participant):
+                        ParticipantViewLoans(participant: participant)
 
-                    case .participantEditInfo:
-                        ParticipantEditInfoView()
-
+                    case let .participantEditInfo(participant):
+                        ParticipantEditInfoView(participant: participant)
                     case .participantSearchForm:
                         ParticipantSearchFormView()
 
-                    case .participantSearchResults:
+                    case let .participantSearchResults(lastName, phoneNumber):
                         ParticipantSearchResultsView(
-                            participants: Participant.sampleData
+                            lastName: lastName,
+                            phoneNumber: phoneNumber
                         )
 
                     case .returnSearchParticipant:
                         ReturnSearchParticipant()
 
-                    case .returnSelectParticipant:
-                        ReturnSelectParticipant(
-                            participants: Participant.sampleData
-                        )
+                    case let .returnSelectParticipant(participants):
+                        ReturnSelectParticipant(participants: participants)
 
-                    case .returnSelectDevice:
-                        ReturnSelectDevice(
-                            devices: Device.sampleData
-                        )
+                    case let .returnSelectDevice(participant):
+                        ReturnSelectDevice(participant: participant)
                     }
                 }
         }

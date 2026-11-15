@@ -7,8 +7,13 @@ struct SignUpView: View {
     @State private var phoneNumber = ""
     @State private var addressLine1 = ""
     @State private var addressLine2 = ""
-    @State private var city = ""
+    @State private var city = "Orlando"
+    @State private var state = "FL"
     @State private var zipcode = ""
+    
+    @State private var isSubmitting = false
+    @State private var showSignUpError = false
+    @State private var signUpError = ""
     
     var body: some View {
         ZStack {
@@ -27,7 +32,7 @@ struct SignUpView: View {
                     )
                     .fill(Color.white)
                     .frame(maxWidth: .infinity)
-                    .frame(height: 180)
+                    .frame(height: 140)
                     
                     UnevenRoundedRectangle(
                         topLeadingRadius: 0,
@@ -37,7 +42,7 @@ struct SignUpView: View {
                     )
                     .fill(Color("Secondary Color"))
                     .frame(maxWidth: .infinity)
-                    .frame(height: 170)
+                    .frame(height: 130)
                     VStack{
                         Spacer()
                         Text("Sign Up")
@@ -46,7 +51,7 @@ struct SignUpView: View {
                         Spacer()
                     }
                 }
-                .frame(height: 180)
+                .frame(height: 140)
 
                 // Main content
                 VStack(spacing: 0){
@@ -67,9 +72,9 @@ struct SignUpView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 50))
                         }
                     
-                    }.padding(.top, 15)
+                    }.padding(.top, 10)
                         .padding(.horizontal, 10)
-                        .padding(.bottom, 10)
+                        .padding(.bottom, 5)
                     VStack{
                         Text("First Name")
                             .font(.custom("Open Sans Bold", size: 18))
@@ -78,6 +83,7 @@ struct SignUpView: View {
                         
                         TextField("", text: $firstName)
                             .multilineTextAlignment(.center)
+                            .disableAutocorrection(true)
                             .frame(height: 35)
                             .font(.custom("Open Sans", size: 18))
                             .background(.white)
@@ -97,6 +103,7 @@ struct SignUpView: View {
                         
                         TextField("", text: $lastName)
                             .multilineTextAlignment(.center)
+                            .disableAutocorrection(true)
                             .frame(height: 35)
                             .font(.custom("Open Sans", size: 18))
                             .background(.white)
@@ -185,6 +192,25 @@ struct SignUpView: View {
                                         .allowsHitTesting(false)
                                 }
                             }
+                        Text("State")
+                            .font(.custom("Open Sans Bold", size: 18))
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        TextField("", text: $state)
+                            .multilineTextAlignment(.center)
+                            .font(.custom("Open Sans", size: 18))
+                            .frame(height: 35)
+                            .background(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 50))
+                            .overlay {
+                                if state.isEmpty {
+                                    Text("Enter State")
+                                        .font(.custom("Open Sans", size: 18))
+                                        .foregroundStyle(.black.opacity(0.3))
+                                        .allowsHitTesting(false)
+                                }
+                            }
                         
                         Text("Zipcode")
                             .font(.custom("Open Sans Bold", size: 18))
@@ -207,17 +233,18 @@ struct SignUpView: View {
                             }
     
                         Button {
-                            //need to add sign up function
-                            navigation.goToDashboard()
+                            Task {
+                                    await registerParticipant()
+                                }
                         } label: {
                             Text("Sign Up")
                                 .font(.custom("Open Sans Bold", size: 30))
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: .infinity)
-                                .frame(height: 60)
+                                .frame(height: 50)
                                 .background(Color("Secondary Color"))
                                 .clipShape(RoundedRectangle(cornerRadius: 50))
-                        }.padding(.top, 10)
+                        }.padding(.top, 8)
                         Spacer()
                     }.padding(.horizontal, 20)
                     
@@ -228,6 +255,56 @@ struct SignUpView: View {
             }
         }
         .ignoresSafeArea(edges: .top)
+        .alert("Sign Up Failed", isPresented: $showSignUpError) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(signUpError)
+        }
+    }
+    
+
+    @MainActor
+    private func registerParticipant() async {
+
+        guard !firstName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+              !lastName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+              !phoneNumber.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+              !addressLine1.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+              !city.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+              !state.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+              !zipcode.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+
+            signUpError = "Please complete all required fields."
+            showSignUpError = true
+            return
+        }
+
+        isSubmitting = true
+
+        defer {
+            isSubmitting = false
+        }
+
+        let request = LoaneeRegistration(
+            firstName: firstName.trimmingCharacters(in: .whitespacesAndNewlines),
+            lastName: lastName.trimmingCharacters(in: .whitespacesAndNewlines),
+            phoneNumber: phoneNumber.trimmingCharacters(in: .whitespacesAndNewlines),
+            addressLine1: addressLine1.trimmingCharacters(in: .whitespacesAndNewlines),
+            addressLine2: addressLine2.trimmingCharacters(in: .whitespacesAndNewlines),
+            city: city.trimmingCharacters(in: .whitespacesAndNewlines),
+            state: state.trimmingCharacters(in: .whitespacesAndNewlines).uppercased(),
+            postalCode: zipcode.trimmingCharacters(in: .whitespacesAndNewlines)
+        )
+
+        do {
+            let _ = try await APIService.shared.registerLoanee(request: request)
+
+            navigation.goToDashboard()
+
+        } catch {
+            signUpError = error.localizedDescription
+            showSignUpError = true
+        }
     }
 }
 
