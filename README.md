@@ -1,21 +1,54 @@
+# Orlando Lend IT – Web Application
+
+## Requirements
+
+- Java 21 JDK
+- MySQL Server
+- MySQL Workbench (recommended)
+- Node.js and npm
+
 ## How to Run
 
-### Step 1: Run the Backend (Make sure you have Java 21 JDK)
-1. Run the backend/outreachdb_dump.sql.
-2. Edit the backend/src/main/resources/application.properties file, replacing the following with your system's database: datasource url, username and password.
-3. Open your terminal.
-4. Navigate into the backend folder via terminal
-5. Start the Spring Boot application using the Maven wrapper:
-`mvn spring-boot:run`
-*(Keep this terminal window running while using the app so the server stays active).*
+### Step 1: Set Up the Database
 
-### Step 2: Run the Frontend Webapp
-The webapp provides the visual dashboard in your browser. To start it:
+1. Open MySQL Workbench and connect to your local MySQL Server instance.
+2. Navigate to **Server → Data Import**.
+3. Select **Import from Self-Contained File**.
+4. Browse to and select `backend/OrlandoLendITdump.sql`.
+5. Under **Default Target Schema**, select `outreachdb`. If the schema does not exist, create it first.
+6. Click **Start Import** and wait for the import to complete.
+7. Verify that the `outreachdb` database and its tables appear in the Schemas panel.
+
+### Step 2: Configure and Run the Backend
+
+1. Open `backend/src/main/resources/application.properties`.
+2. Update the following database connection settings to match your local MySQL configuration:
+   - `spring.datasource.url`
+   - `spring.datasource.username`
+   - `spring.datasource.password`
+3. Open a terminal.
+4. Navigate into the `backend` folder.
+5. Start the Spring Boot application using Maven:
+
+   `mvn spring-boot:run`
+
+*(Keep this terminal window running while using the web application so the backend server stays active.)*
+
+### Step 3: Run the Frontend Webapp
+
 1. Open a second, separate terminal window (leave the backend running in the first one).
-2. Navigate into the webapp folder in the terminal
-3. Install the required project dependencies (only required the very first time you set it up):
-`npm install`
+2. Navigate into the `webapp` folder.
+3. Install the required project dependencies (only required the first time you set it up):
+
+   `npm install`
+
 4. Start the local development server:
-`npm run dev`
+
+   `npm run dev`
+
 5. Open the local URL provided in your terminal (usually http://localhost:5173) in your web browser to start using the application.
-6. Login right now is username: admin password: AdminPassword
+
+### Step 4: Log In
+
+- Username: admin
+- Password: AdminPassword
