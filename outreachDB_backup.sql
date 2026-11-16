@@ -159,7 +159,7 @@ CREATE TABLE `loan` (
 
 LOCK TABLES `loan` WRITE;
 /*!40000 ALTER TABLE `loan` DISABLE KEYS */;
-INSERT INTO `loan` VALUES (1,'LAP100',2457,'2026-09-09','2026-09-16','2026-09-15','Available',NULL),(2,'cellphone001',2457,'2026-10-01','2026-10-31',NULL,'Checked out','Personal use'),(3,'tablet201',2457,'2026-09-19','2026-10-19',NULL,'Checked out','Education'),(4,'lap201',2457,'2026-10-01','2026-10-07','2026-10-07','Returned',NULL),(5,'cellphone002',NULL,NULL,NULL,NULL,'available',NULL),(6,'cellphone003',NULL,NULL,NULL,NULL,'available',NULL),(7,'cellphone010',NULL,NULL,NULL,NULL,'available',NULL),(8,'cellphone011',NULL,NULL,NULL,NULL,'available',NULL),(9,'cellphone012',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(10,'cellphone013',NULL,NULL,NULL,NULL,'available',NULL),(11,'lap101',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(12,'lap200',NULL,NULL,NULL,NULL,'available',NULL),(13,'lap203',NULL,NULL,NULL,NULL,'available',NULL),(14,'lap204',NULL,NULL,NULL,NULL,'available',NULL),(15,'lap205',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(16,'tablet100',NULL,NULL,NULL,NULL,'available',NULL),(17,'tablet101',NULL,NULL,NULL,NULL,'available',NULL),(18,'tablet102',NULL,NULL,NULL,NULL,'available',NULL),(19,'tablet103',NULL,NULL,NULL,NULL,'available',NULL),(20,'tablet200',NULL,NULL,NULL,NULL,'available',NULL);
+INSERT INTO `loan` VALUES (1,'LAP100',2457,'2026-09-09','2026-09-16','2026-09-15','Available',NULL),(2,'cellphone001',2457,'2026-10-01','2026-10-31',NULL,'Checked out','Personal use'),(3,'tablet201',2457,'2026-09-19','2026-10-19',NULL,'Checked out','Education'),(4,'lap201',2457,'2026-10-01','2026-10-07','2026-10-07','Returned',NULL),(5,'cellphone002',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(6,'cellphone003',NULL,NULL,NULL,NULL,'Unavailable','Under maintenance'),(7,'cellphone010',NULL,NULL,NULL,NULL,'available',NULL),(8,'cellphone011',NULL,NULL,NULL,NULL,'available',NULL),(9,'cellphone012',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(10,'cellphone013',NULL,NULL,NULL,NULL,'available',NULL),(11,'lap101',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(12,'lap200',NULL,NULL,NULL,NULL,'Unavailable','Under maintenance'),(13,'lap203',NULL,NULL,NULL,NULL,'available',NULL),(14,'lap204',NULL,NULL,NULL,NULL,'Unavailable','Under maintenance'),(15,'lap205',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(16,'tablet100',NULL,NULL,NULL,NULL,'Unavailable','Under maintenance'),(17,'tablet101',NULL,NULL,NULL,NULL,'available',NULL),(18,'tablet102',NULL,NULL,NULL,NULL,'available',NULL),(19,'tablet103',NULL,NULL,NULL,NULL,'available',NULL),(20,'tablet200',NULL,NULL,NULL,NULL,'Unavailable','Under maintenance');
 /*!40000 ALTER TABLE `loan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,7 +212,7 @@ CREATE TABLE `maintenance` (
   PRIMARY KEY (`maintenanceId`),
   KEY `fk_maintenance_asset` (`assetId`),
   CONSTRAINT `fk_maintenance_asset` FOREIGN KEY (`assetId`) REFERENCES `asset` (`assetId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,7 +221,7 @@ CREATE TABLE `maintenance` (
 
 LOCK TABLES `maintenance` WRITE;
 /*!40000 ALTER TABLE `maintenance` DISABLE KEYS */;
-INSERT INTO `maintenance` VALUES (1,'LAP100','No issues at this time','None','N/A','2026-09-01','2026-09-01'),(2,'cellphone012','Unresposnive screen','Scheduled maintenance','Ordered new screen','2026-10-07','2026-10-31'),(3,'lap101','Battery draines fast','Scheduled maintenance','Ordered new battery','2026-09-19','2026-10-25'),(4,'lap201','Software needs an update','Happening right now','Downloading software update','2026-10-07','2026-10-07');
+INSERT INTO `maintenance` VALUES (1,'LAP100','No issues at this time','None','N/A','2026-09-01','2026-09-01'),(2,'cellphone012','Unresposnive screen','Scheduled maintenance','Ordered new screen','2026-10-07','2026-10-31'),(3,'lap101','Battery draines fast','Scheduled maintenance','Ordered new battery','2026-09-19','2026-10-25'),(4,'lap201','Software needs an update','Happening right now','Downloading software update','2026-10-07','2026-10-07'),(5,'cellphone002','Software need an update','Scheduled','N/A','2026-11-01',NULL),(6,'cellphone003','Slow response','Perform maintenance','N/A','2026-11-10',NULL),(7,'lap200','Cracked screen','Ordered new screen','Awaiting parts','2026-11-11',NULL),(8,'lap204','Does not turn on','Scheduled maintenance','N/A','2026-11-09',NULL),(9,'tablet100','Cannot download apps','Review permissions','N/A','2026-10-31',NULL),(10,'tablet200','Constant freezing','Restore device','Factory reset tablet','2026-11-14',NULL);
 /*!40000 ALTER TABLE `maintenance` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -259,4 +259,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-10-24 18:04:08
+-- Dump completed on 2026-11-15 19:45:49
