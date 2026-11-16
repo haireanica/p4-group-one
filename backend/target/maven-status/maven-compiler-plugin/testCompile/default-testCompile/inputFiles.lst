@@ -1,0 +1,12 @@
+/Users/stevenpetocz/IdeaProjects/p4-group-one/backend/src/test/java/app/assettracker/AssetRepositoryTest.java
+/Users/stevenpetocz/IdeaProjects/p4-group-one/backend/src/test/java/app/assettracker/LoanControllerTest.java
+/Users/stevenpetocz/IdeaProjects/p4-group-one/backend/src/test/java/app/assettracker/PasswordHashingTest.java
+/Users/stevenpetocz/IdeaProjects/p4-group-one/backend/src/test/java/app/assettracker/RoleRepositoryTest.java
+/Users/stevenpetocz/IdeaProjects/p4-group-one/backend/src/test/java/app/assettracker/SecurityTest.java
+/Users/stevenpetocz/IdeaProjects/p4-group-one/backend/src/test/java/app/assettracker/UserControllerTest.java
+/Users/stevenpetocz/IdeaProjects/p4-group-one/backend/src/test/java/app/repository/AssetRepositoryIntegrationTest.java
+/Users/stevenpetocz/IdeaProjects/p4-group-one/backend/src/test/java/app/repository/LoanRepositoryIntegrationTest.java
+/Users/stevenpetocz/IdeaProjects/p4-group-one/backend/src/test/java/app/repository/MaintenanceRepositoryIntegrationTest.java
+/Users/stevenpetocz/IdeaProjects/p4-group-one/backend/src/test/java/app/service/AssetManagerTest.java
+/Users/stevenpetocz/IdeaProjects/p4-group-one/backend/src/test/java/app/service/LoanServiceTest.java
+/Users/stevenpetocz/IdeaProjects/p4-group-one/backend/src/test/java/app/service/MaintenanceManagerTest.java
