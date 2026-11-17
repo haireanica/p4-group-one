@@ -381,7 +381,7 @@ function Equipment() {
                 >
                   <option value="AVAILABLE">AVAILABLE</option>
                   <option value="CHECKED_OUT">CHECKED_OUT</option>
-                  <option value="MAINTENANCE">MAINTENANCE</option>
+                  <option value="IN_MAINTENANCE">MAINTENANCE</option>
                   <option value="RETIRED">RETIRED</option>
                 </select>
               </div>
@@ -453,7 +453,7 @@ function Equipment() {
                 >
                   <option value="AVAILABLE">AVAILABLE</option>
                   <option value="CHECKED_OUT">CHECKED_OUT</option>
-                  <option value="MAINTENANCE">MAINTENANCE</option>
+                  <option value="IN_MAINTENANCE">MAINTENANCE</option>
                   <option value="RETIRED">RETIRED</option>
                 </select>
               </div>
@@ -514,7 +514,7 @@ function Equipment() {
                 <option value="ALL">All Statuses</option>
                 <option value="AVAILABLE">AVAILABLE</option>
                 <option value="CHECKED_OUT">CHECKED_OUT</option>
-                <option value="MAINTENANCE">MAINTENANCE</option>
+                <option value="IN_MAINTENANCE">MAINTENANCE</option>
                 <option value="RETIRED">RETIRED</option>
               </select>
             </div>
