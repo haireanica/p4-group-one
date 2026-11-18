@@ -40,7 +40,7 @@ CREATE TABLE `asset` (
 
 LOCK TABLES `asset` WRITE;
 /*!40000 ALTER TABLE `asset` DISABLE KEYS */;
-INSERT INTO `asset` VALUES ('cellphone001',2100,'Samsung Galaxy','Operable','Cellpone'),('cellphone002',2100,'iPhone 14 Pro Max','Operable',NULL),('cellphone003',2100,'Google Pixel 11','Operable',NULL),('cellphone010',1201,'Google Pixel 11','Operable',NULL),('cellphone011',1201,'iPhone 16 Pr Max','Operable',NULL),('cellphone012',1201,'Samsung Galaxy Flip Z','Maintenance',NULL),('cellphone013',1201,'Samsung Galaxy A16 ','Operable',NULL),('LAP100',2100,'Macbook Air','Operable','Laptop'),('lap101',2100,'Lenovo Googlebook','Maintenance',NULL),('lap200',1201,'HP Omnibook X Flip','Operable',NULL),('lap201',1201,'Macboook Pro','Maintenance',NULL),('lap203',1201,'Samsung Galaxy Chromebook','Operable',NULL),('lap204',1201,'Macbook Air','Operable',NULL),('lap205',1201,'Lenovo IdeaPad Slim 3i','Maintenance',NULL),('tablet100',1201,'Lenovo Idea Tab Pro','Operable','Tablet'),('tablet101',1201,'iPad Pro','Operable',NULL),('tablet102',1201,'Samsung Galaxy Tab','Operable',NULL),('tablet103',1201,'iPad Air','Operable',NULL),('tablet200',2100,'iPad Air','Operable',NULL),('tablet201',2100,'Samsung Galaxy Tab A11+','Operable',NULL);
+INSERT INTO `asset` VALUES ('cellphone001',2100,'Samsung Galaxy','Operable','Cellpone'),('cellphone002',2100,'iPhone 14 Pro Max','Operable','Cellphone'),('cellphone003',2100,'Google Pixel 11','Operable','Cellphone'),('cellphone004',2100,'iPhone 13','Operable','Cellphone'),('cellphone005',2100,'Google Pixel','Operable','Cellphone'),('cellphone010',1201,'Google Pixel 11','Operable','Cellphone'),('cellphone011',1201,'iPhone 16 Pr Max','Operable','Cellphone'),('cellphone012',1201,'Samsung Galaxy Flip Z','Maintenance','Cellphone'),('cellphone013',1201,'Samsung Galaxy A16 ','Operable','Cellphone'),('LAP100',2100,'Macbook Air','Operable','Laptop'),('lap101',2100,'Lenovo Googlebook','Maintenance','Laptop'),('Lap102',2100,'Google Chromebook','Operable','Laptop'),('Lap103',2100,'Macbook Air','Operable','Laptop'),('lap200',1201,'HP Omnibook X Flip','Operable','Laptop'),('lap201',1201,'Macboook Pro','Maintenance','Laptop'),('lap203',1201,'Samsung Galaxy Chromebook','Operable','Laptop'),('lap204',1201,'Macbook Air','Operable','Laptop'),('lap205',1201,'Lenovo IdeaPad Slim 3i','Maintenance','Laptop'),('tablet100',1201,'Lenovo Idea Tab Pro','Operable','Tablet'),('tablet101',1201,'iPad Pro','Operable','Tablet'),('tablet102',1201,'Samsung Galaxy Tab','Operable','Tablet'),('tablet103',1201,'iPad Air','Operable','Tablet'),('tablet200',2100,'iPad Air','Operable','Tablet'),('tablet201',2100,'Samsung Galaxy Tab A11+','Operable','Tablet'),('Tablet202',2100,'iPad Air','Operable','Tablet'),('Tablet203',2100,'Samsung Galaxy Tab','Operable','Tablet'),('Tablet204',2100,'iPad Pro','Operable','Tablet');
 /*!40000 ALTER TABLE `asset` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,7 +150,7 @@ CREATE TABLE `loan` (
   KEY `fk_loan_asset` (`assetId`),
   CONSTRAINT `fk_loan_asset` FOREIGN KEY (`assetId`) REFERENCES `asset` (`assetId`),
   CONSTRAINT `fk_participantId` FOREIGN KEY (`participantId`) REFERENCES `loanee` (`participantId`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +159,7 @@ CREATE TABLE `loan` (
 
 LOCK TABLES `loan` WRITE;
 /*!40000 ALTER TABLE `loan` DISABLE KEYS */;
-INSERT INTO `loan` VALUES (1,'LAP100',2457,'2026-09-09','2026-09-16','2026-09-15','Available',NULL),(2,'cellphone001',2457,'2026-10-01','2026-10-31',NULL,'Checked out','Personal use'),(3,'tablet201',2457,'2026-09-19','2026-10-19',NULL,'Checked out','Education'),(4,'lap201',2457,'2026-10-01','2026-10-07','2026-10-07','Returned',NULL),(5,'cellphone002',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(6,'cellphone003',NULL,NULL,NULL,NULL,'Unavailable','Under maintenance'),(7,'cellphone010',NULL,NULL,NULL,NULL,'available',NULL),(8,'cellphone011',NULL,NULL,NULL,NULL,'available',NULL),(9,'cellphone012',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(10,'cellphone013',NULL,NULL,NULL,NULL,'available',NULL),(11,'lap101',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(12,'lap200',NULL,NULL,NULL,NULL,'Unavailable','Under maintenance'),(13,'lap203',NULL,NULL,NULL,NULL,'available',NULL),(14,'lap204',NULL,NULL,NULL,NULL,'Unavailable','Under maintenance'),(15,'lap205',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(16,'tablet100',NULL,NULL,NULL,NULL,'Unavailable','Under maintenance'),(17,'tablet101',NULL,NULL,NULL,NULL,'available',NULL),(18,'tablet102',NULL,NULL,NULL,NULL,'available',NULL),(19,'tablet103',NULL,NULL,NULL,NULL,'available',NULL),(20,'tablet200',NULL,NULL,NULL,NULL,'Unavailable','Under maintenance');
+INSERT INTO `loan` VALUES (1,'LAP100',2457,'2026-09-09','2026-09-16','2026-09-15','Available',NULL),(2,'cellphone001',2457,'2026-10-01','2026-10-31',NULL,'Checked out','Personal use'),(3,'tablet201',2457,'2026-09-19','2026-10-19',NULL,'Checked out','Education'),(4,'lap201',2457,'2026-10-01','2026-10-07','2026-10-07','Returned',NULL),(5,'cellphone002',2039,'2026-11-01','2026-11-15',NULL,'unavailable','Under maintenance'),(6,'cellphone003',NULL,NULL,NULL,NULL,'Unavailable','Under maintenance'),(7,'cellphone010',2039,'2026-11-01','2026-11-15',NULL,'unavailable','Personal use'),(8,'cellphone011',2039,'2026-11-01','2026-11-15',NULL,'unavailable','Personal use'),(9,'cellphone012',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(10,'cellphone013',NULL,NULL,NULL,NULL,'available',NULL),(11,'lap101',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(12,'lap200',NULL,NULL,NULL,NULL,'Unavailable','Under maintenance'),(13,'lap203',NULL,NULL,NULL,NULL,'available',NULL),(14,'lap204',NULL,NULL,NULL,NULL,'Unavailable','Under maintenance'),(15,'lap205',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(16,'tablet100',NULL,NULL,NULL,NULL,'Unavailable','Under maintenance'),(17,'tablet101',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(18,'tablet102',NULL,NULL,NULL,NULL,'unavailable','Under maintenance'),(19,'tablet103',NULL,NULL,NULL,NULL,'available',NULL),(20,'tablet200',NULL,NULL,NULL,NULL,'Unavailable','Under maintenance'),(21,'cellphone004',NULL,NULL,NULL,NULL,'available',NULL),(22,'cellphone005',7830,'2026-10-15','2026-11-15',NULL,'unavailable','Event'),(23,'Lap102',7830,'2026-10-15','2026-11-15',NULL,'unavailable','Event'),(24,'Lap103',7830,'2026-10-15','2026-11-15',NULL,'unavailable','Event'),(25,'Tablet202',7830,'2026-10-15','2026-11-15',NULL,'unavailable','Event'),(26,'Tablet203',7830,'2026-10-15','2026-11-15',NULL,'unavailable','Event'),(27,'Tablet204',7830,'2026-10-15','2026-11-15',NULL,'unavailable','Event');
 /*!40000 ALTER TABLE `loan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -190,7 +190,7 @@ CREATE TABLE `loanee` (
 
 LOCK TABLES `loanee` WRITE;
 /*!40000 ALTER TABLE `loanee` DISABLE KEYS */;
-INSERT INTO `loanee` VALUES (2039,NULL,NULL,NULL,'',NULL,'','',''),(2457,NULL,NULL,NULL,'',NULL,'','',''),(7830,NULL,NULL,NULL,'',NULL,'','','');
+INSERT INTO `loanee` VALUES (2039,'Ashley','Gomez','907-354-9875','186 Tumble Drive',NULL,'Orlando','FL','32825'),(2457,'Bryant','Johnson','907-654-3409','56 Bristol Street',NULL,'Orlando','FL','32825'),(7830,'Leslie','Rosa','407-458-7825','87 Pines Street',NULL,'Orlando','FL','32825');
 /*!40000 ALTER TABLE `loanee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,7 +212,7 @@ CREATE TABLE `maintenance` (
   PRIMARY KEY (`maintenanceId`),
   KEY `fk_maintenance_asset` (`assetId`),
   CONSTRAINT `fk_maintenance_asset` FOREIGN KEY (`assetId`) REFERENCES `asset` (`assetId`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,7 +221,7 @@ CREATE TABLE `maintenance` (
 
 LOCK TABLES `maintenance` WRITE;
 /*!40000 ALTER TABLE `maintenance` DISABLE KEYS */;
-INSERT INTO `maintenance` VALUES (1,'LAP100','No issues at this time','None','N/A','2026-09-01','2026-09-01'),(2,'cellphone012','Unresposnive screen','Scheduled maintenance','Ordered new screen','2026-10-07','2026-10-31'),(3,'lap101','Battery draines fast','Scheduled maintenance','Ordered new battery','2026-09-19','2026-10-25'),(4,'lap201','Software needs an update','Happening right now','Downloading software update','2026-10-07','2026-10-07'),(5,'cellphone002','Software need an update','Scheduled','N/A','2026-11-01',NULL),(6,'cellphone003','Slow response','Perform maintenance','N/A','2026-11-10',NULL),(7,'lap200','Cracked screen','Ordered new screen','Awaiting parts','2026-11-11',NULL),(8,'lap204','Does not turn on','Scheduled maintenance','N/A','2026-11-09',NULL),(9,'tablet100','Cannot download apps','Review permissions','N/A','2026-10-31',NULL),(10,'tablet200','Constant freezing','Restore device','Factory reset tablet','2026-11-14',NULL);
+INSERT INTO `maintenance` VALUES (1,'LAP100','No issues at this time','None','N/A','2026-09-01','2026-09-01'),(2,'cellphone012','Unresposnive screen','Scheduled maintenance','Ordered new screen','2026-10-07','2026-10-31'),(3,'lap101','Battery draines fast','Scheduled maintenance','Ordered new battery','2026-09-19','2026-10-25'),(4,'lap201','Software needs an update','Happening right now','Downloading software update','2026-10-07','2026-10-07'),(5,'cellphone002','Software need an update','Scheduled','N/A','2026-11-01',NULL),(6,'cellphone003','Slow response','Perform maintenance','N/A','2026-11-10',NULL),(7,'lap200','Cracked screen','Ordered new screen','Awaiting parts','2026-11-11',NULL),(8,'lap204','Does not turn on','Scheduled maintenance','N/A','2026-11-09',NULL),(9,'tablet100','Cannot download apps','Review permissions','N/A','2026-10-31',NULL),(10,'tablet200','Constant freezing','Restore device','Factory reset tablet','2026-11-14',NULL),(11,'tablet101','Does not turn on','Scheduled maintenance','N/A','2026-11-01',NULL),(12,'tablet102','Cracked screen','Ordered new screen','Awaiting part','2026-11-02',NULL);
 /*!40000 ALTER TABLE `maintenance` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -259,4 +259,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-11-15 19:45:49
+-- Dump completed on 2026-11-18 12:00:22
